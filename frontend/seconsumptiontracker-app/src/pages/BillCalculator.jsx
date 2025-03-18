@@ -89,7 +89,7 @@ export default function DynamicTextFields() {
     const confirmDelete = window.confirm(
       `Are you sure you want to delete "${
         fieldToDelete.text || "this appliance"
-      }"?`
+      }"?`,
     );
 
     if (confirmDelete) {
@@ -116,7 +116,7 @@ export default function DynamicTextFields() {
 
     if (hasIncompleteFields) {
       alert(
-        "Please complete all appliances before calculating. Look for fields marked with a red X."
+        "Please complete all appliances before calculating. Look for fields marked with a red X.",
       );
       return;
     }
@@ -149,31 +149,31 @@ export default function DynamicTextFields() {
           costPerMonth,
           quantity, // Include quantity in the results
         };
-      }
+      },
     );
 
     // Compute total cost
     const totalCost = applianceResults.reduce(
       (sum, appliance) => sum + appliance.costPerMonth,
-      0
+      0,
     );
 
     // Compute total cost per day
     const totalCostPerDay = applianceResults.reduce(
       (sum, appliance) => sum + appliance.costPerDay,
-      0
+      0,
     );
 
     // Compute total cost per week
     const totalCostPerWeek = applianceResults.reduce(
       (sum, appliance) => sum + appliance.costPerWeek,
-      0
+      0,
     );
 
     // Compute total cost per hour
     const totalCostPerHour = applianceResults.reduce(
       (sum, appliance) => sum + appliance.costPerHour,
-      0
+      0,
     );
 
     console.log("Navigating with data:", {
@@ -238,8 +238,8 @@ export default function DynamicTextFields() {
     // Mark the field as completed
     setFields(
       fields.map((f) =>
-        f.id === selectedField.id ? { ...f, completed: true } : f
-      )
+        f.id === selectedField.id ? { ...f, completed: true } : f,
+      ),
     );
 
     setSelectedField(null);
@@ -277,8 +277,7 @@ export default function DynamicTextFields() {
             <div className="flex items-center gap-2">
               <button
                 className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-blue-200 text-blue-200 hover:bg-white/20 cursor-pointer"
-                onClick={handleDecrement}
-              >
+                onClick={handleDecrement}>
                 <FaMinus />
               </button>
 
@@ -295,8 +294,7 @@ export default function DynamicTextFields() {
 
               <button
                 className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-blue-200 text-blue-200 hover:bg-white/20 cursor-pointer"
-                onClick={handleIncrement}
-              >
+                onClick={handleIncrement}>
                 <FaPlus />
               </button>
             </div>
@@ -326,8 +324,8 @@ export default function DynamicTextFields() {
                       prev.map((f) =>
                         f.id === field.id
                           ? { ...f, text: newText, error: "" }
-                          : f
-                      )
+                          : f,
+                      ),
                     );
                   }}
                   className="flex-1 p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none"
@@ -403,8 +401,7 @@ export default function DynamicTextFields() {
           {/* Add New Field Button */}
           <button
             onClick={addField}
-            className=" flex items-center justify-center w-auto py-1 px-5 mt-3 bg-blue-500 hover:bg-blue-600 rounded transition"
-          >
+            className=" flex items-center justify-center w-auto py-1 px-5 mt-3 bg-blue-500 hover:bg-blue-600 rounded transition">
             <FaPlus className="mr-2" /> Add Appliance
           </button>
 
@@ -415,8 +412,7 @@ export default function DynamicTextFields() {
               fields.some((field) => !field.completed)
                 ? "bg-green-800/50 cursor-not-allowed" // Disabled appearance
                 : "bg-green-500 hover:bg-green-600" // Enabled appearance
-            }`}
-          >
+            }`}>
             Calculate
           </button>
         </div>
@@ -428,8 +424,7 @@ export default function DynamicTextFields() {
         styles={{
           header: { backgroundColor: "#13171C", padding: "16px" }, // Top part
           content: { backgroundColor: "#13171C" }, // Main content area
-        }}
-      >
+        }}>
         <div className="text-white">
           <h1 className="text-2xl font-semibold">
             Usage for{" "}
@@ -555,8 +550,7 @@ export default function DynamicTextFields() {
           />
           <button
             className="w-full py-2 bg-green-500 hover:bg-green-600 rounded transition mt-15 cursor-pointer"
-            onClick={handleSave}
-          >
+            onClick={handleSave}>
             Save
           </button>
         </div>
