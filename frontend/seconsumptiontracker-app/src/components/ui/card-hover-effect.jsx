@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 export const HoverEffect = ({ items, className }) => {
   let [hoveredIndex, setHoveredIndex] = useState(null);
@@ -33,7 +34,7 @@ export const HoverEffect = ({ items, className }) => {
               />
             )}
           </AnimatePresence>
-          <Card>
+          <Card link={item.link}>
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
           </Card>
@@ -43,13 +44,16 @@ export const HoverEffect = ({ items, className }) => {
   );
 };
 
-export const Card = ({ className, children }) => {
+export const Card = ({ className, children, link }) => {
   return (
     <div
       className={`rounded-2xl h-full w-full p-4 overflow-hidden bg-black/70 border border-transparent dark:border-white/[0.2] group-hover:border-black-200 relative z-10 ${className}`}
     >
       <div className="relative z-2">
         <div className="p-4">{children}</div>
+        <Link to={link} className="text-blue-400 p-4 font-semibold">
+          Try now &rarr;
+        </Link>
       </div>
     </div>
   );
@@ -57,7 +61,9 @@ export const Card = ({ className, children }) => {
 
 export const CardTitle = ({ className, children }) => {
   return (
-    <h4 className={`text-zinc-100 font-bold tracking-wide mt-4 ${className}`}>
+    <h4
+      className={`text-zinc-100 font-bold text-2xl tracking-wide ${className}`}
+    >
       {children}
     </h4>
   );
@@ -66,7 +72,7 @@ export const CardTitle = ({ className, children }) => {
 export const CardDescription = ({ className, children }) => {
   return (
     <p
-      className={`mt-8 text-zinc-400 tracking-wide leading-relaxed text-sm ${className}`}
+      className={`mt-6 text-zinc-400 tracking-wide leading-relaxed text-sm ${className}`}
     >
       {children}
     </p>

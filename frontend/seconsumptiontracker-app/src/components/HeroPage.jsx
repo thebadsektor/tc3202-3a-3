@@ -111,22 +111,22 @@ function HeroPage() {
 
   const features = [
     {
-      title: "AI-Powered Analytics",
+      title: "Bill Calculator",
       description:
         "Get insights from your data with our advanced machine learning algorithms that identify patterns and trends automatically.",
-      link: "/features/analytics",
+      link: "/bill-calculator",
     },
     {
       title: "Responsive Design",
       description:
         "All components are fully responsive and adapt seamlessly to any device size for optimal user experience.",
-      link: "/features/responsive",
+      link: "#",
     },
     {
       title: "Real-time Collaboration",
       description:
         "Work together with your team in real-time, with changes syncing instantly across all connected devices.",
-      link: "/features/collaboration",
+      link: "#",
     },
   ];
 
@@ -138,7 +138,7 @@ function HeroPage() {
         </div>
 
         <section className="">
-          <div className="container mx-auto px-4">
+          <div className="container  mx-auto px-4">
             <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
               Main Features
             </h2>

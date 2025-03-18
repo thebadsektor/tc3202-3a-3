@@ -7,8 +7,6 @@ import {
 } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import HeroPage from "./components/HeroPage";
-import LoginPage from "./pages/LoginPage";
-import Register from "./pages/RegisterPage";
 import UserDashboard from "./pages/UserDashboardPage";
 import PrivateRoute from "./components/PrivateRoute";
 import Footer from "./components/Footer";
