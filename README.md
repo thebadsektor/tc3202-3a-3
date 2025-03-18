@@ -1,6 +1,6 @@
-# TC-3202 [Project Title]
+# TC-3202 Smart Energy Consumption Tracker
 
-![Project Banner](https://via.placeholder.com/1200x400.png?text=Project+Banner+Placeholder)
+![Project Banner](https://ibb.co/JBkTnxd)
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -52,16 +52,20 @@ Step-by-step instructions for setting up the project locally.
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-repo-url.git
+   git clone https://github.com/thebadsektor/tc3202-3a-3.git
    ```
 2. **Install dependencies:**
 	- If using `npm`:
    ```bash
-   git clone https://github.com/your-repo-url.git
+   cd frontend/seconsumptiontracker-app
+   npm install
    ```
    - If using `pip` (for Python projects):
    ```bash
-   git clone https://github.com/your-repo-url.git
+   cd backend/
+   python -m venv .venv
+   source .venv/Scripts/activate
+   pip install -r requirements.txt
    ```
 3. **Configure environment variables (if any)**: Provide instructions for setting up .env files or any other required configurations.
    ```bash
@@ -70,11 +74,11 @@ Step-by-step instructions for setting up the project locally.
 4. **Run the project:**
    - For web projects:
    ```bash
-   npm start
+   npm run dev
    ```
-   - IFor backend services:
+   - For backend services:
    ```bash
-   python app.py
+   python manage.py runserver
    ```
 
 **Note:** If your project has external depencies like XAMPP, MySQL, special SDK, or other environemnt setup, create another section for it.
