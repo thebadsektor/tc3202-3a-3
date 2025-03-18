@@ -1,0 +1,11 @@
+# ignore python virtual environment
+.venv/
+
+# ignore python cache
+__pycache__/
+
+# ignore .env file
+.env
+
+# ignore firebase-service-account.json
+firebase-service-account.json
