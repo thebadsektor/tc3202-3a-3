@@ -1,6 +1,6 @@
 # TC-3202 Smart Energy Consumption Tracker
 
-![Project Banner](https://ibb.co/JBkTnxd)
+![Project Banner](https://i.ibb.co/xC5bhms/a2401f27e34e.jpg)
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -41,10 +41,9 @@ List the main features of the project:
 
 ## Technologies Used
 Mention the tools, frameworks, and technologies used in the project:
-- Programming Languages: [e.g., Python, JavaScript, etc.]
-- Frameworks/Libraries: [e.g., React, Flask, etc.]
-
-- Databases: [e.g., MySQL, MongoDB, etc.]
+- Programming Languages: [Python, JavaScript]
+- Frameworks/Libraries: [eReact, Django]
+- Databases: [e.g., Firebase Realtime Database]
 - Other Tools: [e.g., Git, Docker, etc.]
 
 ## Setup and Installation
