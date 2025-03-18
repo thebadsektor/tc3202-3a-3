@@ -20,7 +20,7 @@ export const HoverEffect = ({ items, className }) => {
           <AnimatePresence>
             {hoveredIndex === idx && (
               <motion.span
-                className="absolute inset-0 h-full w-full bg-gray-800 dark:bg-slate-800/[0.8] block rounded-3xl"
+                className="absolute inset-0 h-full w-full bg-gray-800 dark:bg-slate-800/[0.8] block rounded-3xl z-0"
                 layoutId="hoverBackground"
                 initial={{ opacity: 0 }}
                 animate={{
@@ -47,9 +47,9 @@ export const HoverEffect = ({ items, className }) => {
 export const Card = ({ className, children, link }) => {
   return (
     <div
-      className={`rounded-2xl h-full w-full p-4 overflow-hidden bg-black/70 border border-transparent dark:border-white/[0.2] group-hover:border-black-200 relative z-10 ${className}`}
+      className={`rounded-2xl h-full w-full p-4 overflow-hidden bg-[#111111] border border-transparent dark:border-white/[0.2] group-hover:border-black-200 relative z-10 ${className}`}
     >
-      <div className="relative z-2">
+      <div className="relative z-20">
         <div className="p-4">{children}</div>
         <Link to={link} className="text-blue-400 p-4 font-semibold">
           Try now &rarr;
