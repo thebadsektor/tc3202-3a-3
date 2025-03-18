@@ -1,6 +1,7 @@
 # TC-3202 Smart Energy Consumption Tracker
 
-![Project Banner](https://i.ibb.co/xC5bhms/a2401f27e34e.jpg)
+![Project Banner](https://github.com/user-attachments/assets/f3a6e6b4-c69a-4236-ad9a-534f4922a5c4)
+
 
 ## Table of Contents
 - [Introduction](#introduction)
