@@ -4,4 +4,4 @@ django-cors-headers
 pyrebase4
 firebase-admin
 python-dotenv
-pip install -q -U google-genai
+google-genai
