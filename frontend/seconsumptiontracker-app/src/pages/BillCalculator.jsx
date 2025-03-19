@@ -398,9 +398,12 @@ export default function DynamicTextFields() {
 
                 {/* Show check only if completed */}
                 {field.completed ? (
-                  <FaCheck className="text-green-400 cursor-pointer" />
+                  <FaCheck
+                    className="text-green-400 cursor-pointer"
+                    size={18}
+                  />
                 ) : (
-                  <FaTimes className="text-red-400 cursor-pointer" />
+                  <FaTimes className="text-red-400 cursor-pointer" size={18} />
                 )}
 
                 {/* Edit button with validation */}
@@ -410,6 +413,7 @@ export default function DynamicTextFields() {
                       ? "text-gray-500 cursor-not-allowed"
                       : "text-blue-400"
                   }`}
+                  size={18}
                   // Add this to the FaEdit onClick handler
                   onClick={() => {
                     if (!field.text.trim()) {
@@ -447,6 +451,7 @@ export default function DynamicTextFields() {
                       ? "text-gray-500 cursor-not-allowed"
                       : "text-red-500"
                   }`}
+                  size={18}
                   onClick={() => {
                     if (fields.length > 1) {
                       deleteField(field.id);
@@ -503,7 +508,7 @@ export default function DynamicTextFields() {
 
           <div className="flex gap-5">
             <NumberInput
-              label="Number of Appliances"
+              label="No. of Appliances"
               withAsterisk
               description="Enter how many of this appliance you have"
               placeholder="Enter quantity"
@@ -549,14 +554,14 @@ export default function DynamicTextFields() {
               }}
             />
           </div>
-          <div className="bg-white/20 p-5 rounded">
+          <div className="bg-white/20 p-5 rounded mt-3">
             <h4 className="text-base font-semibold mb-1">
               Don't know your appliance wattage?{" "}
             </h4>
             <p className="text-[14px] text-white/60 mb-2">
-              <span className="text-blue-400">WattBot</span> will automatically
-              analyze your appliance and get the average wattage for your
-              appliance
+              <span className="text-blue-400 font-semibold">WattBot</span> will
+              automatically analyze your appliance and get the average wattage
+              for your appliance
             </p>
             <button
               onClick={getWattage}
@@ -599,7 +604,7 @@ export default function DynamicTextFields() {
             }}
           />
 
-          <p>
+          <p className="mb-3 mt-5">
             Days used per week<span className="text-red-400">*</span>
           </p>
           <Chip.Group
@@ -616,7 +621,7 @@ export default function DynamicTextFields() {
             </div>
           </Chip.Group>
 
-          <p>
+          <p className="mb-3 mt-6">
             Weeks used per month <span className="text-red-400">*</span>
           </p>
           <NativeSelect
