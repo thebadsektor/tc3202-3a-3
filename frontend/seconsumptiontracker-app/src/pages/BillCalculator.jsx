@@ -249,19 +249,24 @@ export default function DynamicTextFields() {
   //Modal, to open the usage pop up
   const [opened, { open, close }] = useDisclosure(false);
 
-  // Get wattage uising api 
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Get wattage uising api
   const getWattage = async () => {
     if (!selectedField || !selectedField.text.trim()) {
       alert("Please enter an appliance name first");
       return;
     }
 
+    // Set loading to true at the start
+    setIsLoading(true);
+
     try {
       // Make the API request to your Django backend
       const response = await fetch(
         `http://127.0.0.1:8000/wattdabork/get-wattage/?appliance=${encodeURIComponent(
-          selectedField.text,
-        )}`,
+          selectedField.text
+        )}`
       );
 
       if (!response.ok) {
@@ -300,6 +305,9 @@ export default function DynamicTextFields() {
     } catch (error) {
       console.error("Error fetching wattage:", error);
       alert(`Failed to get wattage: ${error.message}`);
+    } finally {
+      // Set loading back to false regardless of success or failure
+      setIsLoading(false);
     }
   };
 
@@ -546,14 +554,23 @@ export default function DynamicTextFields() {
               Don't know your appliance wattage?{" "}
             </h4>
             <p className="text-[14px] text-white/60 mb-2">
-              <span className="text-blue-400">Wattdabork</span> will
-              automatically analyze your appliance and get the average wattage
-              for your appliance
+              <span className="text-blue-400">WattBot</span> will automatically
+              analyze your appliance and get the average wattage for your
+              appliance
             </p>
-            <button 
-            onClick={getWattage}
-            className="bg-blue-500 px-3 py-1 rounded cursor-pointer !text-base">
-              Get Wattage
+            <button
+              onClick={getWattage}
+              className="bg-blue-500 px-3 py-1 rounded cursor-pointer !text-base flex items-center justify-center"
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <>
+                  <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+                  Analyzing...
+                </>
+              ) : (
+                "Get Wattage"
+              )}
             </button>
           </div>
 
@@ -564,7 +581,7 @@ export default function DynamicTextFields() {
             placeholder="Enter hours"
             min={1}
             max={24}
-            className="mb-3"
+            className="mb-3 mt-3"
             value={
               selectedField
                 ? applianceData[selectedField.text]?.hours || ""
