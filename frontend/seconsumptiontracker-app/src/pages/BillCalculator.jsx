@@ -249,6 +249,60 @@ export default function DynamicTextFields() {
   //Modal, to open the usage pop up
   const [opened, { open, close }] = useDisclosure(false);
 
+  // Get wattage uising api 
+  const getWattage = async () => {
+    if (!selectedField || !selectedField.text.trim()) {
+      alert("Please enter an appliance name first");
+      return;
+    }
+
+    try {
+      // Make the API request to your Django backend
+      const response = await fetch(
+        `http://127.0.0.1:8000/wattdabork/get-wattage/?appliance=${encodeURIComponent(
+          selectedField.text,
+        )}`,
+      );
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("Server response:", errorText);
+        throw new Error(`Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      // Extract the wattage value from the response
+      let wattageValue;
+      if (typeof data === "object" && data.wattage_info) {
+        // Try to extract just the number
+        const matches = data.wattage_info.match(/\d+/);
+        wattageValue = matches ? parseInt(matches[0]) : null;
+      } else if (typeof data === "string") {
+        const matches = data.match(/\d+/);
+        wattageValue = matches ? parseInt(matches[0]) : null;
+      } else if (typeof data === "number") {
+        wattageValue = data;
+      }
+
+      if (wattageValue) {
+        // Update the appliance data with the fetched wattage
+        setApplianceData((prev) => ({
+          ...prev,
+          [selectedField.text]: {
+            ...(prev[selectedField.text] || {}),
+            watt: wattageValue,
+          },
+        }));
+      } else {
+        alert("Could not determine wattage from response");
+      }
+    } catch (error) {
+      console.error("Error fetching wattage:", error);
+      alert(`Failed to get wattage: ${error.message}`);
+    }
+  };
+
   return (
     <>
       <div className="w-full h-screen flex items-start justify-center mt-[15vh]">
@@ -496,7 +550,9 @@ export default function DynamicTextFields() {
               automatically analyze your appliance and get the average wattage
               for your appliance
             </p>
-            <button className="bg-blue-500 px-3 py-1 rounded cursor-pointer !text-base">
+            <button 
+            onClick={getWattage}
+            className="bg-blue-500 px-3 py-1 rounded cursor-pointer !text-base">
               Get Wattage
             </button>
           </div>

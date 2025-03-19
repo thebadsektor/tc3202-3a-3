@@ -9,3 +9,6 @@ __pycache__/
 
 # ignore firebase-service-account.json
 firebase-service-account.json
+
+# ignore gemini service
+gemini_service.py
