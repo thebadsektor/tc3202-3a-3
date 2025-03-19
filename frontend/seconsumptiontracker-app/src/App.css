@@ -24,7 +24,7 @@
 }
 
 .container {
-  @apply max-w-[1463px] mx-auto w-full px-5;
+  @apply max-w-[1463px] mx-auto w-full px-5
 }
 
 @font-face {

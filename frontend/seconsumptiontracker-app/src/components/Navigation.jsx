@@ -135,7 +135,7 @@ function Navigation() {
       >
         <nav className="container w-full h-[8vh] border-blue-200 flex items-center justify-between">
           {/* Logo */}
-          <div className="relative inline-block group cursor-pointer">
+          <div className="relative group cursor-pointer">
             {/* Logo */}
             <img
               src={wattifyLogo}
@@ -144,7 +144,7 @@ function Navigation() {
             />
 
             {/* Lottie Animation - Enlarged and Shows on Hover */}
-            <div className="absolute top-[-20px] left-1/2 transform -translate-x-1/2 w-32 h-32 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <div className="absolute top-[-20px] left-1/2 transform -translate-x-1/2 w-32 h-22 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
               <DotLottieReact
                 src="https://lottie.host/b86e2c09-c1bf-4dda-a80d-a9a23314a9f2/7QhJLM0dgt.lottie"
                 loop
@@ -255,13 +255,11 @@ function Navigation() {
                         }!`}
                       </h3>
                       <hr />
-                      <button
-                        className="w-full text-gray-300 hover:bg-gray-600 text-left px-4 py-2 cursor-pointer mt-5"
-                        onClick={() => alert("Go to Profile")}
-                      >
-                        Profile
-                      </button>
-
+                      <Link to="profile">
+                        <button className="w-full text-gray-300 hover:bg-gray-600 text-left px-4 py-2 cursor-pointer mt-5">
+                          Profile
+                        </button>
+                      </Link>
                       <button
                         className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600 cursor-pointer"
                         onClick={() => navigate("/dashboard")}

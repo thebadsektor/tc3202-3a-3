@@ -17,6 +17,7 @@ import BillCalcuOutput from "./pages/BillCalcuOutput";
 import LoginFormDemo from "./components/login-form-demo";
 import SignupFormDemo from "./components/signup-form-demo";
 import HeroPage from "./pages/HeroPage";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
           <Route exact path="/login-form" element={<LoginFormDemo />} />
           <Route exact path="/signup-form" element={<SignupFormDemo />} />
           <Route exact path="/bill-calculator" element={<BillCalculator />} />
+          <Route exact path="/profile" element={<ProfilePage />} />
 
           {/* Private route for user dashboard */}
           <Route
