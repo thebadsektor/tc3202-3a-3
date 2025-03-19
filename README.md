@@ -1,6 +1,7 @@
-# TC-3202 [Project Title]
+# TC-3202 Smart Energy Consumption Tracker
 
-![Project Banner](https://via.placeholder.com/1200x400.png?text=Project+Banner+Placeholder)
+![Project Banner]()
+
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -19,13 +20,13 @@
 ---
 
 ## Introduction
-Provide a brief introduction to the project. Explain the purpose, scope, and the problem it solves in a few sentences.
+The Smart Energy Consumption Tracker is a web application that aims to assist users, especially small-scale companies manage their energy usage efficiently. It is an intelligent tool to track their electricity usage, predict future electricity bills, and offer personalized recommendations to reduce costs. By enabling users to input appliance data and usage patterns, the system calculates energy consumption, predicts electricity bills using a machine learning model, and offers actionable insights to optimize energy use to cut companies' costs.
+
 
 ## Project Overview
 Describe the project in detail. Include:
-- The project's background or context.
-- Its target audience or users.
-- Any real-world applications or potential impact.
+
+This project addresses the growing need for efficient energy management in commercial settings. It leverages modern web and machine learning technologies to provide users with detailed insights into their energy consumption. The application is aimed at small-scale company owners, building managers, and environmentally conscious individuals who want to monitor and reduce their energy expenses. By integrating historical electricity rate data and standard consumption values, the project not only predicts future bills but also offers personalized energy-saving tips, that can be used to significantly save budget and reduce environmental footprint.
 
 ## Objectives
 State the main objectives of the capstone project, such as:
@@ -34,34 +35,36 @@ State the main objectives of the capstone project, such as:
 - Test and validate [key aspect].
 
 ## Features
-List the main features of the project:
-- Feature 1: Brief description.
-- Feature 2: Brief description.
-- Feature 3: Brief description.
+- Smart Energy Consumption Calculator: Users input details about their appliances (quantity and estimated duration of usage) to calculate the total energy consumption based on standard consumption values.
+- Bill Prediction with LSTM Model: The system retrieves the calculated energy consumption data and processes it through an (LSTM/Regression) machine learning model trained on historical electricity rate data, providing users with an estimated electricity bill.
+- Energy-Saving Recommendations: Based on the consumption breakdown, the system generates personalized optimization tips—such as reducing aircon usage, and switching to LED lighting help users reduce their overall energy consumption.
 
 ## Technologies Used
 Mention the tools, frameworks, and technologies used in the project:
-- Programming Languages: [e.g., Python, JavaScript, etc.]
-- Frameworks/Libraries: [e.g., React, Flask, etc.]
-
-- Databases: [e.g., MySQL, MongoDB, etc.]
-- Other Tools: [e.g., Git, Docker, etc.]
+- Programming Languages: [Python, JavaScript]
+- Frameworks/Libraries: [eReact, Django]
+- Databases: [Firebase Realtime Database]
+- Other Tools: [Git]
 
 ## Setup and Installation
 Step-by-step instructions for setting up the project locally.
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-repo-url.git
+   git clone https://github.com/thebadsektor/tc3202-3a-3.git
    ```
 2. **Install dependencies:**
 	- If using `npm`:
    ```bash
-   git clone https://github.com/your-repo-url.git
+   cd frontend/seconsumptiontracker-app
+   npm install
    ```
    - If using `pip` (for Python projects):
    ```bash
-   git clone https://github.com/your-repo-url.git
+   cd backend/
+   python -m venv .venv
+   source .venv/Scripts/activate
+   pip install -r requirements.txt
    ```
 3. **Configure environment variables (if any)**: Provide instructions for setting up .env files or any other required configurations.
    ```bash
@@ -70,11 +73,11 @@ Step-by-step instructions for setting up the project locally.
 4. **Run the project:**
    - For web projects:
    ```bash
-   npm start
+   npm run dev
    ```
-   - IFor backend services:
+   - For backend services:
    ```bash
-   python app.py
+   python manage.py runserver
    ```
 
 **Note:** If your project has external depencies like XAMPP, MySQL, special SDK, or other environemnt setup, create another section for it.

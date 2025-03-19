@@ -6,7 +6,6 @@ import {
   useNavigate,
 } from "react-router-dom";
 import Navigation from "./components/Navigation";
-import HeroPage from "./components/HeroPage";
 import UserDashboard from "./pages/UserDashboardPage";
 import PrivateRoute from "./components/PrivateRoute";
 import Footer from "./components/Footer";
@@ -17,6 +16,7 @@ import "./App.css";
 import BillCalcuOutput from "./pages/BillCalcuOutput";
 import LoginFormDemo from "./components/login-form-demo";
 import SignupFormDemo from "./components/signup-form-demo";
+import HeroPage from "./pages/HeroPage";
 
 function App() {
   return (

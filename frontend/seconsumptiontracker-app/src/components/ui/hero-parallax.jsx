@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "./moving-border";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion"; // Updated import
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 
 export const HeroParallax = ({ products }) => {
   const firstRow = products.slice(0, 5);
@@ -35,7 +35,7 @@ export const HeroParallax = ({ products }) => {
     springConfig
   );
   const translateY = useSpring(
-    useTransform(scrollYProgress, [0, 0.2], [-700, 500]),
+    useTransform(scrollYProgress, [0, 0.2], [-700, 100]),
     springConfig
   );
 
@@ -43,11 +43,12 @@ export const HeroParallax = ({ products }) => {
     <>
       <div
         ref={ref}
-        className="h-[300vh] py-20 overflow-hidden antialiased relative flex flex-col self-auto perspective-1000 transform-style-3d"
+        className="h-[230vh] py-20 overflow-hidden antialiased relative flex flex-col self-auto perspective-1000 transform-style-3d"
       >
         <Header />
         <motion.div style={{ rotateX, rotateZ, translateY, opacity }}>
-          <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 mb-20">
+          {/* First row - now responsive with smaller spacing on mobile */}
+          <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 md:space-x-20 sm:space-x-10 xs:space-x-6 mb-20 md:mb-20 sm:mb-10">
             {firstRow.map((product) => (
               <ProductCard
                 product={product}
@@ -56,7 +57,9 @@ export const HeroParallax = ({ products }) => {
               />
             ))}
           </motion.div>
-          <motion.div className="flex flex-row mb-20 space-x-20">
+
+          {/* Second row - now responsive with smaller spacing on mobile */}
+          <motion.div className="flex flex-row mb-20 md:mb-20 sm:mb-20 space-x-20 md:space-x-20 sm:space-x-10 xs:space-x-6">
             {secondRow.map((product) => (
               <ProductCard
                 product={product}
@@ -65,7 +68,9 @@ export const HeroParallax = ({ products }) => {
               />
             ))}
           </motion.div>
-          <motion.div className="flex flex-row-reverse space-x-reverse space-x-20">
+
+          {/* Third row - now visible on all screen sizes */}
+          <motion.div className="flex flex-row-reverse space-x-reverse space-x-20 md:space-x-20 sm:space-x-10 xs:space-x-6">
             {thirdRow.map((product) => (
               <ProductCard
                 product={product}
@@ -138,7 +143,7 @@ export const ProductCard = ({ product, translate }) => {
       style={{ x: translate }}
       whileHover={{ y: -20 }}
       key={product.title}
-      className="group/product h-96 w-[30rem] relative shrink-0"
+      className="group/product h-96 w-[30rem] xs:w-[15rem] relative shrink-0"
     >
       <a
         href={product.link}
