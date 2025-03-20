@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, NumberInput, Chip, NativeSelect } from "@mantine/core";
+import { getDatabase, ref, push } from "firebase/database";
 
 const ApplianceItems = ({
   setId,
@@ -84,8 +85,8 @@ const ApplianceItems = ({
   const updateAppliance = (id, value) => {
     setApplianceItems(
       applianceItems.map((item) =>
-        item.id === id ? { ...item, name: value } : item
-      )
+        item.id === id ? { ...item, name: value } : item,
+      ),
     );
   };
 
@@ -104,7 +105,7 @@ const ApplianceItems = ({
     const confirmDelete = window.confirm(
       `Are you sure you want to delete "${
         applianceToDelete.name || "this appliance"
-      }"?`
+      }"?`,
     );
 
     if (confirmDelete) {
@@ -188,8 +189,8 @@ const ApplianceItems = ({
     // Mark the appliance as completed
     setApplianceItems(
       applianceItems.map((item) =>
-        item.id === selectedAppliance.id ? { ...item, completed: true } : item
-      )
+        item.id === selectedAppliance.id ? { ...item, completed: true } : item,
+      ),
     );
 
     setSelectedAppliance(null);
@@ -209,8 +210,8 @@ const ApplianceItems = ({
       // Make the API request to your Django backend
       const response = await fetch(
         `http://127.0.0.1:8000/wattdabork/get-wattage/?appliance=${encodeURIComponent(
-          selectedAppliance.name
-        )}`
+          selectedAppliance.name,
+        )}`,
       );
 
       if (!response.ok) {
@@ -256,15 +257,15 @@ const ApplianceItems = ({
   };
 
   // Save all appliance data to parent component
-  const handleSaveAll = () => {
+  const handleSaveAll = async () => {
     // Check if any appliance is incomplete
     const hasIncompleteAppliances = applianceItems.some(
-      (item) => !item.completed
+      (item) => !item.completed,
     );
 
     if (hasIncompleteAppliances) {
       alert(
-        "Please complete all appliances before saving. Look for fields marked with a red X."
+        "Please complete all appliances before saving. Look for fields marked with a red X.",
       );
       return;
     }
@@ -279,11 +280,36 @@ const ApplianceItems = ({
       })),
     };
 
-    // Call the onSave callback with the data
-    onSave(setData);
+    // Save appliance sets data to firebase realtime database
 
-    // Return to parent view
-    onBack();
+    // Validation if user is logged in
+    const userToken = localStorage.getItem("idToken");
+    const user = localStorage.getItem("uid");
+
+    if (!userToken || !user) {
+      alert("User not logged in");
+      return;
+    }
+
+    // Initialize relatime database
+    const db = getDatabase();
+    const applianceSetsRef = ref(db, "users/" + user + "/apllianceSets");
+
+    try {
+      await push(applianceSetsRef, {
+        ...setData,
+        timestamp: Date.now(),
+      });
+
+      // Call the onSave callback with the data
+      onSave(setData);
+
+      // Return to parent view
+      onBack();
+    } catch (error) {
+      console.error("Error saving appliance set:", error);
+      alert("Failed to save appliance set.");
+    }
   };
 
   return (
@@ -292,15 +318,13 @@ const ApplianceItems = ({
         <div className="flex items-center mb-4">
           <button
             onClick={onBack}
-            className="mr-4 text-white hover:text-blue-400"
-          >
+            className="mr-4 text-white hover:text-blue-400">
             <FaArrowLeft size={20} />
           </button>
           <h2 className="text-3xl font-bold flex-1">{setName}</h2>
           <button
             onClick={handleSaveAll}
-            className="bg-green-500 hover:bg-green-600 text-black py-2 px-4 rounded flex items-center"
-          >
+            className="bg-green-500 hover:bg-green-600 text-black py-2 px-4 rounded flex items-center">
             <FaSave className="mr-2" /> Save Set
           </button>
         </div>
@@ -346,7 +370,7 @@ const ApplianceItems = ({
                     handleEditUsage(appliance);
                   } else {
                     alert(
-                      "Please enter an appliance name before editing usage."
+                      "Please enter an appliance name before editing usage.",
                     );
                   }
                 }}
@@ -373,8 +397,7 @@ const ApplianceItems = ({
         {/* Add New Appliance Button */}
         <button
           onClick={addApplianceItem}
-          className="flex items-center justify-center w-auto py-1 px-5 mt-3 bg-blue-500 hover:bg-blue-600 rounded transition"
-        >
+          className="flex items-center justify-center w-auto py-1 px-5 mt-3 bg-blue-500 hover:bg-blue-600 rounded transition">
           <FaPlus className="mr-2" /> Add Appliance
         </button>
       </div>
@@ -386,8 +409,7 @@ const ApplianceItems = ({
         styles={{
           header: { backgroundColor: "#13171C", padding: "16px" },
           content: { backgroundColor: "#13171C" },
-        }}
-      >
+        }}>
         <div className="text-white">
           <h1 className="text-2xl font-semibold">
             Usage for{" "}
@@ -458,8 +480,7 @@ const ApplianceItems = ({
             <button
               onClick={getWattage}
               className="bg-blue-500 px-3 py-1 rounded cursor-pointer !text-base flex items-center justify-center"
-              disabled={isLoading}
-            >
+              disabled={isLoading}>
               {isLoading ? (
                 <>
                   <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
@@ -535,8 +556,7 @@ const ApplianceItems = ({
 
           <button
             className="w-full py-2 bg-green-500 hover:bg-green-600 rounded transition mt-6 cursor-pointer"
-            onClick={handleSaveUsage}
-          >
+            onClick={handleSaveUsage}>
             Save
           </button>
         </div>
