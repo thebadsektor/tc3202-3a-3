@@ -311,7 +311,7 @@ const ApplianceItems = ({
               // If set exists, update it
               const setRef = ref(
                 db,
-                "users/" + user + "/apllianceSets/" + setKey
+                "users/" + user + "/applianceSets/" + setKey
               );
               update(setRef, {
                 ...setData,

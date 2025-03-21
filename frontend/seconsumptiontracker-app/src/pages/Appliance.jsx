@@ -161,7 +161,7 @@ const Appliance = () => {
       );
     } else {
       // We're adding a new set
-      const applianceSetsRef = ref(db, "users/" + user + "/apllianceSets");
+      const applianceSetsRef = ref(db, "users/" + user + "/applianceSets");
 
       // Create a new set entry with timestamp
       const newSet = {
