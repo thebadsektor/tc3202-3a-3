@@ -18,7 +18,7 @@ function Navigation() {
   const [userEmail, setUserEmail] = useState("");
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
   const dropdownRef = useRef(null);
-  const avatarRef = useRef(null); // Reference for the avatar
+  const avatarRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -43,9 +43,9 @@ function Navigation() {
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > lastScrollY) {
-        setShowNavbar(false); // Hide on scroll down
+        setShowNavbar(false);
       } else {
-        setShowNavbar(true); // Show on scroll up
+        setShowNavbar(true);
       }
       setLastScrollY(window.scrollY);
     };
@@ -58,12 +58,12 @@ function Navigation() {
   useEffect(() => {
     const updateUserEmail = () => {
       const email = sessionStorage.getItem("userEmail");
-      setUserEmail(email || ""); // Update the state immediately
+      setUserEmail(email || "");
     };
 
-    updateUserEmail(); // Call once when component mounts
+    updateUserEmail();
 
-    window.addEventListener("storage", updateUserEmail); // Listen for storage changes
+    window.addEventListener("storage", updateUserEmail);
 
     return () => {
       window.removeEventListener("storage", updateUserEmail);
@@ -74,31 +74,23 @@ function Navigation() {
     const checkAuthExpiration = () => {
       const expirationTime = localStorage.getItem("authExpiration");
 
-      // Only check if expirationTime exists and is a valid number
       if (expirationTime && !isNaN(parseInt(expirationTime))) {
         const timeLeft = parseInt(expirationTime) - Date.now();
 
-        // Check if token is already expired
         if (timeLeft <= 0) {
           handleLogout();
-        }
-        // Check if token is about to expire (within 30 seconds)
-        else if (timeLeft <= 30 * 1000) {
-          // 30 seconds in milliseconds
-          // Show alert with Yes/No option
+        } else if (timeLeft <= 30 * 1000) {
           const userConfirmed = window.confirm(
             "Your session is about to expire. Do you want to log out now?"
           );
           if (userConfirmed) {
             handleLogout();
           }
-          // If user clicks No, do nothing and let it expire naturally
         }
       }
-      // If expirationTime doesn't exist, do nothing
     };
 
-    checkAuthExpiration(); // Run on component mount
+    checkAuthExpiration();
 
     // Check when the user switches back to the tab
     window.addEventListener("focus", checkAuthExpiration);
@@ -191,7 +183,7 @@ function Navigation() {
               <ul className="absolute left-0 w-max mt-2 p-3 z-15 text-white bg-gray-600 shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 divide-y divide-gray-400 translate-y-2 group-hover:translate-y-0">
                 <li>
                   <Link
-                    to="/bill-calculator"
+                    to="#"
                     className="block px-6 py-3 hover:bg-gray-800 text-base transition-all hover:rounded-lg"
                   >
                     Bill Calculator
@@ -199,7 +191,7 @@ function Navigation() {
                 </li>
                 <li>
                   <Link
-                    to="#"
+                    to="/bill-calculator"
                     className="block px-6 py-3 hover:bg-gray-800 text-base transition-all hover:rounded-lg"
                   >
                     Energy Consumption Calculator
