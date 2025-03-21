@@ -42,7 +42,7 @@ const Appliance = () => {
 
     // initialize realtime databse
     const db = getDatabase();
-    const applianceSetsRef = ref(db, "users/" + user + "/apllianceSets");
+    const applianceSetsRef = ref(db, "users/" + user + "/applianceSets");
 
     // Listen changes from realtime databse
     const unSubscribe = onValue(
@@ -83,6 +83,7 @@ const Appliance = () => {
 
     const userToken = localStorage.getItem("idToken");
     const user = localStorage.getItem("uid");
+
     if (!user || !userToken) {
       alert("User not logged in");
       return;
@@ -104,7 +105,7 @@ const Appliance = () => {
       }
 
       // Find the key for the set we want to update
-      const applianceSetsRef = ref(db, "users/" + user + "/apllianceSets");
+      const applianceSetsRef = ref(db, "users/" + user + "/applianceSets");
 
       onValue(
         applianceSetsRef,
@@ -118,7 +119,7 @@ const Appliance = () => {
               // Update the name in the database
               const setRef = ref(
                 db,
-                "users/" + user + "/apllianceSets/" + setKey,
+                "users/" + user + "/applianceSets/" + setKey,
               );
 
               // Keep all data the same, just update the name
@@ -220,7 +221,7 @@ const Appliance = () => {
 
       // Initialize the database
       const db = getDatabase();
-      const applianceSetsRef = ref(db, "users/" + user + "/apllianceSets");
+      const applianceSetsRef = ref(db, "users/" + user + "/applianceSets");
 
       // Get a snapshot of the data to find the key
       onValue(
@@ -236,7 +237,7 @@ const Appliance = () => {
               // Create a reference to the specific set
               const setRef = ref(
                 db,
-                "users/" + user + "/apllianceSets/" + setKey,
+                "users/" + user + "/applianceSets/" + setKey,
               );
 
               // Remove the set from the database

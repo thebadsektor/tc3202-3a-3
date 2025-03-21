@@ -293,7 +293,7 @@ const ApplianceItems = ({
 
     // Initialize relatime database
     const db = getDatabase();
-    const applianceSetsRef = ref(db, "users/" + user + "/apllianceSets");
+    const applianceSetsRef = ref(db, "users/" + user + "/applianceSets");
 
     try {
       await push(applianceSetsRef, {
