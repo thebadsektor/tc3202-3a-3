@@ -183,7 +183,7 @@ function Navigation() {
               <ul className="absolute left-0 w-max mt-2 p-3 z-15 text-white bg-gray-600 shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 divide-y divide-gray-400 translate-y-2 group-hover:translate-y-0">
                 <li>
                   <Link
-                    to="#"
+                    to="/bill-calculator"
                     className="block px-6 py-3 hover:bg-gray-800 text-base transition-all hover:rounded-lg"
                   >
                     Bill Calculator
