@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FaPlus,
   FaEdit,
@@ -11,6 +11,10 @@ import { IoMdHome } from "react-icons/io";
 import { useDisclosure } from "@mantine/hooks";
 import { Modal, NativeSelect, NumberInput, Chip } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+// Import Firebase functionality from your firebase.js file
+import { database } from "../firebase"; // Adjust the path as needed
+import { ref, get, set, remove, update, onValue } from "firebase/database";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function DynamicTextFields() {
   const [fields, setFields] = useState([
@@ -19,15 +23,156 @@ export default function DynamicTextFields() {
   const navigate = useNavigate();
 
   const [applianceData, setApplianceData] = useState({});
-
   const [value, setValue] = useState("");
   const [weeks, setWeeks] = useState("1 Week");
   const [error, setError] = useState(false);
-
-  // const [hours, setHours] = useState("");
   const [selectedField, setSelectedField] = useState(null);
   const daysOfWeek = ["SU", "M", "T", "W", "TH", "F", "S"];
   const [selectedDays, setSelectedDays] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [dataLoading, setDataLoading] = useState(true);
+  const [userDetails, setUserDetails] = useState(null);
+  const [currentSetId, setCurrentSetId] = useState(null);
+
+  const [applianceSets, setApplianceSets] = useState({});
+  const [importModalOpened, setImportModalOpened] = useState(false);
+  const [selectedSetId, setSelectedSetId] = useState("");
+
+  // Fetch user data from Firebase when component mounts
+  useEffect(() => {
+    const auth = getAuth();
+
+    const fetchUserData = async (user) => {
+      try {
+        setDataLoading(true);
+
+        if (userDetails) {
+          fetchApplianceSets();
+        }
+
+        if (!user) {
+          console.log("No authenticated user found");
+          setAuthError("No authenticated user found");
+          setDataLoading(false);
+          return;
+        }
+
+        // Get user email from localStorage or from auth
+        const userEmail = localStorage.getItem("userEmail") || user.email;
+        if (!userEmail) {
+          console.log("No user email found");
+          setAuthError("No user email found");
+          setDataLoading(false);
+          return;
+        }
+
+        try {
+          const userRef = ref(database, `users/${user.uid}`);
+          const userSnapshot = await get(userRef);
+
+          if (userSnapshot.exists()) {
+            const userData = userSnapshot.val();
+            setUserDetails(userData);
+            await processUserData(user.uid, userData);
+            return;
+          } else {
+            console.log("User not found by direct UID, will try email lookup");
+          }
+        } catch (directFetchError) {
+          console.error("Error in direct UID fetch:", directFetchError);
+        }
+
+        // Find the user based on email (fallback)
+        const usersRef = ref(database, "users");
+        const usersSnapshot = await get(usersRef);
+
+        if (!usersSnapshot.exists()) {
+          console.log("No users found in database");
+          setAuthError("No users found in database");
+          setDataLoading(false);
+          return;
+        }
+
+        // Find the user node where email matches
+        let userId = null;
+        let userData = null;
+
+        usersSnapshot.forEach((userSnapshot) => {
+          const user = userSnapshot.val();
+          if (user.email === userEmail) {
+            userId = userSnapshot.key;
+            userData = user;
+            return true; // Break the forEach loop
+          }
+        });
+
+        if (!userId) {
+          console.log("User not found for email:", userEmail);
+          setAuthError(`User not found for email: ${userEmail}`);
+          setDataLoading(false);
+          return;
+        }
+
+        setUserDetails(userData);
+
+        await processUserData(userId, userData);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+        setAuthError(`Error fetching user data: ${error.message}`);
+        setDataLoading(false);
+      }
+    };
+
+    const processUserData = async (userId, userData) => {
+      try {
+        // Get the user's appliance sets for the dropdown, but don't load any by default
+        const applianceSetsRef = ref(database, `users/${userId}/applianceSets`);
+        const applianceSetsSnapshot = await get(applianceSetsRef);
+
+        if (applianceSetsSnapshot.exists()) {
+          // Store the sets for the import dropdown but don't load any
+          const sets = {};
+          applianceSetsSnapshot.forEach((setSnapshot) => {
+            const setData = setSnapshot.val();
+            sets[setSnapshot.key] = {
+              name: setData.name || `Set ${setSnapshot.key}`,
+              timestamp: setData.timestamp || 0,
+            };
+          });
+
+          setApplianceSets(sets);
+        }
+
+        // Always start with a single empty field
+        setFields([{ id: 1, text: "", isEditing: false, completed: false }]);
+      } catch (error) {
+        console.error("Error processing user data:", error);
+        setAuthError(`Error processing user data: ${error.message}`);
+      } finally {
+        setDataLoading(false);
+      }
+    };
+
+    // Check if user is already authenticated
+    if (auth.currentUser) {
+      fetchUserData(auth.currentUser);
+    } else {
+      // Set up auth state listener
+      console.log("Setting up auth state listener");
+      const unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          fetchUserData(user);
+        } else {
+          console.log("No user is signed in");
+          setAuthError("Not authenticated. Please sign in.");
+          setDataLoading(false);
+        }
+      });
+
+      // Clean up listener
+      return () => unsubscribe();
+    }
+  }, []);
 
   const handleIncrement = () => {
     setValue((prev) => {
@@ -65,14 +210,221 @@ export default function DynamicTextFields() {
     }
   };
 
-  // Add new text field
-  const addField = () => {
-    setFields([...fields, { id: Date.now(), text: "", isEditing: true }]);
+  const fetchApplianceSets = async () => {
+    try {
+      if (!userDetails) {
+        console.log("Missing user details, cannot fetch appliance sets");
+        return;
+      }
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        console.log("No authenticated user found");
+        return;
+      }
+
+      const applianceSetsRef = ref(database, `users/${user.uid}/applianceSets`);
+      const applianceSetsSnapshot = await get(applianceSetsRef);
+
+      if (!applianceSetsSnapshot.exists()) {
+        console.log("No appliance sets found for user");
+        setApplianceSets({}); // Set to empty object to handle no sets
+        return;
+      }
+
+      // Transform the data to include set names and IDs
+      const sets = {};
+      applianceSetsSnapshot.forEach((setSnapshot) => {
+        const setData = setSnapshot.val();
+        sets[setSnapshot.key] = {
+          name: setData.name || `Set ${setSnapshot.key}`,
+          timestamp: setData.timestamp || 0,
+        };
+      });
+
+      setApplianceSets(sets);
+    } catch (error) {
+      console.error("Error fetching appliance sets:", error);
+    }
   };
 
-  // Handle text change
-  const updateText = (id, value) => {
-    setFields(fields.map((f) => (f.id === id ? { ...f, text: value } : f)));
+  // Add this function to import the selected set
+  const importApplianceSet = async () => {
+    if (!selectedSetId) {
+      alert("Please select an appliance set to import");
+      return;
+    }
+
+    try {
+      setDataLoading(true);
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        console.log("No authenticated user found");
+        setDataLoading(false);
+        return;
+      }
+
+      // Get appliances from the selected set
+      const appliancesRef = ref(
+        database,
+        `users/${user.uid}/applianceSets/${selectedSetId}/appliances`
+      );
+      const appliancesSnapshot = await get(appliancesRef);
+
+      if (!appliancesSnapshot.exists()) {
+        console.log("No appliances found in set");
+        alert("No appliances found in this set");
+        setDataLoading(false);
+        return;
+      }
+
+      // Process appliances data
+      const appliancesData = appliancesSnapshot.val();
+
+      // Transform Firebase data to our local state format
+      const newFields = [];
+      const newApplianceData = {};
+
+      Object.keys(appliancesData).forEach((appId) => {
+        const appliance = appliancesData[appId];
+
+        // Skip entries that don't have required data
+        if (!appliance.name) return;
+
+        const fieldId = parseInt(appId) || Date.now() + parseInt(appId);
+
+        newFields.push({
+          id: fieldId,
+          text: appliance.name,
+          isEditing: false,
+          completed: true,
+        });
+
+        newApplianceData[appliance.name] = {
+          watt: appliance.watt || "",
+          hours: appliance.hours || "",
+          quant: appliance.quant || 1,
+          days: appliance.days || [],
+          weeks: appliance.weeks || "1 Week",
+        };
+      });
+
+      // If we found appliances, update our state
+      if (newFields.length > 0) {
+        setFields(newFields);
+        setApplianceData(newApplianceData);
+        setCurrentSetId(selectedSetId);
+      } else {
+        alert("No valid appliances found in this set");
+      }
+
+      // Close the modal
+      setImportModalOpened(false);
+    } catch (error) {
+      console.error("Error importing appliance set:", error);
+      alert(`Error importing appliance set: ${error.message}`);
+    } finally {
+      setDataLoading(false);
+    }
+  };
+
+  // When opening the import modal, automatically select the first set if there's only one
+  const openImportModal = async () => {
+    await fetchApplianceSets(); // Wait for the fetch to complete
+
+    // After fetching sets, automatically select the first one if there's only one or if none is selected
+    const setIds = Object.keys(applianceSets);
+    if (setIds.length === 1) {
+      setSelectedSetId(setIds[0]);
+    } else if (setIds.length > 0 && !selectedSetId) {
+      // If multiple sets but none selected, select the first one
+      setSelectedSetId(setIds[0]);
+    }
+
+    setImportModalOpened(true);
+  };
+
+  // Add new text field
+  const addField = () => {
+    setFields([
+      ...fields,
+      { id: Date.now(), text: "", isEditing: true, completed: false },
+    ]);
+  };
+
+  // Save data to Firebase
+  const saveToFirebase = async () => {
+    try {
+      if (!userDetails || !currentSetId) {
+        console.log("Missing user details or set ID, cannot save");
+        return;
+      }
+
+      // Get user email from localStorage
+      const userEmail = localStorage.getItem("userEmail");
+      if (!userEmail) {
+        console.log("No user email found in localStorage");
+        return;
+      }
+
+      // Find the user based on email
+      const usersRef = ref(database, "users");
+      const usersSnapshot = await get(usersRef);
+
+      if (!usersSnapshot.exists()) {
+        console.log("No users found in database");
+        return;
+      }
+
+      // Find the user node where email matches
+      let userId = null;
+
+      usersSnapshot.forEach((userSnapshot) => {
+        const user = userSnapshot.val();
+        if (user.email === userEmail) {
+          userId = userSnapshot.key;
+          return true;
+        }
+      });
+
+      if (!userId) {
+        console.log("User not found for email:", userEmail);
+        return;
+      }
+
+      // Prepare the data to save
+      const appliancesToSave = {};
+
+      fields.forEach((field, index) => {
+        if (field.text && field.completed) {
+          const appData = applianceData[field.text];
+          if (appData) {
+            appliancesToSave[index] = {
+              name: field.text,
+              watt: appData.watt,
+              hours: appData.hours,
+              quant: appData.quant,
+              days: appData.days || [],
+              weeks: appData.weeks || "1 Week",
+            };
+          }
+        }
+      });
+
+      // Save to Firebase
+      const appliancesRef = ref(
+        database,
+        `users/${userId}/applianceSets/${currentSetId}/appliances`
+      );
+      await set(appliancesRef, appliancesToSave);
+
+      console.log("Saved appliances to Firebase:", appliancesToSave);
+    } catch (error) {
+      console.error("Error saving to Firebase:", error);
+    }
   };
 
   const deleteField = (id) => {
@@ -106,6 +458,9 @@ export default function DynamicTextFields() {
       }
 
       console.log(`Deleted appliance: ${fieldToDelete.text || "Unnamed"}`);
+
+      // Save changes to Firebase after deleting
+      saveToFirebase();
     }
   };
 
@@ -176,15 +531,6 @@ export default function DynamicTextFields() {
       0
     );
 
-    console.log("Navigating with data:", {
-      appliances: applianceResults,
-      totalCost,
-      monthlyBill: value,
-      totalCostPerHour,
-      totalCostPerDay,
-      totalCostPerWeek,
-    });
-
     navigate("/bill-output", {
       state: {
         appliances: applianceResults,
@@ -216,16 +562,6 @@ export default function DynamicTextFields() {
       return;
     }
 
-    // Add console logs to track what's happening
-    console.log("Saving appliance data:", {
-      name: selectedField.text,
-      hours: currentAppliance.hours,
-      watt: currentAppliance.watt,
-      days: selectedDays,
-      weeks: weeks,
-      quant: currentAppliance.quant,
-    });
-
     setApplianceData((prev) => ({
       ...prev,
       [selectedField.text]: {
@@ -244,14 +580,17 @@ export default function DynamicTextFields() {
 
     setSelectedField(null);
     close();
+
+    // Save to Firebase after updating local state
+    setTimeout(() => {
+      saveToFirebase();
+    }, 100);
   };
 
   //Modal, to open the usage pop up
   const [opened, { open, close }] = useDisclosure(false);
 
-  const [isLoading, setIsLoading] = useState(false);
-
-  // Get wattage uising api
+  // Get wattage using api
   const getWattage = async () => {
     if (!selectedField || !selectedField.text.trim()) {
       alert("Please enter an appliance name first");
@@ -311,6 +650,17 @@ export default function DynamicTextFields() {
     }
   };
 
+  if (dataLoading) {
+    return (
+      <div className="w-full h-screen flex items-center justify-center">
+        <div className="text-white text-center">
+          <div className="inline-block h-12 w-12 border-t-2 border-b-2 border-white rounded-full animate-spin mb-4"></div>
+          <p>Loading your appliances...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="w-full h-screen flex items-start justify-center mt-[15vh]">
@@ -348,7 +698,7 @@ export default function DynamicTextFields() {
                 <span className="text-gray-400 mr-2">Php</span>
                 <input
                   type="text"
-                  value={value.toLocaleString()}
+                  value={value === "" ? "" : value.toLocaleString()}
                   onChange={handleChange}
                   placeholder="500"
                   className="w-full bg-transparent outline-none text-right font-bold placeholder-gray-400"
@@ -414,7 +764,6 @@ export default function DynamicTextFields() {
                       : "text-blue-400"
                   }`}
                   size={18}
-                  // Add this to the FaEdit onClick handler
                   onClick={() => {
                     if (!field.text.trim()) {
                       alert("Please enter an appliance name before editing.");
@@ -430,6 +779,7 @@ export default function DynamicTextFields() {
                       watt: "",
                       days: [],
                       weeks: "1 Week",
+                      quant: 1,
                     };
 
                     // Set selected days from the appliance data
@@ -470,9 +820,16 @@ export default function DynamicTextFields() {
           {/* Add New Field Button */}
           <button
             onClick={addField}
-            className=" flex items-center justify-center w-auto py-1 px-5 mt-3 bg-blue-500 hover:bg-blue-600 rounded transition"
+            className="flex items-center justify-center w-auto py-1 px-5 mt-3 bg-blue-500 hover:bg-blue-600 rounded transition"
           >
             <FaPlus className="mr-2" /> Add Appliance
+          </button>
+
+          <button
+            onClick={openImportModal}
+            className="w-full mt-4 py-2 bg-blue-500 hover:bg-blue-600 rounded transition"
+          >
+            Import Appliance Set
           </button>
 
           {/* Calculate Button */}
@@ -649,6 +1006,49 @@ export default function DynamicTextFields() {
             onClick={handleSave}
           >
             Save
+          </button>
+        </div>
+      </Modal>
+
+      {/* Import Modal */}
+      <Modal
+        opened={importModalOpened}
+        onClose={() => setImportModalOpened(false)}
+        title="Import Appliance Set"
+        styles={{
+          header: {
+            backgroundColor: "#13171C",
+            padding: "16px",
+            color: "white",
+          },
+          content: { backgroundColor: "#13171C" },
+        }}
+      >
+        <div className="text-white">
+          <h1 className="text-xl font-semibold mb-4">
+            Select Appliance Set to Import
+          </h1>
+
+          <NativeSelect
+            data={
+              Object.keys(applianceSets).length > 0
+                ? Object.entries(applianceSets).map(([id, set]) => ({
+                    value: id,
+                    label: set.name || `Set ${id}`,
+                  }))
+                : [{ value: "", label: "No sets available" }]
+            }
+            value={selectedSetId || Object.keys(applianceSets)[0] || ""}
+            onChange={(event) => setSelectedSetId(event.currentTarget.value)}
+            placeholder="Select an appliance set"
+            className="mb-4"
+          />
+
+          <button
+            className="w-full py-2 bg-green-500 hover:bg-green-600 rounded transition mt-4 cursor-pointer"
+            onClick={importApplianceSet}
+          >
+            Import
           </button>
         </div>
       </Modal>
