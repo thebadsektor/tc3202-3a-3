@@ -18,7 +18,7 @@ def firebase_verify_login_token(request):
             return JsonResponse({"error": "ID token is required."}, status=400)
 
         try:
-            decoded_token = auth.verify_id_token(id_token)
+            decoded_token = auth.verify_id_token(id_token, check_revoked=True, clock_skew_seconds=10)
             uid = decoded_token["uid"]
 
             return JsonResponse({"success": True, "uid": uid, "message": "Login successful"})
@@ -42,7 +42,7 @@ def firebase_verify_google_token(request):
             return JsonResponse({"error": "ID token is required."}, status=400)
 
         try:
-            decoded_token = auth.verify_id_token(id_token)
+            decoded_token = auth.verify_id_token(id_token, check_revoked=True, clock_skew_seconds=10)
             uid = decoded_token["uid"]
             email = decoded_token.get("email", "")
 
