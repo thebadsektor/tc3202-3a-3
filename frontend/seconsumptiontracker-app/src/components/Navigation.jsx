@@ -8,6 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { Avatar, AvatarFallback, AvatarImage } from "..//components/ui/avatar";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import wattifyLogo from "../assets/wattify-logo.png";
+import { getAuth, signOut } from "firebase/auth";
 
 import "../App.css";
 
@@ -115,15 +116,25 @@ function Navigation() {
   //Logging out
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    localStorage.removeItem("uid");
-    localStorage.removeItem("idToken");
-    localStorage.removeItem("userEmail");
-    localStorage.removeItem("profilePic");
-    localStorage.removeItem("authExpiration");
-    localStorage.removeItem("lastVisitedPage");
+  const handleLogout = async () => {
+    const auth = getAuth();
 
-    navigate("/"); // Redirect to home page
+    try {
+      await signOut(auth);
+
+      // Clear localStorage
+      localStorage.removeItem("uid");
+      localStorage.removeItem("idToken");
+      localStorage.removeItem("userEmail");
+      localStorage.removeItem("profilePic");
+      localStorage.removeItem("authExpiration");
+      localStorage.removeItem("lastVisitedPage");
+
+      // Navigate only after successful signout
+      navigate("/");
+    } catch (error) {
+      console.error("Error signing out:", error);
+    }
   };
 
   return (

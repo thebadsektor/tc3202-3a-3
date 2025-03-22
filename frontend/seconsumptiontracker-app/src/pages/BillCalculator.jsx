@@ -158,13 +158,10 @@ export default function DynamicTextFields() {
       fetchUserData(auth.currentUser);
     } else {
       // Set up auth state listener
-      console.log("Setting up auth state listener");
       const unsubscribe = onAuthStateChanged(auth, (user) => {
         if (user) {
           fetchUserData(user);
         } else {
-          console.log("No user is signed in");
-          setAuthError("Not authenticated. Please sign in.");
           setDataLoading(false);
         }
       });
@@ -213,7 +210,6 @@ export default function DynamicTextFields() {
   const fetchApplianceSets = async () => {
     try {
       if (!userDetails) {
-        console.log("Missing user details, cannot fetch appliance sets");
         return;
       }
 
@@ -818,19 +814,21 @@ export default function DynamicTextFields() {
           ))}
 
           {/* Add New Field Button */}
-          <button
-            onClick={addField}
-            className="flex items-center justify-center w-auto py-1 px-5 mt-3 bg-blue-500 hover:bg-blue-600 rounded transition"
-          >
-            <FaPlus className="mr-2" /> Add Appliance
-          </button>
+          <div className="flex justify-between">
+            <button
+              onClick={addField}
+              className="flex items-center justify-center w-auto py-1 px-5 mt-2 bg-blue-500 hover:bg-blue-600 rounded transition"
+            >
+              <FaPlus className="mr-2" /> Add Appliance
+            </button>
 
-          <button
-            onClick={openImportModal}
-            className="w-full mt-4 py-2 bg-blue-500 hover:bg-blue-600 rounded transition"
-          >
-            Import Appliance Set
-          </button>
+            <button
+              onClick={openImportModal}
+              className="mt-2 py-1 px-5 bg-blue-500 hover:bg-blue-600 rounded transition"
+            >
+              Import
+            </button>
+          </div>
 
           {/* Calculate Button */}
           <button
