@@ -9,6 +9,7 @@ import {
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   signInWithPopup,
+  getAuth,
 } from "firebase/auth";
 import { ref, set, get, getDatabase } from "firebase/database";
 import { auth } from "../firebase"; // Import Firebase auth

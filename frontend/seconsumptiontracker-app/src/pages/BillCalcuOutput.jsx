@@ -1,10 +1,15 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import { useState } from "react";
-import { ref, getDatabase, push } from "firebase/database";
+import { useState, useEffect } from "react";
+import { ref, getDatabase, push, onValue } from "firebase/database";
 function BillCalcuOutput() {
   const location = useLocation();
   const navigate = useNavigate();
   const [expandedAppliance, setExpandedAppliance] = useState(null);
+
+  // used for the saved button state
+  const [isSaved, setIsSaved] = useState(false);
+  const [savedCalculations, setSavedCalculations] = useState({});
+  const [currentCalculationId, setCurrentCalculationId] = useState(null);
 
   // Extract values from navigation state (passed from calculate function in CillCalculator.jsx)
   const {
@@ -22,6 +27,65 @@ function BillCalcuOutput() {
     totalCostPerDay: 0,
     totalCostPerWeek: 0,
   };
+
+  // Function to generate a unique ID for this calculation
+  const generateCalculationId = (appliancesList, cost) => {
+    // Create a string that represents the key aspects of the calculation
+    const appliancesKey = appliancesList
+      .map(
+        (a) =>
+          `${a.name}-${a.watt}-${a.hours}-${a.days.length}-${a.weeks}-${
+            a.quantity || 1
+          }`,
+      )
+      .sort()
+      .join("|");
+
+    const calculationKey = `${appliancesKey}-${cost.toFixed(2)}`;
+    return btoa(calculationKey).substring(0, 20); // Base64 encoding for simplicity
+  };
+
+  // Check if this calculation has already been saved
+  useEffect(() => {
+    const userToken = localStorage.getItem("idToken");
+    const user = localStorage.getItem("uid");
+
+    if (!user || !userToken || appliances.length === 0) {
+      console.log("Missing user details or appliances, skipping save check");
+      return;
+    }
+
+    // Generate an ID for the current calculation
+    const calcId = generateCalculationId(appliances, totalCost);
+    setCurrentCalculationId(calcId);
+
+    const db = getDatabase();
+    const calculationsRef = ref(db, "users/" + user + "/calculations");
+
+    // Set up listener for saved calculations
+    const unsubscribe = onValue(calculationsRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const savedCalcs = {};
+
+        // Process each saved calculation
+        Object.values(data).forEach((calc) => {
+          const id = generateCalculationId(calc.appliances, calc.totalCost);
+          savedCalcs[id] = true;
+        });
+
+        setSavedCalculations(savedCalcs);
+
+        // Check if current calculation is already saved
+        if (savedCalcs[calcId]) {
+          setIsSaved(true);
+        }
+      }
+    });
+
+    // Clean up listener when component unmounts
+    return () => unsubscribe();
+  }, [appliances, totalCost]);
 
   // Function to extract number of weeks from string like "4 Weeks/Month"
   const extractWeeks = (weeksString) => {
@@ -53,6 +117,12 @@ function BillCalcuOutput() {
       return;
     }
 
+    // Prevent saving if already saved
+    if (isSaved) {
+      alert("This calculation has already been saved");
+      return;
+    }
+
     const db = getDatabase();
     const calculationRef = ref(db, "users/" + user + "/calculations");
 
@@ -66,6 +136,7 @@ function BillCalcuOutput() {
         monthlyBill,
         timestamp: Date.now(), // Store timestamp for sorting later
       });
+      setIsSaved(true);
       alert("Calculation saved");
     } catch (error) {
       console.error("Error saving calculation:", error);
@@ -195,8 +266,13 @@ function BillCalcuOutput() {
           <div className="flex items-center justify-center pt-5">
             <button
               onClick={handleSaveResult}
-              className="w-50 text-white py-3 px-4 text-5xl leading-tight cursor-pointer font-semibold bg-green-500 hover:bg-green-600 rounded transition">
-              Save Result
+              disabled={isSaved}
+              className={`w-50 text-white py-3 px-4 text-5xl leading-tight cursor-pointer font-semibold rounded transition ${
+                isSaved
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-500 hover:bg-green-600"
+              }`}>
+              {isSaved ? "Saved" : "Save Result"}
             </button>
           </div>
         </div>
