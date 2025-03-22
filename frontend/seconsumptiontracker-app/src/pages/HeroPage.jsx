@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-
+import { Timeline } from "../components/ui/timeline";
 import { HeroParallax } from "../components/ui/hero-parallax";
 import { HoverEffect } from "../components/ui/card-hover-effect";
 import "../App.css";
@@ -111,19 +111,19 @@ function HeroPage() {
 
   const features = [
     {
-      title: "Bill Calculator",
+      title: "Simple and Fast Bill Calculator",
       description:
         "Get insights from your data with our advanced machine learning algorithms that identify patterns and trends automatically.",
       link: "/bill-calculator",
     },
     {
-      title: "Responsive Design",
+      title: "Energy Consumption Calculator",
       description:
         "All components are fully responsive and adapt seamlessly to any device size for optimal user experience.",
       link: "#",
     },
     {
-      title: "Real-time Collaboration",
+      title: "Energy Consumption Optimizer",
       description:
         "Work together with your team in real-time, with changes syncing instantly across all connected devices.",
       link: "#",
@@ -139,100 +139,90 @@ function HeroPage() {
 
         <section className="">
           <div className="container  mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-12">
+            <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-12">
               Main Features
             </h2>
-
+            <p className="text-white/60 text-[18px] text-center px-5 md:px-40">
+              Our smart energy management platform puts the power back in your
+              hands with advanced tools that help you understand, predict, and
+              optimize your electricity usage.
+            </p>
             <HoverEffect items={features} className="gap-4" />
           </div>
         </section>
 
-        <section className="w-full bg-[#f8fbfd] h-auto">
+        <section className="w-full h-auto">
           <div className="about-content container">
-            <h1
-              className="text-5xl text-font-black font-bold tracking-wide leading-tight pt-30"
-              style={{ fontFamily: "Helvetica" }}
-            >
-              Smart Energy Consumption <br /> Tracker and Predictor
-            </h1>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 gap-y-5 mt-25 ">
-              <article className="text-font-black col-span-1 row-span-2 video-container p-5 pt-0">
-                <iframe
-                  width="100%"
-                  height="70%"
-                  className="h-[250px]"
-                  title="YouTube Video"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </article>
-              <article className="col-span-1 text-font-black">
-                <h2
-                  className="text-[1.9em] font-semibold leading-tight tracking-wide"
-                  style={{ fontFamily: "Helvetica" }}
-                >
-                  How it works
-                </h2>
-                <p className="text-[1.1em] mt-3">
-                  Input a list of appliances and devices used in their
-                  home/building, including quantity and estimated hours of
-                  usage, Then <span className="font-semibold">Wattify</span>{" "}
-                  will calculate the estimated total energy consumption (in
-                  watts or kWh) using a dataset of standard consumption values
-                  for each appliance/device.
-                </p>
-              </article>
-
-              <article className="col-span-1">
-                <h2
-                  className="text-[1.9em] font-semibold leading-tight tracking-wide"
-                  style={{ fontFamily: "Helvetica" }}
-                >
-                  Energy Optimization Suggestions
-                </h2>
-                <p className="text-[1.1em] mt-3">
-                  Input a list of appliances and devices used in their
-                  home/building, including quantity and estimated hours of
-                  usage, Then <span className="font-semibold">Wattify</span>{" "}
-                  will calculate the estimated total energy consumption (in
-                  watts or kWh)
-                </p>
-              </article>
-
-              <article className="col-span-1 ">
-                <h2
-                  className="text-[1.9em] font-semibold leading-tight tracking-wide"
-                  style={{ fontFamily: "Helvetica" }}
-                >
-                  Bill Prediction Mode
-                </h2>
-                <p className="text-[1.1em] mt-3">
-                  Input a list of appliances and devices used in their
-                  home/building, including quantity and estimated hours of
-                  usage, Then <span className="font-semibold">Wattify</span>{" "}
-                </p>
-              </article>
-
-              <article className="col-span-1">
-                <h2
-                  className="text-[1.9em] font-semibold leading-tight tracking-wide"
-                  style={{ fontFamily: "Helvetica" }}
-                >
-                  Understand Your Energy Consumption Patterns
-                </h2>
-                <p className="text-[1.1em] mt-3">
-                  Input a list of appliances and devices used in their
-                  home/building, including quantity and estimated hours of
-                  usage, Then <span className="font-semibold">Wattify</span>{" "}
-                  will calculate the estimated total energy consumption (in
-                  watts or kWh) using a dataset of standard consumption values
-                  for each appliance/device.
-                </p>
-              </article>
-            </div>
-
+            <Timeline
+              data={[
+                {
+                  title: "1",
+                  content: (
+                    <div className="text-white bg-gray-800 rounded-lg p-6 shadow-md">
+                      <h4 className="text-2xl font-bold mb-2 dark:text-white">
+                        Create Your Account
+                      </h4>
+                      <p className=" dark:text-neutral-300">
+                        Sign up for free to access basic features like bill
+                        calculation and viewing historical data. A simple
+                        registration gives you immediate access to understand
+                        your energy consumption.
+                      </p>
+                    </div>
+                  ),
+                },
+                {
+                  title: "2",
+                  content: (
+                    <div className="text-white bg-gray-800 rounded-lg p-6 shadow-md">
+                      <h4 className="text-2xl font-bold mb-2 dark:text-white">
+                        Choose Your Features
+                      </h4>
+                      <p className="">
+                        Select which features you want to use. While basic bill
+                        calculation is available to all users, premium features
+                        like predictive analytics and personalized
+                        recommendations require login.
+                      </p>
+                    </div>
+                  ),
+                },
+                {
+                  title: "3",
+                  content: (
+                    <div className="text-white bg-gray-800  rounded-lg p-6 shadow-md">
+                      <h4 className="text-2xl font-bold mb-2 dark:text-white">
+                        Get Insights & Optimize
+                      </h4>
+                      <p className="">
+                        Simply input your appliances, their wattage, and usage
+                        patterns. Our system analyzes this data using historical
+                        rate trends to predict your electricity bills and
+                        provide personalized recommendations to help you save
+                        money.
+                      </p>
+                    </div>
+                  ),
+                },
+                {
+                  title: "4",
+                  content: (
+                    <div className="text-white bg-gray-800 rounded-lg p-6 shadow-md">
+                      <h4 className="text-2xl font-bold mb-2 dark:text-white">
+                        Track Progress & Adjust
+                      </h4>
+                      <p className="">
+                        Monitor your predicted savings over time and see how
+                        your changes impact your energy consumption. Our
+                        dashboard shows your progress and continues to provide
+                        new optimization suggestions as your usage patterns
+                        evolve.
+                      </p>
+                    </div>
+                  ),
+                },
+              ]}
+            />
             {/* Advantaaaageeeee Section */}
             <section className="py-40">
               <section className=" py-10">

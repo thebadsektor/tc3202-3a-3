@@ -51,7 +51,7 @@ export const HoverEffect = ({ items, className }) => {
 export const Card = ({ className, children, link }) => {
   return (
     <div
-      className={`rounded-2xl h-full w-full p-4 overflow-hidden bg-[#111111] border border-transparent dark:border-white/[0.2] group-hover:border-black-200 relative z-10 ${className}`}
+      className={`rounded-2xl h-full w-full text-white p-4 overflow-hidden bg-[#111111] border border-transparent dark:border-white/[0.2] group-hover:border-black-200 relative z-10 ${className}`}
     >
       <div className="relative z-20">
         <div className="p-4">{children}</div>
@@ -63,7 +63,7 @@ export const Card = ({ className, children, link }) => {
 export const CardTitle = ({ className, children }) => {
   return (
     <h4
-      className={`text-zinc-100 font-bold text-2xl tracking-wide ${className}`}
+      className={` text-zinc-100 font-bold text-2xl tracking-wide ${className}`}
     >
       {children}
     </h4>
