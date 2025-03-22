@@ -158,8 +158,8 @@ function HeroPage() {
                 {
                   title: "1",
                   content: (
-                    <div className="text-white bg-gray-800 rounded-lg p-6 shadow-md">
-                      <h4 className="text-2xl font-bold mb-2 dark:text-white">
+                    <div className="text-white rounded-lg p-6 shadow-md">
+                      <h4 className="text-2xl font-bold mb-3 dark:text-white">
                         Create Your Account
                       </h4>
                       <p className=" dark:text-neutral-300">
@@ -168,13 +168,44 @@ function HeroPage() {
                         registration gives you immediate access to understand
                         your energy consumption.
                       </p>
+
+                      <div className="grid grid-cols-2 gap-5 mt-6">
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                            alt="Account feature 1"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                            alt="Account feature 2"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                            alt="Account feature 3"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
+                            alt="Account feature 4"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
                     </div>
                   ),
                 },
                 {
                   title: "2",
                   content: (
-                    <div className="text-white bg-gray-800 rounded-lg p-6 shadow-md">
+                    <div className="text-white rounded-lg p-6 shadow-md">
                       <h4 className="text-2xl font-bold mb-2 dark:text-white">
                         Choose Your Features
                       </h4>
@@ -184,13 +215,44 @@ function HeroPage() {
                         like predictive analytics and personalized
                         recommendations require login.
                       </p>
+
+                      <div className="grid grid-cols-2 gap-5 mt-6">
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                            alt="Account feature 1"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                            alt="Account feature 2"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                            alt="Account feature 3"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
+                            alt="Account feature 4"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
                     </div>
                   ),
                 },
                 {
                   title: "3",
                   content: (
-                    <div className="text-white bg-gray-800  rounded-lg p-6 shadow-md">
+                    <div className="text-white  rounded-lg p-6 shadow-md">
                       <h4 className="text-2xl font-bold mb-2 dark:text-white">
                         Get Insights & Optimize
                       </h4>
@@ -201,13 +263,44 @@ function HeroPage() {
                         provide personalized recommendations to help you save
                         money.
                       </p>
+
+                      <div className="grid grid-cols-2 gap-5 mt-6">
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                            alt="Account feature 1"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                            alt="Account feature 2"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                            alt="Account feature 3"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
+                            alt="Account feature 4"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
                     </div>
                   ),
                 },
                 {
                   title: "4",
                   content: (
-                    <div className="text-white bg-gray-800 rounded-lg p-6 shadow-md">
+                    <div className="text-white rounded-lg p-6 shadow-md">
                       <h4 className="text-2xl font-bold mb-2 dark:text-white">
                         Track Progress & Adjust
                       </h4>
@@ -218,6 +311,37 @@ function HeroPage() {
                         new optimization suggestions as your usage patterns
                         evolve.
                       </p>
+
+                      <div className="grid grid-cols-2 gap-5 mt-6">
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                            alt="Account feature 1"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                            alt="Account feature 2"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                            alt="Account feature 3"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="aspect-square overflow-hidden rounded-lg">
+                          <img
+                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
+                            alt="Account feature 4"
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                      </div>
                     </div>
                   ),
                 },
