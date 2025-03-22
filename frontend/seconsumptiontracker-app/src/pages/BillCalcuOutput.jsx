@@ -36,7 +36,7 @@ function BillCalcuOutput() {
         (a) =>
           `${a.name}-${a.watt}-${a.hours}-${a.days.length}-${a.weeks}-${
             a.quantity || 1
-          }`,
+          }`
       )
       .sort()
       .join("|");
@@ -134,7 +134,7 @@ function BillCalcuOutput() {
         totalCostPerHour,
         totalCostPerWeek,
         monthlyBill,
-        timestamp: Date.now(), // Store timestamp for sorting later
+        timestamp: Date.now(),
       });
       setIsSaved(true);
       alert("Calculation saved");
@@ -152,16 +152,15 @@ function BillCalcuOutput() {
             <h1 className="text-left text-blue-400 text-3xl font-semibold mb-3">
               Appliance Energy Calculator
             </h1>
-            <p className="text-white/80 mb-5">
-              Estimated cost to operate: {applianceNames || "No appliances"}
-            </p>
+            <p className="text-white/80 mb-5">Estimated cost to operate:</p>
             <div className="mb-5">
               {appliances.length > 0 ? (
                 <div className="text-white/80">
                   {appliances.map((appliance, index) => (
                     <div
                       key={index}
-                      className="mb-4 bg-gray-800 p-4 rounded-lg">
+                      className="mb-4 bg-gray-800 p-4 rounded-lg"
+                    >
                       <div className="flex justify-between items-center">
                         <div className="font-medium">
                           <span className="text-blue-400">
@@ -172,7 +171,8 @@ function BillCalcuOutput() {
                         </div>
                         <button
                           onClick={() => toggleAppliance(index)}
-                          className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition">
+                          className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
+                        >
                           {expandedAppliance === index
                             ? "Hide Details"
                             : "View Details"}
@@ -258,7 +258,8 @@ function BillCalcuOutput() {
             </button>
             <button
               onClick={() => navigate("/bill-calculator")}
-              className="w-50 text-white py-3 px-4 mt-3 text-5xl leading-tight cursor-pointer font-semibold bg-transparent border-2 hover:bg-gray-800 rounded transition">
+              className="w-50 text-white py-3 px-4 mt-3 text-5xl leading-tight cursor-pointer font-semibold bg-transparent border-2 hover:bg-gray-800 rounded transition"
+            >
               Compute Another
             </button>
           </div>
@@ -271,7 +272,8 @@ function BillCalcuOutput() {
                 isSaved
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-green-500 hover:bg-green-600"
-              }`}>
+              }`}
+            >
               {isSaved ? "Saved" : "Save Result"}
             </button>
           </div>

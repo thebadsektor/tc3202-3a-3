@@ -9,6 +9,7 @@ import { Timeline } from "../components/ui/timeline";
 import { HeroParallax } from "../components/ui/hero-parallax";
 import { HoverEffect } from "../components/ui/card-hover-effect";
 import "../App.css";
+import LinkPreview from "../components/ui/link-preview";
 
 function HeroPage() {
   const products = [
@@ -138,7 +139,7 @@ function HeroPage() {
         </div>
 
         <section className="">
-          <div className="container  mx-auto px-4">
+          <div className="container  mx-auto px-4 mt-20">
             <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-12">
               Main Features
             </h2>
@@ -215,6 +216,38 @@ function HeroPage() {
                         like predictive analytics and personalized
                         recommendations require login.
                       </p>
+                      <ul className="mt-5 ml-10 space-y-1.5 font-semibold list-disc cursor-pointer">
+                        <li>
+                          <LinkPreview
+                            url=""
+                            imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                            width={100}
+                            height={50}
+                          >
+                            Bill Calculator
+                          </LinkPreview>
+                        </li>
+                        <li>
+                          <LinkPreview
+                            url=""
+                            imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                            width={250}
+                            height={50}
+                          >
+                            Energy Consumption Calculator
+                          </LinkPreview>
+                        </li>
+                        <li>
+                          <LinkPreview
+                            url=""
+                            imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                            width={250}
+                            height={120}
+                          >
+                            Save Energy (Optimization Recommendation)
+                          </LinkPreview>
+                        </li>
+                      </ul>
 
                       <div className="grid grid-cols-2 gap-5 mt-6">
                         <div className="aspect-square overflow-hidden rounded-lg">
