@@ -15,22 +15,14 @@ import {
 } from "firebase/database";
 
 const Appliance = () => {
-  // Modal state
   const [opened, { open, close }] = useDisclosure(false);
-  // Appliance sets list
   const [applianceSets, setApplianceSets] = useState([]);
-  // Current appliance set name
   const [applianceName, setApplianceName] = useState("");
-  // Track if we're editing or adding new
   const [editIndex, setEditIndex] = useState(null);
-  // Error message state
   const [errorMessage, setErrorMessage] = useState("");
-  // State to track which set is currently being viewed/edited
   const [currentSet, setCurrentSet] = useState(null);
-  // State to store all appliances data within sets
   const [appliancesData, setAppliancesData] = useState({});
 
-  // Fetch data from the relatime database to populate data
   useEffect(() => {
     const userToken = localStorage.getItem("idToken");
     const user = localStorage.getItem("uid");
@@ -67,7 +59,7 @@ const Appliance = () => {
       },
       (error) => {
         console.error("Error fetching data:", error);
-      },
+      }
     );
 
     // Cleanup subscription on unmount
@@ -119,7 +111,7 @@ const Appliance = () => {
               // Update the name in the database
               const setRef = ref(
                 db,
-                "users/" + user + "/applianceSets/" + setKey,
+                "users/" + user + "/applianceSets/" + setKey
               );
 
               // Keep all data the same, just update the name
@@ -151,13 +143,13 @@ const Appliance = () => {
                 .catch((error) => {
                   console.error("Error renaming appliance set:", error);
                   setErrorMessage(
-                    "Failed to rename appliance set. Please try again.",
+                    "Failed to rename appliance set. Please try again."
                   );
                 });
             }
           }
         },
-        { onlyOnce: true },
+        { onlyOnce: true }
       );
     } else {
       // We're adding a new set
@@ -208,7 +200,7 @@ const Appliance = () => {
     const setName = applianceSets[index];
 
     const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${setName}" and all its appliances?`,
+      `Are you sure you want to delete "${setName}" and all its appliances?`
     );
 
     if (confirmDelete) {
@@ -223,35 +215,29 @@ const Appliance = () => {
       const db = getDatabase();
       const applianceSetsRef = ref(db, "users/" + user + "/applianceSets");
 
-      // Get a snapshot of the data to find the key
       onValue(
         applianceSetsRef,
         (snapshot) => {
           const data = snapshot.val();
           if (data) {
-            // Find the key for the set we want to delete
             const keys = Object.keys(data);
             const setKey = keys.find((key) => data[key].name === setName);
 
             if (setKey) {
-              // Create a reference to the specific set
               const setRef = ref(
                 db,
-                "users/" + user + "/applianceSets/" + setKey,
+                "users/" + user + "/applianceSets/" + setKey
               );
 
-              // Remove the set from the database
               remove(setRef)
                 .then(() => {
                   console.log("Appliance set deleted successfully");
 
-                  // Update local state
                   const updatedSets = applianceSets.filter(
-                    (_, i) => i !== index,
+                    (_, i) => i !== index
                   );
                   setApplianceSets(updatedSets);
 
-                  // Also remove any stored appliance data for this set
                   setAppliancesData((prev) => {
                     const newData = { ...prev };
                     delete newData[setName];
@@ -265,12 +251,11 @@ const Appliance = () => {
             }
           }
         },
-        { onlyOnce: true },
+        { onlyOnce: true }
       );
     }
   };
 
-  // View appliance items for a specific set
   const handleViewItems = (index) => {
     setCurrentSet({
       id: index,
@@ -278,14 +263,11 @@ const Appliance = () => {
     });
   };
 
-  // Handle going back to sets list view
   const handleBackToSets = () => {
     setCurrentSet(null);
   };
 
-  // Save appliance items data for a set
   const handleSaveApplianceItems = (setData) => {
-    // Store the appliance items data
     setAppliancesData((prev) => ({
       ...prev,
       [setData.name]: setData.appliances,
@@ -294,9 +276,7 @@ const Appliance = () => {
     console.log("Saved appliance set data:", setData);
   };
 
-  // Render the appliance items view if a set is selected
   if (currentSet) {
-    // Get existing data for the current set if available
     const existingData = appliancesData[currentSet.name] || [];
 
     return (
@@ -310,7 +290,6 @@ const Appliance = () => {
     );
   }
 
-  // Otherwise render the main appliance sets list
   return (
     <>
       <div className="bg-gray-800 text-slate-200 p-6 rounded-lg shadow mt-10">
@@ -318,7 +297,8 @@ const Appliance = () => {
         <p>Manage your appliances and devices here.</p>
         <button
           onClick={handleAddNew}
-          className="bg-blue-500 text-white py-3 px-4 rounded !font-semibold mt-5">
+          className="bg-cta-bluegreen text-black py-2 px-4 rounded mt-5"
+        >
           Set up appliance
         </button>
 
@@ -335,7 +315,8 @@ const Appliance = () => {
                       onClick={(e) => {
                         e.preventDefault();
                         handleViewItems(index);
-                      }}>
+                      }}
+                    >
                       {set}
                       <span
                         onClick={(e) => {
@@ -343,15 +324,17 @@ const Appliance = () => {
                           e.preventDefault();
                           handleEdit(index);
                         }}
-                        className="text-blue-500 font-semibold text-base">
+                        className="text-cta-bluegreen font-semibold text-base"
+                      >
                         &nbsp;&nbsp;&nbsp;(rename)
                       </span>
                     </a>
-                    <div className="flex gap-3">
+                    <div className="flex gap-5">
                       <button
                         onClick={() => handleViewItems(index)}
-                        className="text-green-500 hover:text-green-700"
-                        title="View Details">
+                        className="text-green-500 hover:text-green-700  cursor-pointer"
+                        title="View Details"
+                      >
                         <FaEye size={25} />
                       </button>
                       <button
@@ -359,20 +342,21 @@ const Appliance = () => {
                           e.stopPropagation();
                           handleEdit(index);
                         }}
-                        className="text-blue-500 hover:text-blue-700"
-                        title="Edit">
+                        className="text-cta-bluegreen hover:text-blue-700  cursor-pointer"
+                        title="Edit"
+                      >
                         <FaPencilAlt size={23} />
                       </button>
                       <button
                         onClick={() => handleDelete(index)}
-                        className="text-red-500 hover:text-red-700"
-                        title="Delete">
+                        className="text-red-500 hover:text-red-700  cursor-pointer"
+                        title="Delete"
+                      >
                         <FaTrash size={23} />
                       </button>
                     </div>
                   </div>
 
-                  {/* Display appliance count if there are items in this set */}
                   {appliancesData[set] && appliancesData[set].length > 0 && (
                     <div className="ml-4 text-slate-400 text-sm">
                       {appliancesData[set].length} appliance
@@ -392,7 +376,8 @@ const Appliance = () => {
         styles={{
           header: { backgroundColor: "#13171C", padding: "16px" },
           content: { backgroundColor: "#13171C" },
-        }}>
+        }}
+      >
         <div className="text-white">
           <h4 className="text-xl">
             {editIndex !== null ? "Edit Appliance Set" : "Appliance Set Name"}
@@ -409,8 +394,9 @@ const Appliance = () => {
           )}
         </div>
         <button
-          className="text-white bg-blue-500 w-full !text-xl py-2 rounded mt-6"
-          onClick={handleAddOrUpdate}>
+          className="text-black bg-cta-bluegreen w-full !text-xl py-2 rounded mt-6"
+          onClick={handleAddOrUpdate}
+        >
           {editIndex !== null ? "Rename" : "Add"}
         </button>
       </Modal>

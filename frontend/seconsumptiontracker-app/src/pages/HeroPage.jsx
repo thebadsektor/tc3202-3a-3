@@ -147,7 +147,7 @@ function HeroPage() {
           </div>
 
           <section className="">
-            <div className="container  mx-auto px-4 mt-20">
+            <div className="container  mx-auto px-4">
               <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-12">
                 Main Features
               </h2>

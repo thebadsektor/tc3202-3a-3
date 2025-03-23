@@ -18,6 +18,7 @@ function Navigation() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userEmail, setUserEmail] = useState("");
   const [isAvatarOpen, setIsAvatarOpen] = useState(false);
+  const [mobileFeatureOpen, setMobileFeatureOpen] = useState(false);
   const dropdownRef = useRef(null);
   const avatarRef = useRef(null);
 
@@ -137,25 +138,106 @@ function Navigation() {
         }`}
       >
         <nav className="container w-full h-[8vh] border-blue-200 flex items-center justify-between">
-          {/* Logo */}
-          <div className="relative group cursor-pointer">
-            {/* Logo */}
-            <img
-              src={wattifyLogo}
-              alt="Wattify Logo"
-              className="w-30 mt-[-5px] cursor-pointer"
-            />
+          {/* Mobile Menu and Logo container */}
+          <div className="flex items-center">
+            {/* Mobile Menu Button */}
+            <div className="md:hidden mr-4">
+              {mobileMenuOpen ? (
+                <IoMdClose
+                  size={30}
+                  className="cursor-pointer text-amber-50"
+                  onClick={() => setMobileMenuOpen(false)}
+                />
+              ) : (
+                <HiOutlineMenuAlt2
+                  size={30}
+                  className="cursor-pointer text-amber-50"
+                  onClick={() => setMobileMenuOpen(true)}
+                />
+              )}
+            </div>
 
-            {/* Lottie Animation - Enlarged and Shows on Hover */}
-            <div className="absolute top-[-20px] left-1/2 transform -translate-x-1/2 w-32 h-22 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-              <DotLottieReact
-                src="https://lottie.host/b86e2c09-c1bf-4dda-a80d-a9a23314a9f2/7QhJLM0dgt.lottie"
-                loop
-                autoplay
+            {/* Logo - Now staying on left */}
+            <div className="relative group cursor-pointer">
+              <img
+                src={wattifyLogo}
+                alt="Wattify Logo"
+                className="w-30 mt-[-5px] cursor-pointer"
               />
+
+              {/* Lottie Animation - Enlarged and Shows on Hover */}
+              <div className="absolute top-[-20px] left-1/2 transform -translate-x-1/2 w-32 h-22 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <DotLottieReact
+                  src="https://lottie.host/b86e2c09-c1bf-4dda-a80d-a9a23314a9f2/7QhJLM0dgt.lottie"
+                  loop
+                  autoplay
+                />
+              </div>
             </div>
           </div>
 
+          {/* Profile Avatar - Always visible on right side */}
+          <div className="md:hidden">
+            {localStorage.getItem("idToken") ? (
+              <div className="relative">
+                <Avatar
+                  ref={avatarRef}
+                  onClick={() => setIsAvatarOpen((prev) => !prev)}
+                  className="cursor-pointer h-10 w-10"
+                >
+                  <AvatarImage
+                    src={
+                      localStorage.getItem("profilePic") ||
+                      "https://github.com/shadcn.png"
+                    }
+                    className="text-black text-base hover:rounded-lg hover:bg-gray-100 transition-all duration-200"
+                  />
+                  <AvatarFallback />
+                </Avatar>
+
+                {/* Dropdown Menu */}
+                {isAvatarOpen && (
+                  <div
+                    ref={dropdownRef}
+                    className="absolute right-0 mt-2 w-50 bg-gray-800 shadow-lg rounded-lg p-2 z-50"
+                  >
+                    <Link to="profile">
+                      <button className="w-full text-gray-300 hover:bg-gray-600 text-left px-4 py-2 cursor-pointer mt-5">
+                        Profile
+                      </button>
+                    </Link>
+                    <button
+                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600 cursor-pointer"
+                      onClick={() => navigate("/dashboard")}
+                    >
+                      Dashboard
+                    </button>
+                    <button
+                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600 cursor-pointer"
+                      onClick={() => alert("Go to History")}
+                    >
+                      History
+                    </button>
+                    <button
+                      className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-600 cursor-pointer"
+                      onClick={() => handleLogout()}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/login-form"
+                className="text-gray-100 py-2 px-4 text-sm bg-cta-blue rounded-lg font-semibold hover:bg-blue-400 transition-all duration-200"
+              >
+                Login
+              </Link>
+            )}
+          </div>
+
+          {/* Desktop Menu */}
           <ul className="items-center justify-center hidden md:flex text-white">
             <li>
               <Link
@@ -166,7 +248,7 @@ function Navigation() {
                     window.location.href = window.location.href; // Reloads the page
                   }
                 }}
-                className=" py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
+                className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
               >
                 Home
               </Link>
@@ -174,7 +256,7 @@ function Navigation() {
             <li>
               <Link
                 to="#"
-                className=" py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
+                className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
               >
                 About
               </Link>
@@ -191,11 +273,11 @@ function Navigation() {
               </Link>
 
               {/* Dropdown Menu */}
-              <ul className="absolute left-0 w-max mt-2 p-3 z-15 text-white bg-gray-600 shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 divide-y divide-gray-400 translate-y-2 group-hover:translate-y-0">
-                <li>
+              <ul className="absolute right-0 w-max mt-2 p-3 z-15 text-white bg-gray-800 shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 divide-y divide-gray-400 translate-y-2 group-hover:translate-y-0">
+                <li className="">
                   <Link
                     to="/bill-calculator"
-                    className="block px-6 py-3 hover:bg-gray-800 text-base transition-all hover:rounded-lg"
+                    className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg"
                   >
                     Bill Calculator
                   </Link>
@@ -203,7 +285,7 @@ function Navigation() {
                 <li>
                   <Link
                     to="/bill-calculator"
-                    className="block px-6 py-3 hover:bg-gray-800 text-base transition-all hover:rounded-lg"
+                    className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg"
                   >
                     Energy Consumption Calculator
                   </Link>
@@ -211,7 +293,7 @@ function Navigation() {
                 <li>
                   <Link
                     to="#"
-                    className="block px-6 py-3 hover:bg-gray-800 text-base transition-all hover:rounded-lg"
+                    className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg"
                   >
                     Save Energy (Optimization Suggestions)
                   </Link>
@@ -221,7 +303,7 @@ function Navigation() {
             <li>
               <Link
                 to=""
-                className=" py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200 mr-5"
+                className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200 mr-5"
               >
                 Contact
               </Link>
@@ -249,17 +331,10 @@ function Navigation() {
                   {isAvatarOpen && (
                     <div
                       ref={dropdownRef}
-                      className="absolute right-0 mt-2 w-auto bg-gray-800 shadow-lg  rounded-lg p-2 z-50"
+                      className="absolute right-0 mt-2 w-50 bg-gray-800 shadow-lg rounded-lg p-2 z-50"
                     >
-                      <h3 className="text-white font-semibold px-4 py-2 border-bold">
-                        {`Hi,\u00A0${
-                          localStorage.getItem("userEmail") ||
-                          "User".split("@")[0]
-                        }!`}
-                      </h3>
-                      <hr />
                       <Link to="profile">
-                        <button className="w-full text-gray-300 hover:bg-gray-600 text-left px-4 py-2 cursor-pointer mt-5">
+                        <button className="w-full text-gray-300 hover:bg-gray-600 text-left px-4 py-2 cursor-pointer ">
                           Profile
                         </button>
                       </Link>
@@ -294,63 +369,89 @@ function Navigation() {
               )}
             </li>
           </ul>
-          <div className="md:hidden">
-            {mobileMenuOpen ? (
-              <IoMdClose
-                size={30}
-                className="cursor-pointer text-amber-50"
-                onClick={() => setMobileMenuOpen(false)}
-              />
-            ) : (
-              <HiOutlineMenuAlt2
-                size={30}
-                className="cursor-pointer text-amber-50"
-                onClick={() => setMobileMenuOpen(true)}
-              />
-            )}
-          </div>
         </nav>
+
         {/* Mobile Menu */}
         <div
-          className={`fixed top-[8vh] right-0 w-full h-auto bg-[#13171C] text-white flex flex-col items-center justify-start py-40 gap-6 transition-transform duration-300 z-40 ${
+          className={`fixed top-[8vh] right-0 pl-10 w-full h-auto bg-[#13171C] text-white flex flex-col items-start justify-start py-10 gap-6 transition-transform duration-300 z-40 ${
             mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
           <Link
             to="/"
-            className=" text-2xl hover:underline transition duration-500"
+            className="text-2xl hover:underline transition duration-500"
             onClick={() => setMobileMenuOpen(false)}
           >
             Home
           </Link>
           <Link
             to=""
-            className=" text-2xl hover:underline transition duration-500"
+            className="text-2xl hover:underline transition duration-500"
             onClick={() => setMobileMenuOpen(false)}
           >
             About
           </Link>
+
+          {/* Features with dropdown on mobile - Simplified */}
+          <div className="w-full flex flex-col items-start">
+            <button
+              className="flex items-center gap-2 !text-2xl hover:underline transition duration-500"
+              onClick={() => setMobileFeatureOpen(!mobileFeatureOpen)}
+            >
+              Features
+              <IoIosArrowDropdown
+                className={`transition-transform duration-300 ${
+                  mobileFeatureOpen ? "rotate-180" : ""
+                }`}
+              />
+            </button>
+
+            {/* Features dropdown content - Simplified */}
+            {mobileFeatureOpen && (
+              <div className="w-full flex flex-col items-start mt-3 pl-5 gap-4 list-disc">
+                <Link
+                  to="/bill-calculator"
+                  className="text-xl hover:underline transition duration-500"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Bill Calculator
+                </Link>
+                <Link
+                  to="/bill-calculator"
+                  className="text-xl hover:underline transition duration-500"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Energy Consumption Calculator
+                </Link>
+                <Link
+                  to="#"
+                  className="text-xl hover:underline transition duration-500"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Save Energy (Optimization Suggestions)
+                </Link>
+              </div>
+            )}
+          </div>
+
           <Link
             to=""
             className="text-2xl hover:underline transition duration-500"
             onClick={() => setMobileMenuOpen(false)}
           >
-            Features
-          </Link>
-          <Link
-            to=""
-            className=" text-2xl hover:underline transition duration-500"
-            onClick={() => setMobileMenuOpen(false)}
-          >
             Contact
           </Link>
-          <Link
-            to="#"
-            className="text-white bg-blue-500 px-6 py-3 text-2xl rounded-lg"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Login
-          </Link>
+
+          {/* Only show login button if not logged in and in mobile view */}
+          {!localStorage.getItem("idToken") && (
+            <Link
+              to="/login-form"
+              className="text-white bg-blue-500 px-6 py-3 text-2xl rounded-lg"
+              onClick={() => setMobileMenuOpen(false)}
+            >
+              Login
+            </Link>
+          )}
         </div>
       </div>
     </>
