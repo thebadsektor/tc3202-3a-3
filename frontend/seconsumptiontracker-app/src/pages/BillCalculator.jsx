@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { database } from "../firebase"; // Adjust the path as needed
 import { ref, get, set, remove, update, onValue } from "firebase/database";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Spinner } from "@heroui/spinner";
 
 export default function DynamicTextFields() {
   const [fields, setFields] = useState([
@@ -641,7 +642,6 @@ export default function DynamicTextFields() {
       console.error("Error fetching wattage:", error);
       alert(`Failed to get wattage: ${error.message}`);
     } finally {
-      // Set loading back to false regardless of success or failure
       setIsLoading(false);
     }
   };
@@ -649,9 +649,12 @@ export default function DynamicTextFields() {
   if (dataLoading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        <div className="text-white text-center">
-          <div className="inline-block h-12 w-12 border-t-2 border-b-2 border-white rounded-full animate-spin mb-4"></div>
-          <p>Loading your appliances...</p>
+        <div className="relative w-8 h-8">
+          <div className="w-full h-full rounded-full border-4 border-gray-100 opacity-25"></div>
+          <div
+            className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-transparent border-t-[#0BFEFA] animate-spin"
+            style={{ borderTopColor: "#0BFEFA" }}
+          ></div>
         </div>
       </div>
     );
@@ -817,14 +820,14 @@ export default function DynamicTextFields() {
           <div className="flex justify-between">
             <button
               onClick={addField}
-              className="flex items-center justify-center w-auto py-1 px-5 mt-2 bg-blue-500 hover:bg-blue-600 rounded transition"
+              className="flex items-center justify-center w-auto py-1 px-5 mt-2 bg-cta-bluegreen cursor-pointer text-black rounded transition"
             >
               <FaPlus className="mr-2" /> Add Appliance
             </button>
 
             <button
               onClick={openImportModal}
-              className="mt-2 py-1 px-5 bg-blue-500 hover:bg-blue-600 rounded transition"
+              className="mt-2 py-1 px-5 bg-cta-bluegreen text-black cursor-pointer rounded transition"
             >
               Import
             </button>
@@ -833,7 +836,7 @@ export default function DynamicTextFields() {
           {/* Calculate Button */}
           <button
             onClick={calculate}
-            className={`w-full mt-12 py-2 rounded transition ${
+            className={`w-full mt-12 py-2 rounded transition cursor-pointer ${
               fields.some((field) => !field.completed)
                 ? "bg-green-800/50 cursor-not-allowed" // Disabled appearance
                 : "bg-green-500 hover:bg-green-600" // Enabled appearance

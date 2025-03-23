@@ -10,6 +10,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroui/spinner": "^2.2.13",
+    "@heroui/system": "^2.4.12",
+    "@heroui/theme": "^2.4.12",
     "@lottiefiles/dotlottie-react": "^0.13.2",
     "@mantine/core": "^7.17.2",
     "@mantine/hooks": "^7.17.2",
@@ -33,10 +36,12 @@
     "lucide-react": "^0.479.0",
     "mini-svg-data-uri": "^1.4.4",
     "motion": "^12.5.0",
+    "next-themes": "^0.4.6",
     "qss": "^3.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-icons": "^5.5.0",
+    "sonner": "^2.0.1",
     "swiper": "^11.2.5",
     "tailwind-merge": "^3.0.2",
     "tailwindcss": "^4.0.9",

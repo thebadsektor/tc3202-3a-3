@@ -119,17 +119,17 @@ export const Header = () => {
 
       <div className="mt-35 grid grid-cols-1 sm:grid-cols-3 gap-2 text-center sm:divide-x divide-gray-400">
         <div className="px-4">
-          <h2 className="text-2xl font-bold text-white">98.25%</h2>
+          <h2 className="text-2xl font-bold text-cta-bluegreen">98.25%</h2>
           <p className="text-white/80 text-lg">Bill Prediction Rate</p>
         </div>
         <div className="px-4">
-          <h2 className="text-2xl font-bold text-white">97.94%</h2>
+          <h2 className="text-2xl font-bold text-cta-bluegreen">97.94%</h2>
           <p className="text-white/80 text-lg">
             Energy Consumption Prediction Rate
           </p>
         </div>
         <div className="px-4">
-          <h2 className="text-2xl font-bold text-white">4.8/5</h2>
+          <h2 className="text-2xl font-bold text-cta-bluegreen">4.8/5</h2>
           <p className="text-white/80 text-lg">User Satisfaction</p>
         </div>
       </div>
