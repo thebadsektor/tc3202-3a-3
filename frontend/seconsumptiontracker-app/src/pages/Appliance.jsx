@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal } from "@mantine/core";
+import { Modal, Button } from "@mantine/core";
 import { FaEye, FaTrash, FaPencilAlt } from "react-icons/fa";
 import ApplianceItems from "../components/ApplianceItemsForProfile"; // Import the component
 import {
@@ -22,6 +22,12 @@ const Appliance = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [currentSet, setCurrentSet] = useState(null);
   const [appliancesData, setAppliancesData] = useState({});
+
+  const [
+    deleteModalOpened,
+    { open: openDeleteModal, close: closeDeleteModal },
+  ] = useDisclosure(false);
+  const [setToDelete, setSetToDelete] = useState(null);
 
   useEffect(() => {
     const userToken = localStorage.getItem("idToken");
@@ -196,64 +202,72 @@ const Appliance = () => {
   };
 
   // Delete an appliance set
-  const handleDelete = (index) => {
+  const handleDeleteConfirmation = (index) => {
     const setName = applianceSets[index];
+    setSetToDelete({ index, name: setName });
+    openDeleteModal();
+  };
 
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${setName}" and all its appliances?`
-    );
+  // Confirm delete method
+  const confirmDelete = () => {
+    if (!setToDelete) return;
 
-    if (confirmDelete) {
-      const user = localStorage.getItem("uid");
+    const user = localStorage.getItem("uid");
 
-      if (!user) {
-        alert("User not logged in");
-        return;
-      }
-
-      // Initialize the database
-      const db = getDatabase();
-      const applianceSetsRef = ref(db, "users/" + user + "/applianceSets");
-
-      onValue(
-        applianceSetsRef,
-        (snapshot) => {
-          const data = snapshot.val();
-          if (data) {
-            const keys = Object.keys(data);
-            const setKey = keys.find((key) => data[key].name === setName);
-
-            if (setKey) {
-              const setRef = ref(
-                db,
-                "users/" + user + "/applianceSets/" + setKey
-              );
-
-              remove(setRef)
-                .then(() => {
-                  console.log("Appliance set deleted successfully");
-
-                  const updatedSets = applianceSets.filter(
-                    (_, i) => i !== index
-                  );
-                  setApplianceSets(updatedSets);
-
-                  setAppliancesData((prev) => {
-                    const newData = { ...prev };
-                    delete newData[setName];
-                    return newData;
-                  });
-                })
-                .catch((error) => {
-                  console.error("Error deleting appliance set:", error);
-                  alert("Failed to delete appliance set. Please try again.");
-                });
-            }
-          }
-        },
-        { onlyOnce: true }
-      );
+    if (!user) {
+      alert("User not logged in");
+      return;
     }
+
+    // Initialize the database
+    const db = getDatabase();
+    const applianceSetsRef = ref(db, "users/" + user + "/applianceSets");
+
+    onValue(
+      applianceSetsRef,
+      (snapshot) => {
+        const data = snapshot.val();
+        if (data) {
+          const keys = Object.keys(data);
+          const setKey = keys.find(
+            (key) => data[key].name === setToDelete.name
+          );
+
+          if (setKey) {
+            const setRef = ref(
+              db,
+              "users/" + user + "/applianceSets/" + setKey
+            );
+
+            remove(setRef)
+              .then(() => {
+                console.log("Appliance set deleted successfully");
+
+                const updatedSets = applianceSets.filter(
+                  (_, i) => i !== setToDelete.index
+                );
+                setApplianceSets(updatedSets);
+
+                setAppliancesData((prev) => {
+                  const newData = { ...prev };
+                  delete newData[setToDelete.name];
+                  return newData;
+                });
+
+                // Close the modal
+                closeDeleteModal();
+                setSetToDelete(null);
+              })
+              .catch((error) => {
+                console.error("Error deleting appliance set:", error);
+                alert("Failed to delete appliance set. Please try again.");
+                closeDeleteModal();
+              });
+          }
+        }
+      },
+      { onlyOnce: true }
+    );
   };
 
   const handleViewItems = (index) => {
@@ -297,21 +311,20 @@ const Appliance = () => {
         <p>Manage your appliances and devices here.</p>
         <button
           onClick={handleAddNew}
-          className="bg-cta-bluegreen text-black py-2 px-4 rounded mt-5"
+          className="bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black py-2 px-4 rounded mt-5 cursor-pointer !font-semibold"
         >
-          Set up appliance
+          Add appliance set
         </button>
 
         {applianceSets.length > 0 && (
           <div className="mt-6">
-            <h3 className="text-xl font-bold mb-3">Your Appliance Sets</h3>
             <ol className="list-decimal ml-6">
               {applianceSets.map((set, index) => (
                 <li key={index} className="py-2 border-b border-gray-200">
                   <div className="flex justify-between items-center">
                     <a
                       href="#"
-                      className="text-slate-200 font-bold text-2xl p-3"
+                      className="text-slate-200 font-bold text-xl p-3"
                       onClick={(e) => {
                         e.preventDefault();
                         handleViewItems(index);
@@ -348,7 +361,7 @@ const Appliance = () => {
                         <FaPencilAlt size={23} />
                       </button>
                       <button
-                        onClick={() => handleDelete(index)}
+                        onClick={() => handleDeleteConfirmation(index)}
                         className="text-red-500 hover:text-red-700  cursor-pointer"
                         title="Delete"
                       >
@@ -399,6 +412,40 @@ const Appliance = () => {
         >
           {editIndex !== null ? "Rename" : "Add"}
         </button>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        opened={deleteModalOpened}
+        onClose={closeDeleteModal}
+        centered
+        title="Confirm Deletion"
+        styles={{
+          header: {
+            backgroundColor: "#13171C",
+            padding: "16px",
+            color: "white",
+          },
+          content: {
+            backgroundColor: "#13171C",
+          },
+        }}
+      >
+        <div className="text-white p-2">
+          <p className="mb-4">
+            Are you sure you want to delete "
+            <span className="text-cta-bluegreen">{setToDelete?.name}"</span> and
+            all its appliances?
+          </p>
+          <div className="flex justify-end space-x-4">
+            <Button variant="outline" onClick={closeDeleteModal} color="gray">
+              Cancel
+            </Button>
+            <Button variant="filled" color="red" onClick={confirmDelete}>
+              Delete
+            </Button>
+          </div>
+        </div>
       </Modal>
     </>
   );

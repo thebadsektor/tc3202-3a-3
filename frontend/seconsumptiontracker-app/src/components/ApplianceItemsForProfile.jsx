@@ -10,7 +10,7 @@ import {
   FaSave,
 } from "react-icons/fa";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, NumberInput, Chip, NativeSelect } from "@mantine/core";
+import { Modal, NumberInput, Chip, NativeSelect, Button } from "@mantine/core";
 import { getDatabase, ref, push, update, onValue } from "firebase/database";
 
 const ApplianceItems = ({
@@ -43,6 +43,12 @@ const ApplianceItems = ({
 
   // Modal for usage details
   const [opened, { open, close }] = useDisclosure(false);
+
+  const [
+    deleteModalOpened,
+    { open: openDeleteModal, close: closeDeleteModal },
+  ] = useDisclosure(false);
+  const [applianceToDelete, setApplianceToDelete] = useState(null);
 
   // Load existing data when component mounts or when existingData changes
   useEffect(() => {
@@ -91,36 +97,42 @@ const ApplianceItems = ({
   };
 
   // Delete appliance item
-  const deleteApplianceItem = (id) => {
+  const handleDeleteConfirmation = (id) => {
     if (applianceItems.length === 1) {
       alert("You must have at least one appliance.");
       return;
     }
 
     // Find the appliance to be deleted
-    const applianceToDelete = applianceItems.find((item) => item.id === id);
+    const appliance = applianceItems.find((item) => item.id === id);
+    if (!appliance) return;
+
+    // Set the appliance to delete and open the modal
+    setApplianceToDelete({ id, name: appliance.name });
+    openDeleteModal();
+  };
+
+  // Confirm delete method
+  const confirmDelete = () => {
     if (!applianceToDelete) return;
 
-    // Ask for confirmation
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${
-        applianceToDelete.name || "this appliance"
-      }"?`
+    // Remove from appliance items
+    setApplianceItems(
+      applianceItems.filter((item) => item.id !== applianceToDelete.id)
     );
 
-    if (confirmDelete) {
-      // Remove from appliance items
-      setApplianceItems(applianceItems.filter((item) => item.id !== id));
-
-      // Remove from appliance data
-      if (applianceToDelete.name) {
-        setApplianceData((prevData) => {
-          const newData = { ...prevData };
-          delete newData[applianceToDelete.name];
-          return newData;
-        });
-      }
+    // Remove from appliance data
+    if (applianceToDelete.name) {
+      setApplianceData((prevData) => {
+        const newData = { ...prevData };
+        delete newData[applianceToDelete.name];
+        return newData;
+      });
     }
+
+    // Close the modal and reset
+    closeDeleteModal();
+    setApplianceToDelete(null);
   };
 
   // Handle opening the usage modal
@@ -405,7 +417,7 @@ const ApplianceItems = ({
                 size={18}
                 onClick={() => {
                   if (applianceItems.length > 1) {
-                    deleteApplianceItem(appliance.id);
+                    handleDeleteConfirmation(appliance.id);
                   }
                 }}
               />
@@ -580,6 +592,42 @@ const ApplianceItems = ({
           >
             Save
           </button>
+        </div>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        opened={deleteModalOpened}
+        onClose={closeDeleteModal}
+        title="Confirm Deletion"
+        centered
+        styles={{
+          header: {
+            backgroundColor: "#13171C",
+            padding: "16px",
+            color: "white",
+          },
+          content: {
+            backgroundColor: "#13171C",
+          },
+        }}
+      >
+        <div className="text-white p-2">
+          <p className="mb-4">
+            Are you sure you want to delete "
+            <span className="text-cta-bluegreen">
+              {applianceToDelete?.name || "this appliance"}
+            </span>
+            "?
+          </p>
+          <div className="flex justify-end space-x-4">
+            <Button variant="outline" onClick={closeDeleteModal} color="gray">
+              Cancel
+            </Button>
+            <Button variant="filled" color="red" onClick={confirmDelete}>
+              Delete
+            </Button>
+          </div>
         </div>
       </Modal>
     </div>

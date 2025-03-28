@@ -401,7 +401,7 @@ function HeroPage() {
                     <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
                       Why Choose Us?
                     </h2>
-                    <p className="text-white/60 text-[18px] max-w-4xl mx-auto mt-5">
+                    <p className="text-white/60 text-[16px] max-w-4xl mx-auto mt-5">
                       Empower your energy management with intelligent insights,
                       precise predictions, and user-friendly tools that
                       transform how you understand and optimize your

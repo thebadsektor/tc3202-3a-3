@@ -9,7 +9,7 @@ import {
 } from "react-icons/fa";
 import { IoMdHome } from "react-icons/io";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, NativeSelect, NumberInput, Chip } from "@mantine/core";
+import { Modal, NativeSelect, NumberInput, Chip, Button } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 // Import Firebase functionality from your firebase.js file
 import { database } from "../firebase"; // Adjust the path as needed
@@ -37,6 +37,9 @@ export default function DynamicTextFields() {
 
   const [applianceSets, setApplianceSets] = useState({});
   const [importModalOpened, setImportModalOpened] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [fieldToDelete, setFieldToDelete] = useState(null);
+
   const [selectedSetId, setSelectedSetId] = useState("");
 
   // Fetch user data from Firebase when component mounts
@@ -414,36 +417,38 @@ export default function DynamicTextFields() {
     }
   };
 
-  const deleteField = (id) => {
+  const handleDeleteConfirmation = (id) => {
     if (fields.length === 1) {
       alert("You must have at least one appliance.");
       return;
     }
 
-    const fieldToDelete = fields.find((f) => f.id === id);
+    const field = fields.find((f) => f.id === id);
+    if (!field) return;
+
+    setFieldToDelete(field);
+    setDeleteModal(true);
+  };
+
+  const confirmDelete = () => {
     if (!fieldToDelete) return;
 
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${
-        fieldToDelete.text || "this appliance"
-      }"?`
-    );
+    // Perform deletion
+    setFields(fields.filter((f) => f.id !== fieldToDelete.id));
 
-    if (confirmDelete) {
-      setFields(fields.filter((f) => f.id !== id));
-
-      if (fieldToDelete.text) {
-        setApplianceData((prevData) => {
-          const newData = { ...prevData };
-          delete newData[fieldToDelete.text];
-          return newData;
-        });
-      }
-
-      console.log(`Deleted appliance: ${fieldToDelete.text || "Unnamed"}`);
-
-      saveToFirebase();
+    if (fieldToDelete.text) {
+      setApplianceData((prevData) => {
+        const newData = { ...prevData };
+        delete newData[fieldToDelete.text];
+        return newData;
+      });
     }
+
+    saveToFirebase();
+
+    // Close modal and reset
+    setDeleteModal(false);
+    setFieldToDelete(null);
   };
 
   const calculate = () => {
@@ -766,7 +771,7 @@ export default function DynamicTextFields() {
                   size={18}
                   onClick={() => {
                     if (fields.length > 1) {
-                      deleteField(field.id);
+                      handleDeleteConfirmation(field.id);
                     }
                   }}
                 />
@@ -1006,6 +1011,47 @@ export default function DynamicTextFields() {
           >
             Import
           </button>
+        </div>
+      </Modal>
+
+      <Modal
+        opened={deleteModal}
+        onClose={() => setDeleteModal(false)}
+        title="Confirm Deletion"
+        styles={{
+          header: {
+            backgroundColor: "#13171C",
+            padding: "16px",
+            color: "white",
+          },
+          content: { backgroundColor: "#13171C" },
+        }}
+        centered
+      >
+        <div className="text-white p-2">
+          <p className="mb-4 pr-2">
+            Are you sure you want to delete "
+            <span className="text-cta-bluegreen">
+              {fieldToDelete?.text || "this appliance"}"?
+            </span>
+          </p>
+          <div className="flex justify-end space-x-4">
+            <Button
+              variant="outline"
+              onClick={() => setDeleteModal(false)}
+              color="gray"
+              className="text-white border-gray-500 hover:bg-gray-700"
+            >
+              Cancel
+            </Button>
+            <Button
+              color="red"
+              onClick={confirmDelete}
+              className="bg-red-500 hover:bg-red-600"
+            >
+              Delete
+            </Button>
+          </div>
         </div>
       </Modal>
     </>
