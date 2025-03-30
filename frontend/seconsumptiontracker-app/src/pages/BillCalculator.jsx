@@ -638,9 +638,11 @@ export default function DynamicTextFields() {
       <div className="w-full h-screen flex items-start justify-center mt-[15vh]">
         <div className="max-w-lg mx-auto p-5 text-white rounded-lg shadow-lg">
           <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
-            <IoMdHome /> Home / Bill Calculator
+            <IoMdHome /> Home / Energy consumption calculator
           </span>
-          <h2 className="text-4xl font-bold mb-3">Bill Calculator</h2>
+          <h2 className="text-4xl font-bold mb-3">
+            Energy Consumption Calculator
+          </h2>
 
           <p className="mb-5 text-white/60">
             Know how much your appliances and gadgets consume so you can stay in

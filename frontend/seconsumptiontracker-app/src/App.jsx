@@ -12,12 +12,14 @@ import Footer from "./components/Footer";
 import BillCalculator from "./pages/BillCalculator";
 import { MantineProvider } from "@mantine/core"; // ✅ Import MantineProvider
 import "@mantine/core/styles.css"; // ✅ Import Mantine styles
+import "@mantine/dates/styles.css";
 import "./App.css";
 import BillCalcuOutput from "./pages/BillCalcuOutput";
 import LoginFormDemo from "./components/login-form-demo";
 import SignupFormDemo from "./components/signup-form-demo";
 import HeroPage from "./pages/HeroPage";
 import ProfilePage from "./pages/ProfilePage";
+import BillPrediction from "./pages/BillPredictionPage";
 
 function App() {
   return (
@@ -31,6 +33,7 @@ function App() {
           <Route exact path="/signup-form" element={<SignupFormDemo />} />
           <Route exact path="/bill-calculator" element={<BillCalculator />} />
           <Route exact path="/profile" element={<ProfilePage />} />
+          <Route exact path="/bill-prediction" element={<BillPrediction />} />
 
           {/* Private route for user dashboard */}
           <Route
