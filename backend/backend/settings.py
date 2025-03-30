@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -131,3 +135,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOW_ALL_ORIGINS = True # For development only, use specific origin in production
 CORS_ALLOW_CREDENTIALS = True
+
+# for SMTP service
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'seconsumptiontracker@gmail.com'
+EMAIL_HOST_PASSWORD = os.getenv("APP_PASSWORD")  # Use environment variables for security
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+if not EMAIL_HOST_PASSWORD:
+    raise ValueError("APP_PASSWORD not found in environment variables.")

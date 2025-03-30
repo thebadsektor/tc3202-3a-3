@@ -20,6 +20,7 @@ import SignupFormDemo from "./components/signup-form-demo";
 import HeroPage from "./pages/HeroPage";
 import ProfilePage from "./pages/ProfilePage";
 import BillPrediction from "./pages/BillPredictionPage";
+import ForgotPassword from "./components/ForgotPasswordForm";
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route exact path="/bill-calculator" element={<BillCalculator />} />
           <Route exact path="/profile" element={<ProfilePage />} />
           <Route exact path="/bill-prediction" element={<BillPrediction />} />
+          <Route exact path="/forgot-password-form" element={<ForgotPassword />} />
 
           {/* Private route for user dashboard */}
           <Route
