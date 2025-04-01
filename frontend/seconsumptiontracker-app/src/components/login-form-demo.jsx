@@ -48,7 +48,7 @@ export default function LoginFormDemo() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id_token: idToken }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -130,7 +130,7 @@ export default function LoginFormDemo() {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
-        password
+        password,
       );
       const idToken = await userCredential.user.getIdToken();
 
@@ -140,7 +140,7 @@ export default function LoginFormDemo() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id_token: idToken }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -190,7 +190,7 @@ export default function LoginFormDemo() {
             <Input
               id="email"
               placeholder="example@gmail.com"
-              type="email"
+              type="text"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -216,13 +216,16 @@ export default function LoginFormDemo() {
             <p className="text-red-500 text-xs mb-2">{errors.general}</p>
           )}
 
-          <p className="text-blue-400">Forgot password?</p>
+          <p className="text-blue-400">
+            <Link to="/forgot-password-form" className="text-blue-400">
+              Forgot password?
+            </Link>
+          </p>
 
           <button
             className="cursor-pointer group/btn mt-5 relative block h-10 w-full rounded-md bg-gray-900 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
             type="submit"
-            disabled={loading}
-          >
+            disabled={loading}>
             {loading ? (
               <span className="flex items-center justify-center">
                 <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
@@ -255,8 +258,7 @@ export default function LoginFormDemo() {
             <button
               type="button"
               onClick={handleGoogleLogin}
-              className="cursor-pointer group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-900 px-4 font-medium text-black dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_#262626]"
-            >
+              className="cursor-pointer group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-900 px-4 font-medium text-black dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_#262626]">
               <FcGoogle className="text-2xl text-gray-400" />
               <span className="text-sm text-white dark:text-neutral-300">
                 Continue with Google

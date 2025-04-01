@@ -24,11 +24,9 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
     setProfilePic(profile);
   }, []);
 
-  // Check if the screen is mobile/tablet size
   useEffect(() => {
     const checkIfMobile = () => {
       setIsMobile(window.innerWidth < 768);
-      // If we're on desktop, ensure the sidebar is expanded by default
       if (window.innerWidth >= 768) {
         setIsExpanded(true);
       } else {
@@ -36,17 +34,13 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
       }
     };
 
-    // Initial check
     checkIfMobile();
 
-    // Set up event listener for window resize
     window.addEventListener("resize", checkIfMobile);
 
-    // Clean up
     return () => window.removeEventListener("resize", checkIfMobile);
   }, []);
 
-  // Only toggle expansion on hover for mobile devices
   const handleMouseEnter = () => {
     if (isMobile) {
       setIsExpanded(true);
@@ -59,7 +53,6 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
     }
   };
 
-  // Get first letter of email for avatar placeholder
   const getInitial = () => {
     if (userEmail && userEmail.length > 0) {
       return userEmail.charAt(0).toUpperCase();
@@ -110,7 +103,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
                 onClick={() => setActiveItem(item.id)}
                 className={`flex items-center w-full p-3 rounded-lg transition-colors ${
                   activeItem === item.id
-                    ? "bg-blue-600 text-white"
+                    ? "bg-cta-bluegreen text-black"
                     : "hover:bg-slate-700"
                 }`}
               >

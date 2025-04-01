@@ -37,7 +37,7 @@ export const HoverEffect = ({ items, className }) => {
             <CardTitle>{item.title}</CardTitle>
             <CardDescription>{item.description}</CardDescription>
             <div className="mt-4">
-              <Link to={item.link} className="text-blue-400 font-semibold">
+              <Link to={item.link} className="text-[#0BFEFA] font-semibold">
                 Try now &rarr;
               </Link>
             </div>

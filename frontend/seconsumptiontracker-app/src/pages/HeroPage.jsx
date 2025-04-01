@@ -1,15 +1,23 @@
 import React from "react";
-import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
+import { motion } from "framer-motion";
+import {
+  BarChart3,
+  Leaf,
+  Users,
+  AreaChart,
+  Clock,
+  History,
+} from "lucide-react";
 import { Timeline } from "../components/ui/timeline";
 import { HeroParallax } from "../components/ui/hero-parallax";
 import { HoverEffect } from "../components/ui/card-hover-effect";
 import "../App.css";
 import LinkPreview from "../components/ui/link-preview";
+import ClickSpark from "../components/ui/click-spark";
 
 function HeroPage() {
   const products = [
@@ -75,39 +83,33 @@ function HeroPage() {
 
   const advantages = [
     {
-      title: "Accurate Bill Prediction",
-      image: "assets/icons8-goa.png",
+      icon: Users,
+      title: "User-Friendly",
       description:
-        "Get an estimate of your upcoming bill based on our model trained by past rates of Meralco.",
-      nth: "#1",
+        "Intuitive interface designed to simplify complex energy management, making it easy for all users to use and manage",
+      color: "text-blue-500 dark:text-blue-300",
     },
     {
-      title: "Energy Optimization Tips",
-      image: "/assets/save-energy.png",
+      icon: BarChart3,
+      title: "Predictive Billing",
       description:
-        " Receive smart suggestions on how to reduce energy consumption, helping you save money while using power efficiently.",
-      nth: "#2",
+        "Using Advanced predictive algorithms to analyze your historical energy usage to forecast future bills with high precision,",
+      color: "text-green-500 dark:text-green-300",
     },
     {
-      title: "Easy history tracking",
-      image: "/assets/history.png",
+      icon: Leaf,
+      title: "Energy Optimization",
       description:
-        "Easily access and review your past energy usage, so you can monitor trends and make informed decisions.",
-      nth: "#3",
+        "Intelligent insights and personalized recommendations that highlight opportunities to reduce energy waste and optimize your home or business's energy efficiency.",
+      color: "text-red-500 dark:text-red-300",
     },
     {
-      title: "Better for Environment",
-      image: "/assets/turbine.png",
+      icon: History,
+      title: "Consumption Timeline",
       description:
-        "By optimizing energy use, you reduce waste and lower your carbon footprint, contributing to a healthier planet.",
-      nth: "#4",
+        "Comprehensive energy usage tracking with detailed historical data visualization, allowing you to understand your consumption trends",
+      color: "text-purple-500 dark:text-purple-300",
     },
-  ];
-
-  const carouselImages = [
-    "/assets/jebron.jpg",
-    "/assets/jebron.jpg",
-    "/assets/jebron.jpg",
   ];
 
   const features = [
@@ -133,320 +135,311 @@ function HeroPage() {
 
   return (
     <>
-      <div className="relative w-full">
-        <div className="w-full">
-          <HeroParallax products={products} />
-        </div>
-
-        <section className="">
-          <div className="container  mx-auto px-4 mt-20">
-            <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-12">
-              Main Features
-            </h2>
-            <p className="text-white/60 text-[18px] text-center px-5 md:px-40">
-              Our smart energy management platform puts the power back in your
-              hands with advanced tools that help you understand, predict, and
-              optimize your electricity usage.
-            </p>
-            <HoverEffect items={features} className="gap-4" />
+      <ClickSpark
+        sparkColor="#0BFEFA"
+        sparkSize={10}
+        sparkRadius={15}
+        sparkCount={8}
+        duration={400}
+      >
+        <div className="relative w-full">
+          <div className="w-full">
+            <HeroParallax products={products} />
           </div>
-        </section>
 
-        <section className="w-full h-auto">
-          <div className="about-content container">
-            <Timeline
-              data={[
-                {
-                  title: "1",
-                  content: (
-                    <div className="text-white rounded-lg p-6 shadow-md">
-                      <h4 className="text-2xl font-bold mb-3 dark:text-white">
-                        Create Your Account
-                      </h4>
-                      <p className=" dark:text-neutral-300">
-                        Sign up for free to access basic features like bill
-                        calculation and viewing historical data. A simple
-                        registration gives you immediate access to understand
-                        your energy consumption.
-                      </p>
+          <section className="">
+            <div className="container  mx-auto px-4">
+              <h2 className="text-4xl md:text-5xl font-bold text-white text-center mb-12">
+                Main Features
+              </h2>
+              <p className="text-white/60 text-[18px] text-center px-5 md:px-40">
+                Our smart energy management platform puts the power back in your
+                hands with advanced tools that help you understand, predict, and
+                optimize your electricity usage.
+              </p>
+              <HoverEffect items={features} className="gap-4" />
+            </div>
+          </section>
 
-                      <div className="grid grid-cols-2 gap-5 mt-6">
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
-                            alt="Account feature 1"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
-                            alt="Account feature 2"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
-                            alt="Account feature 3"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
-                            alt="Account feature 4"
-                            className="w-full h-full object-cover"
-                          />
+          <section className="w-full h-auto">
+            <div className="about-content container">
+              <Timeline
+                data={[
+                  {
+                    title: "1",
+                    content: (
+                      <div className="text-white rounded-lg p-6 shadow-md">
+                        <h4 className="text-2xl font-bold mb-3 dark:text-white">
+                          Create Your Account
+                        </h4>
+                        <p className=" dark:text-neutral-300">
+                          Sign up for free to access basic features like bill
+                          calculation and viewing historical data. A simple
+                          registration gives you immediate access to understand
+                          your energy consumption.
+                        </p>
+
+                        <div className="grid grid-cols-2 gap-5 mt-6">
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                              alt="Account feature 1"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                              alt="Account feature 2"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                              alt="Account feature 3"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
+                              alt="Account feature 4"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ),
-                },
-                {
-                  title: "2",
-                  content: (
-                    <div className="text-white rounded-lg p-6 shadow-md">
-                      <h4 className="text-2xl font-bold mb-2 dark:text-white">
-                        Choose Your Features
-                      </h4>
-                      <p className="">
-                        Select which features you want to use. While basic bill
-                        calculation is available to all users, premium features
-                        like predictive analytics and personalized
-                        recommendations require login.
-                      </p>
-                      <ul className="mt-5 ml-10 space-y-1.5 font-semibold list-disc cursor-pointer">
-                        <li>
-                          <LinkPreview
-                            url=""
-                            imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
-                            width={100}
-                            height={50}
-                          >
-                            Bill Calculator
-                          </LinkPreview>
-                        </li>
-                        <li>
-                          <LinkPreview
-                            url=""
-                            imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
-                            width={250}
-                            height={50}
-                          >
-                            Energy Consumption Calculator
-                          </LinkPreview>
-                        </li>
-                        <li>
-                          <LinkPreview
-                            url=""
-                            imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
-                            width={250}
-                            height={120}
-                          >
-                            Save Energy (Optimization Recommendation)
-                          </LinkPreview>
-                        </li>
-                      </ul>
+                    ),
+                  },
+                  {
+                    title: "2",
+                    content: (
+                      <div className="text-white rounded-lg p-6 shadow-md">
+                        <h4 className="text-2xl font-bold mb-2 dark:text-white">
+                          Choose Your Features
+                        </h4>
+                        <p className="">
+                          Select which features you want to use. While basic
+                          bill calculation is available to all users, premium
+                          features like predictive analytics and personalized
+                          recommendations require login.
+                        </p>
+                        <ul className="mt-5 ml-10 space-y-1.5 font-semibold list-disc cursor-pointer">
+                          <li>
+                            <LinkPreview
+                              url=""
+                              imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                              width={100}
+                              height={50}
+                            >
+                              Bill Calculator
+                            </LinkPreview>
+                          </li>
+                          <li>
+                            <LinkPreview
+                              url=""
+                              imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                              width={250}
+                              height={50}
+                            >
+                              Energy Consumption Calculator
+                            </LinkPreview>
+                          </li>
+                          <li>
+                            <LinkPreview
+                              url=""
+                              imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                              width={250}
+                              height={120}
+                            >
+                              Save Energy (Optimization Recommendation)
+                            </LinkPreview>
+                          </li>
+                        </ul>
 
-                      <div className="grid grid-cols-2 gap-5 mt-6">
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
-                            alt="Account feature 1"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
-                            alt="Account feature 2"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
-                            alt="Account feature 3"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
-                            alt="Account feature 4"
-                            className="w-full h-full object-cover"
-                          />
+                        <div className="grid grid-cols-2 gap-5 mt-6">
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                              alt="Account feature 1"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                              alt="Account feature 2"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                              alt="Account feature 3"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
+                              alt="Account feature 4"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ),
-                },
-                {
-                  title: "3",
-                  content: (
-                    <div className="text-white  rounded-lg p-6 shadow-md">
-                      <h4 className="text-2xl font-bold mb-2 dark:text-white">
-                        Get Insights & Optimize
-                      </h4>
-                      <p className="">
-                        Simply input your appliances, their wattage, and usage
-                        patterns. Our system analyzes this data using historical
-                        rate trends to predict your electricity bills and
-                        provide personalized recommendations to help you save
-                        money.
-                      </p>
+                    ),
+                  },
+                  {
+                    title: "3",
+                    content: (
+                      <div className="text-white  rounded-lg p-6 shadow-md">
+                        <h4 className="text-2xl font-bold mb-2 dark:text-white">
+                          Get Insights & Optimize
+                        </h4>
+                        <p className="">
+                          Simply input your appliances, their wattage, and usage
+                          patterns. Our system analyzes this data using
+                          historical rate trends to predict your electricity
+                          bills and provide personalized recommendations to help
+                          you save money.
+                        </p>
 
-                      <div className="grid grid-cols-2 gap-5 mt-6">
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
-                            alt="Account feature 1"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
-                            alt="Account feature 2"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
-                            alt="Account feature 3"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
-                            alt="Account feature 4"
-                            className="w-full h-full object-cover"
-                          />
+                        <div className="grid grid-cols-2 gap-5 mt-6">
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                              alt="Account feature 1"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                              alt="Account feature 2"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                              alt="Account feature 3"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
+                              alt="Account feature 4"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ),
-                },
-                {
-                  title: "4",
-                  content: (
-                    <div className="text-white rounded-lg p-6 shadow-md">
-                      <h4 className="text-2xl font-bold mb-2 dark:text-white">
-                        Track Progress & Adjust
-                      </h4>
-                      <p className="">
-                        Monitor your predicted savings over time and see how
-                        your changes impact your energy consumption. Our
-                        dashboard shows your progress and continues to provide
-                        new optimization suggestions as your usage patterns
-                        evolve.
-                      </p>
+                    ),
+                  },
+                  {
+                    title: "4",
+                    content: (
+                      <div className="text-white rounded-lg p-6 shadow-md">
+                        <h4 className="text-2xl font-bold mb-2 dark:text-white">
+                          Track Progress & Adjust
+                        </h4>
+                        <p className="">
+                          Monitor your predicted savings over time and see how
+                          your changes impact your energy consumption. Our
+                          dashboard shows your progress and continues to provide
+                          new optimization suggestions as your usage patterns
+                          evolve.
+                        </p>
 
-                      <div className="grid grid-cols-2 gap-5 mt-6">
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
-                            alt="Account feature 1"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
-                            alt="Account feature 2"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
-                            alt="Account feature 3"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="aspect-square overflow-hidden rounded-lg">
-                          <img
-                            src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
-                            alt="Account feature 4"
-                            className="w-full h-full object-cover"
-                          />
+                        <div className="grid grid-cols-2 gap-5 mt-6">
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                              alt="Account feature 1"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                              alt="Account feature 2"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                              alt="Account feature 3"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="aspect-square overflow-hidden rounded-lg">
+                            <img
+                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
+                              alt="Account feature 4"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ),
-                },
-              ]}
-            />
-            {/* Advantaaaageeeee Section */}
-            <section className="py-40">
-              <section className=" py-10">
-                <div className="w-full mx-auto px-6">
-                  <h2
-                    className="text-5xl tracking-wide font-extrabold text-center mb-22 "
-                    style={{ fontFamily: "Helvetica" }}
+                    ),
+                  },
+                ]}
+              />
+              {/* Advantaaaageeeee Section */}
+              <section className="py-16 dark:bg-gray-900 transition-colors duration-300">
+                <div className="container mx-auto px-4">
+                  <motion.div
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center mb-12"
                   >
-                    Advantages
-                  </h2>
-                  <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
-                    {/* Advantages List */}
-                    <div className="flex-1 space-y-15 pr-0 md:pr-20">
-                      {advantages.map((advantage, index) => (
-                        <div key={index} className="flex items-start gap-10">
-                          {/* Dynamic Image for Each Advantage */}
-                          <div className="w-15 h-15 md:w-20 md:h-20 flex items-center justify-center bg-blue-100 rounded-2xl mt-[-20px]">
-                            <img
-                              src={advantage.image}
-                              alt="Icon"
-                              className="max-w-full max-h-full object-cover"
-                            />
-                          </div>
-                          {/* Advantage Text */}
-                          <div className="relative flex-1 text-font-black">
-                            <h3 className="font-semibold leading-tight tracking-wide text-[1.9em] z-10">
-                              {advantage.title}
-                            </h3>
-                            <p className="text-[1.1em] mt-5 z-10">
-                              {advantage.description}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
+                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-4">
+                      Why Choose Us?
+                    </h2>
+                    <p className="text-white/60 text-[16px] max-w-4xl mx-auto mt-5">
+                      Empower your energy management with intelligent insights,
+                      precise predictions, and user-friendly tools that
+                      transform how you understand and optimize your
+                      consumption.
+                    </p>
+                  </motion.div>
 
-                    <div className="w-full md:w-[50%] h-[400px]">
-                      <Swiper
-                        modules={[Navigation, Pagination, Autoplay]}
-                        spaceBetween={20}
-                        slidesPerView={1}
-                        // autoplay={{ delay: 3000, disableOnInteraction: false }}
-                        pagination={{ clickable: true }}
-                        navigation
-                        className="w-full h-full"
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    {advantages.map((advantage, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 1, scale: 0.8 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        transition={{
+                          duration: 0.5,
+                          delay: index * 0.1,
+                        }}
+                        className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                       >
-                        {carouselImages.map((image, index) => (
-                          <SwiperSlide
-                            key={index}
-                            className="flex items-center justify-center"
-                          >
-                            <img
-                              src={image}
-                              alt={`Carousel ${index}`}
-                              className="w-full h-full object-cover rounded-lg"
-                            />
-                          </SwiperSlide>
-                        ))}
-                      </Swiper>
-                    </div>
+                        <div className={`mb-4 ${advantage.color}`}>
+                          <advantage.icon size={48} strokeWidth={1.5} />
+                        </div>
+                        <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-3">
+                          {advantage.title}
+                        </h3>
+                        <p className="text-gray-600 dark:text-gray-400">
+                          {advantage.description}
+                        </p>
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
               </section>
-            </section>
-          </div>
-        </section>
-      </div>
+            </div>
+          </section>
+          <section className="h-screen"></section>
+        </div>
+      </ClickSpark>
     </>
   );
 }

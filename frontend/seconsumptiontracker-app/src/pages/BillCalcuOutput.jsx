@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ref, getDatabase, push, onValue } from "firebase/database";
+import { toast } from "sonner";
+import { Toaster } from "../components/ui/sonner";
 function BillCalcuOutput() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -144,6 +146,13 @@ function BillCalcuOutput() {
     }
   };
 
+  const toastOnSave = () => {
+    toast("Data saved successfully! ✅", {
+      description: "All saved data is available on your profile history.",
+      duration: 3000,
+    });
+  };
+
   return (
     <>
       <div className="h-auto mt-[15vh] flex items-center justify-center flex-col">
@@ -253,7 +262,10 @@ function BillCalcuOutput() {
           </div>
 
           <div className="flex items-center justify-center pt-5 gap-5">
-            <button className="w-50 py-3 px-4 mt-3 text-5xl leading-tight cursor-pointer font-semibold bg-blue-400 hover:bg-blue-600 rounded transition">
+            <button
+              onClick={toastOnSave}
+              className="w-50 py-3 px-4 mt-3 text-5xl leading-tight cursor-pointer font-semibold bg-blue-400 hover:bg-blue-600 rounded transition"
+            >
               View Details
             </button>
             <button
@@ -279,6 +291,8 @@ function BillCalcuOutput() {
           </div>
         </div>
       </div>
+
+      <Toaster />
     </>
   );
 }

@@ -10,7 +10,7 @@ import {
   FaSave,
 } from "react-icons/fa";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, NumberInput, Chip, NativeSelect } from "@mantine/core";
+import { Modal, NumberInput, Chip, NativeSelect, Button } from "@mantine/core";
 import { getDatabase, ref, push, update, onValue } from "firebase/database";
 
 const ApplianceItems = ({
@@ -43,6 +43,12 @@ const ApplianceItems = ({
 
   // Modal for usage details
   const [opened, { open, close }] = useDisclosure(false);
+
+  const [
+    deleteModalOpened,
+    { open: openDeleteModal, close: closeDeleteModal },
+  ] = useDisclosure(false);
+  const [applianceToDelete, setApplianceToDelete] = useState(null);
 
   // Load existing data when component mounts or when existingData changes
   useEffect(() => {
@@ -91,36 +97,42 @@ const ApplianceItems = ({
   };
 
   // Delete appliance item
-  const deleteApplianceItem = (id) => {
+  const handleDeleteConfirmation = (id) => {
     if (applianceItems.length === 1) {
       alert("You must have at least one appliance.");
       return;
     }
 
     // Find the appliance to be deleted
-    const applianceToDelete = applianceItems.find((item) => item.id === id);
+    const appliance = applianceItems.find((item) => item.id === id);
+    if (!appliance) return;
+
+    // Set the appliance to delete and open the modal
+    setApplianceToDelete({ id, name: appliance.name });
+    openDeleteModal();
+  };
+
+  // Confirm delete method
+  const confirmDelete = () => {
     if (!applianceToDelete) return;
 
-    // Ask for confirmation
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${
-        applianceToDelete.name || "this appliance"
-      }"?`
+    // Remove from appliance items
+    setApplianceItems(
+      applianceItems.filter((item) => item.id !== applianceToDelete.id)
     );
 
-    if (confirmDelete) {
-      // Remove from appliance items
-      setApplianceItems(applianceItems.filter((item) => item.id !== id));
-
-      // Remove from appliance data
-      if (applianceToDelete.name) {
-        setApplianceData((prevData) => {
-          const newData = { ...prevData };
-          delete newData[applianceToDelete.name];
-          return newData;
-        });
-      }
+    // Remove from appliance data
+    if (applianceToDelete.name) {
+      setApplianceData((prevData) => {
+        const newData = { ...prevData };
+        delete newData[applianceToDelete.name];
+        return newData;
+      });
     }
+
+    // Close the modal and reset
+    closeDeleteModal();
+    setApplianceToDelete(null);
   };
 
   // Handle opening the usage modal
@@ -270,7 +282,6 @@ const ApplianceItems = ({
       return;
     }
 
-    // Prepare data for parent component
     const setData = {
       id: setId,
       name: setName,
@@ -289,26 +300,21 @@ const ApplianceItems = ({
       return;
     }
 
-    // Initialize realtime database
     const db = getDatabase();
 
     try {
-      // Instead of push, find the existing set and update it
       const applianceSetsRef = ref(db, "users/" + user + "/applianceSets");
 
-      // First, get all sets
       onValue(
         applianceSetsRef,
         (snapshot) => {
           const data = snapshot.val();
 
           if (data) {
-            // Find the key for the set we want to update
             const keys = Object.keys(data);
             const setKey = keys.find((key) => data[key].name === setName);
 
             if (setKey) {
-              // If set exists, update it
               const setRef = ref(
                 db,
                 "users/" + user + "/applianceSets/" + setKey
@@ -317,13 +323,10 @@ const ApplianceItems = ({
                 ...setData,
                 timestamp: Date.now(),
               }).then(() => {
-                // Call the onSave callback with the data
                 onSave(setData);
-                // Return to parent view
                 onBack();
               });
             } else {
-              // If set doesn't exist (which shouldn't happen), create it
               push(applianceSetsRef, {
                 ...setData,
                 timestamp: Date.now(),
@@ -370,7 +373,6 @@ const ApplianceItems = ({
           <p className="font-semibold">Edit usage</p>
         </div>
 
-        {/* Appliance Items */}
         {applianceItems.map((appliance) => (
           <div key={appliance.id} className="flex flex-col gap-1 mb-3">
             <div className="flex items-center gap-3">
@@ -382,14 +384,12 @@ const ApplianceItems = ({
                 placeholder="Appliance name"
               />
 
-              {/* Completed status indicator */}
               {appliance.completed ? (
                 <FaCheck className="text-green-400" size={18} />
               ) : (
                 <FaTimes className="text-red-400" size={18} />
               )}
 
-              {/* Edit usage button */}
               <FaEdit
                 className={`cursor-pointer ${
                   !appliance.name.trim()
@@ -408,7 +408,6 @@ const ApplianceItems = ({
                 }}
               />
 
-              {/* Delete button */}
               <FaTrash
                 className={`cursor-pointer ${
                   applianceItems.length === 1
@@ -418,7 +417,7 @@ const ApplianceItems = ({
                 size={18}
                 onClick={() => {
                   if (applianceItems.length > 1) {
-                    deleteApplianceItem(appliance.id);
+                    handleDeleteConfirmation(appliance.id);
                   }
                 }}
               />
@@ -426,16 +425,14 @@ const ApplianceItems = ({
           </div>
         ))}
 
-        {/* Add New Appliance Button */}
         <button
           onClick={addApplianceItem}
-          className="flex items-center justify-center w-auto py-1 px-5 mt-3 bg-blue-500 hover:bg-blue-600 rounded transition"
+          className="flex items-center justify-center w-auto py-2 px-5 mt-3 bg-cta-bluegreen text-black hover:bg-cta-bluegreen/80 cursoir-pointer rounded transition"
         >
           <FaPlus className="mr-2" /> Add Appliance
         </button>
       </div>
 
-      {/* Usage Modal */}
       <Modal
         opened={opened}
         onClose={close}
@@ -447,7 +444,7 @@ const ApplianceItems = ({
         <div className="text-white">
           <h1 className="text-2xl font-semibold">
             Usage for{" "}
-            <span className="text-blue-400">
+            <span className="text-cta-bluegreen">
               {selectedAppliance ? selectedAppliance.name : "Appliance"}
             </span>
           </h1>
@@ -507,18 +504,18 @@ const ApplianceItems = ({
               Don't know your appliance wattage?{" "}
             </h4>
             <p className="text-[14px] text-white/60 mb-2">
-              <span className="text-blue-400 font-semibold">WattBot</span> will
-              automatically analyze your appliance and get the average wattage
-              for your appliance
+              <span className="text-cta-bluegreen font-semibold">WattBot</span>{" "}
+              will automatically analyze your appliance and get the average
+              wattage for your appliance
             </p>
             <button
               onClick={getWattage}
-              className="bg-blue-500 px-3 py-1 rounded cursor-pointer !text-base flex items-center justify-center"
+              className="bg-cta-bluegreen text-black px-3 py-1 rounded cursor-pointer !text-base flex items-center justify-center"
               disabled={isLoading}
             >
               {isLoading ? (
                 <>
-                  <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+                  <span className="h-5 w-5 border-2 border-black border-t-transparent rounded-full animate-spin mr-2"></span>
                   Analyzing...
                 </>
               ) : (
@@ -595,6 +592,42 @@ const ApplianceItems = ({
           >
             Save
           </button>
+        </div>
+      </Modal>
+
+      {/* Delete Confirmation Modal */}
+      <Modal
+        opened={deleteModalOpened}
+        onClose={closeDeleteModal}
+        title="Confirm Deletion"
+        centered
+        styles={{
+          header: {
+            backgroundColor: "#13171C",
+            padding: "16px",
+            color: "white",
+          },
+          content: {
+            backgroundColor: "#13171C",
+          },
+        }}
+      >
+        <div className="text-white p-2">
+          <p className="mb-4">
+            Are you sure you want to delete "
+            <span className="text-cta-bluegreen">
+              {applianceToDelete?.name || "this appliance"}
+            </span>
+            "?
+          </p>
+          <div className="flex justify-end space-x-4">
+            <Button variant="outline" onClick={closeDeleteModal} color="gray">
+              Cancel
+            </Button>
+            <Button variant="filled" color="red" onClick={confirmDelete}>
+              Delete
+            </Button>
+          </div>
         </div>
       </Modal>
     </div>

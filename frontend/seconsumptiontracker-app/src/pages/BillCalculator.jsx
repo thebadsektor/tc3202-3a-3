@@ -9,12 +9,13 @@ import {
 } from "react-icons/fa";
 import { IoMdHome } from "react-icons/io";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, NativeSelect, NumberInput, Chip } from "@mantine/core";
+import { Modal, NativeSelect, NumberInput, Chip, Button } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 // Import Firebase functionality from your firebase.js file
 import { database } from "../firebase"; // Adjust the path as needed
 import { ref, get, set, remove, update, onValue } from "firebase/database";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { Spinner } from "@heroui/spinner";
 
 export default function DynamicTextFields() {
   const [fields, setFields] = useState([
@@ -36,6 +37,9 @@ export default function DynamicTextFields() {
 
   const [applianceSets, setApplianceSets] = useState({});
   const [importModalOpened, setImportModalOpened] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [fieldToDelete, setFieldToDelete] = useState(null);
+
   const [selectedSetId, setSelectedSetId] = useState("");
 
   // Fetch user data from Firebase when component mounts
@@ -327,23 +331,19 @@ export default function DynamicTextFields() {
     }
   };
 
-  // When opening the import modal, automatically select the first set if there's only one
   const openImportModal = async () => {
-    await fetchApplianceSets(); // Wait for the fetch to complete
+    await fetchApplianceSets();
 
-    // After fetching sets, automatically select the first one if there's only one or if none is selected
     const setIds = Object.keys(applianceSets);
     if (setIds.length === 1) {
       setSelectedSetId(setIds[0]);
     } else if (setIds.length > 0 && !selectedSetId) {
-      // If multiple sets but none selected, select the first one
       setSelectedSetId(setIds[0]);
     }
 
     setImportModalOpened(true);
   };
 
-  // Add new text field
   const addField = () => {
     setFields([
       ...fields,
@@ -351,7 +351,6 @@ export default function DynamicTextFields() {
     ]);
   };
 
-  // Save data to Firebase
   const saveToFirebase = async () => {
     try {
       if (!userDetails || !currentSetId) {
@@ -359,14 +358,12 @@ export default function DynamicTextFields() {
         return;
       }
 
-      // Get user email from localStorage
       const userEmail = localStorage.getItem("userEmail");
       if (!userEmail) {
         console.log("No user email found in localStorage");
         return;
       }
 
-      // Find the user based on email
       const usersRef = ref(database, "users");
       const usersSnapshot = await get(usersRef);
 
@@ -375,7 +372,6 @@ export default function DynamicTextFields() {
         return;
       }
 
-      // Find the user node where email matches
       let userId = null;
 
       usersSnapshot.forEach((userSnapshot) => {
@@ -391,7 +387,6 @@ export default function DynamicTextFields() {
         return;
       }
 
-      // Prepare the data to save
       const appliancesToSave = {};
 
       fields.forEach((field, index) => {
@@ -410,7 +405,6 @@ export default function DynamicTextFields() {
         }
       });
 
-      // Save to Firebase
       const appliancesRef = ref(
         database,
         `users/${userId}/applianceSets/${currentSetId}/appliances`
@@ -423,46 +417,41 @@ export default function DynamicTextFields() {
     }
   };
 
-  const deleteField = (id) => {
+  const handleDeleteConfirmation = (id) => {
     if (fields.length === 1) {
       alert("You must have at least one appliance.");
       return;
     }
 
-    // Find the field to be deleted to get its name
-    const fieldToDelete = fields.find((f) => f.id === id);
-    if (!fieldToDelete) return;
+    const field = fields.find((f) => f.id === id);
+    if (!field) return;
 
-    // Ask for confirmation before deleting
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete "${
-        fieldToDelete.text || "this appliance"
-      }"?`
-    );
-
-    if (confirmDelete) {
-      // Remove from fields array
-      setFields(fields.filter((f) => f.id !== id));
-
-      // Also remove the appliance data if it exists
-      if (fieldToDelete.text) {
-        setApplianceData((prevData) => {
-          const newData = { ...prevData };
-          delete newData[fieldToDelete.text];
-          return newData;
-        });
-      }
-
-      console.log(`Deleted appliance: ${fieldToDelete.text || "Unnamed"}`);
-
-      // Save changes to Firebase after deleting
-      saveToFirebase();
-    }
+    setFieldToDelete(field);
+    setDeleteModal(true);
   };
 
-  // Calculate action with validation
+  const confirmDelete = () => {
+    if (!fieldToDelete) return;
+
+    // Perform deletion
+    setFields(fields.filter((f) => f.id !== fieldToDelete.id));
+
+    if (fieldToDelete.text) {
+      setApplianceData((prevData) => {
+        const newData = { ...prevData };
+        delete newData[fieldToDelete.text];
+        return newData;
+      });
+    }
+
+    saveToFirebase();
+
+    // Close modal and reset
+    setDeleteModal(false);
+    setFieldToDelete(null);
+  };
+
   const calculate = () => {
-    // Check if any field is incomplete
     const hasIncompleteFields = fields.some((field) => !field.completed);
 
     if (hasIncompleteFields) {
@@ -476,7 +465,6 @@ export default function DynamicTextFields() {
 
     const electricityRate = 12.1901;
 
-    // Convert object to array of entries with name included
     const applianceResults = Object.entries(applianceData).map(
       ([name, data]) => {
         const { watt, hours, days, weeks, quant } = data;
@@ -484,7 +472,6 @@ export default function DynamicTextFields() {
 
         const weeksNumber = parseInt(weeks.split(" ")[0], 10);
 
-        // Calculate costs considering quantity
         const quantity = parseInt(quant, 10) || 1;
         const costPerHour = kWh * electricityRate * quantity;
         const costPerDay = costPerHour * hours;
@@ -492,36 +479,32 @@ export default function DynamicTextFields() {
         const costPerMonth = costPerWeek * weeksNumber;
 
         return {
-          name, // Include the appliance name
+          name,
           ...data,
           costPerHour,
           costPerDay,
           costPerWeek,
           costPerMonth,
-          quantity, // Include quantity in the results
+          quantity,
         };
       }
     );
 
-    // Compute total cost
     const totalCost = applianceResults.reduce(
       (sum, appliance) => sum + appliance.costPerMonth,
       0
     );
 
-    // Compute total cost per day
     const totalCostPerDay = applianceResults.reduce(
       (sum, appliance) => sum + appliance.costPerDay,
       0
     );
 
-    // Compute total cost per week
     const totalCostPerWeek = applianceResults.reduce(
       (sum, appliance) => sum + appliance.costPerWeek,
       0
     );
 
-    // Compute total cost per hour
     const totalCostPerHour = applianceResults.reduce(
       (sum, appliance) => sum + appliance.costPerHour,
       0
@@ -567,7 +550,6 @@ export default function DynamicTextFields() {
       },
     }));
 
-    // Mark the field as completed
     setFields(
       fields.map((f) =>
         f.id === selectedField.id ? { ...f, completed: true } : f
@@ -577,27 +559,22 @@ export default function DynamicTextFields() {
     setSelectedField(null);
     close();
 
-    // Save to Firebase after updating local state
     setTimeout(() => {
       saveToFirebase();
     }, 100);
   };
 
-  //Modal, to open the usage pop up
   const [opened, { open, close }] = useDisclosure(false);
 
-  // Get wattage using api
   const getWattage = async () => {
     if (!selectedField || !selectedField.text.trim()) {
       alert("Please enter an appliance name first");
       return;
     }
 
-    // Set loading to true at the start
     setIsLoading(true);
 
     try {
-      // Make the API request to your Django backend
       const response = await fetch(
         `http://127.0.0.1:8000/wattdabork/get-wattage/?appliance=${encodeURIComponent(
           selectedField.text
@@ -612,10 +589,8 @@ export default function DynamicTextFields() {
 
       const data = await response.json();
 
-      // Extract the wattage value from the response
       let wattageValue;
       if (typeof data === "object" && data.wattage_info) {
-        // Try to extract just the number
         const matches = data.wattage_info.match(/\d+/);
         wattageValue = matches ? parseInt(matches[0]) : null;
       } else if (typeof data === "string") {
@@ -626,7 +601,6 @@ export default function DynamicTextFields() {
       }
 
       if (wattageValue) {
-        // Update the appliance data with the fetched wattage
         setApplianceData((prev) => ({
           ...prev,
           [selectedField.text]: {
@@ -641,7 +615,6 @@ export default function DynamicTextFields() {
       console.error("Error fetching wattage:", error);
       alert(`Failed to get wattage: ${error.message}`);
     } finally {
-      // Set loading back to false regardless of success or failure
       setIsLoading(false);
     }
   };
@@ -649,9 +622,12 @@ export default function DynamicTextFields() {
   if (dataLoading) {
     return (
       <div className="w-full h-screen flex items-center justify-center">
-        <div className="text-white text-center">
-          <div className="inline-block h-12 w-12 border-t-2 border-b-2 border-white rounded-full animate-spin mb-4"></div>
-          <p>Loading your appliances...</p>
+        <div className="relative w-8 h-8">
+          <div className="w-full h-full rounded-full border-4 border-gray-100 opacity-25"></div>
+          <div
+            className="absolute top-0 left-0 w-full h-full rounded-full border-4 border-transparent border-t-[#0BFEFA] animate-spin"
+            style={{ borderTopColor: "#0BFEFA" }}
+          ></div>
         </div>
       </div>
     );
@@ -662,9 +638,11 @@ export default function DynamicTextFields() {
       <div className="w-full h-screen flex items-start justify-center mt-[15vh]">
         <div className="max-w-lg mx-auto p-5 text-white rounded-lg shadow-lg">
           <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
-            <IoMdHome /> Home / Bill Calculator
+            <IoMdHome /> Home / Energy consumption calculator
           </span>
-          <h2 className="text-4xl font-bold mb-3">Bill Calculator</h2>
+          <h2 className="text-4xl font-bold mb-3">
+            Energy Consumption Calculator
+          </h2>
 
           <p className="mb-5 text-white/60">
             Know how much your appliances and gadgets consume so you can stay in
@@ -738,11 +716,10 @@ export default function DynamicTextFields() {
                       )
                     );
                   }}
-                  className="flex-1 p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none"
+                  className="flex-1 !text-xl p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none"
                   placeholder="Appliance name"
                 />
 
-                {/* Show check only if completed */}
                 {field.completed ? (
                   <FaCheck
                     className="text-green-400 cursor-pointer"
@@ -752,7 +729,6 @@ export default function DynamicTextFields() {
                   <FaTimes className="text-red-400 cursor-pointer" size={18} />
                 )}
 
-                {/* Edit button with validation */}
                 <FaEdit
                   className={`cursor-pointer ${
                     !field.text.trim()
@@ -766,10 +742,8 @@ export default function DynamicTextFields() {
                       return;
                     }
 
-                    // Set the selected field correctly
                     setSelectedField(field);
 
-                    // Load saved data (or set default values if new)
                     const savedData = applianceData[field.text] || {
                       hours: "",
                       watt: "",
@@ -778,7 +752,6 @@ export default function DynamicTextFields() {
                       quant: 1,
                     };
 
-                    // Set selected days from the appliance data
                     setSelectedDays(savedData.days || []);
                     setWeeks(savedData.weeks || "1 Week");
 
@@ -787,7 +760,7 @@ export default function DynamicTextFields() {
                       [field.text]: savedData,
                     }));
 
-                    open(); // Open the modal
+                    open();
                   }}
                 />
 
@@ -800,43 +773,40 @@ export default function DynamicTextFields() {
                   size={18}
                   onClick={() => {
                     if (fields.length > 1) {
-                      deleteField(field.id);
+                      handleDeleteConfirmation(field.id);
                     }
                   }}
                 />
               </div>
 
-              {/* Error message below the input */}
               {field.error && (
                 <p className="text-red-500 text-sm">{field.error}</p>
               )}
             </div>
           ))}
 
-          {/* Add New Field Button */}
           <div className="flex justify-between">
             <button
               onClick={addField}
-              className="flex items-center justify-center w-auto py-1 px-5 mt-2 bg-blue-500 hover:bg-blue-600 rounded transition"
+              className="flex items-center justify-center w-auto py-2 px-5 mt-2 bg-cta-bluegreen hover:bg-cta-bluegreen/80 cursor-pointer text-black rounded transition"
             >
               <FaPlus className="mr-2" /> Add Appliance
             </button>
 
             <button
               onClick={openImportModal}
-              className="mt-2 py-1 px-5 bg-blue-500 hover:bg-blue-600 rounded transition"
+              className="mt-2 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition"
             >
               Import
             </button>
           </div>
 
-          {/* Calculate Button */}
           <button
             onClick={calculate}
-            className={`w-full mt-12 py-2 rounded transition ${
+            className={`w-full mt-12 py-2 rounded transition cursor-pointer ${
               fields.some((field) => !field.completed)
-                ? "bg-green-800/50 cursor-not-allowed" // Disabled appearance
-                : "bg-green-500 hover:bg-green-600" // Enabled appearance
+                ? "bg-green-800/50 cursor-not-allowed"
+                : "bg-green-500 hover:bg-green-600"
             }`}
           >
             Calculate
@@ -848,14 +818,14 @@ export default function DynamicTextFields() {
         opened={opened}
         onClose={close}
         styles={{
-          header: { backgroundColor: "#13171C", padding: "16px" }, // Top part
-          content: { backgroundColor: "#13171C" }, // Main content area
+          header: { backgroundColor: "#13171C", padding: "16px" },
+          content: { backgroundColor: "#13171C" },
         }}
       >
         <div className="text-white">
           <h1 className="text-2xl font-semibold">
             Usage for{" "}
-            <span className="text-blue-400">
+            <span className="text-cta-bluegreen">
               {selectedField ? selectedField.text : "Appliance"}
             </span>
           </h1>
@@ -914,18 +884,18 @@ export default function DynamicTextFields() {
               Don't know your appliance wattage?{" "}
             </h4>
             <p className="text-[14px] text-white/60 mb-2">
-              <span className="text-blue-400 font-semibold">WattBot</span> will
-              automatically analyze your appliance and get the average wattage
-              for your appliance
+              <span className="text-cta-bluegreen font-semibold">WattBot</span>{" "}
+              will automatically analyze your appliance and get the average
+              wattage for your appliance
             </p>
             <button
               onClick={getWattage}
-              className="bg-blue-500 px-3 py-1 rounded cursor-pointer !text-base flex items-center justify-center"
+              className="bg-cta-bluegreen text-black px-3 py-1 rounded cursor-pointer !text-base flex items-center justify-center"
               disabled={isLoading}
             >
               {isLoading ? (
                 <>
-                  <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+                  <span className="h-5 w-5 border-2 border-black border-t-transparent rounded-full animate-spin mr-2"></span>
                   Analyzing...
                 </>
               ) : (
@@ -962,11 +932,7 @@ export default function DynamicTextFields() {
           <p className="mb-3 mt-5">
             Days used per week<span className="text-red-400">*</span>
           </p>
-          <Chip.Group
-            multiple
-            value={selectedDays} // Bind to selectedDays state
-            onChange={setSelectedDays} // Directly update state
-          >
+          <Chip.Group multiple value={selectedDays} onChange={setSelectedDays}>
             <div className="flex gap-2 flex-wrap mb-3">
               {daysOfWeek.map((day) => (
                 <Chip key={day} value={day} size="lg" radius="xl">
@@ -1008,7 +974,6 @@ export default function DynamicTextFields() {
         </div>
       </Modal>
 
-      {/* Import Modal */}
       <Modal
         opened={importModalOpened}
         onClose={() => setImportModalOpened(false)}
@@ -1048,6 +1013,47 @@ export default function DynamicTextFields() {
           >
             Import
           </button>
+        </div>
+      </Modal>
+
+      <Modal
+        opened={deleteModal}
+        onClose={() => setDeleteModal(false)}
+        title="Confirm Deletion"
+        styles={{
+          header: {
+            backgroundColor: "#13171C",
+            padding: "16px",
+            color: "white",
+          },
+          content: { backgroundColor: "#13171C" },
+        }}
+        centered
+      >
+        <div className="text-white p-2">
+          <p className="mb-4 pr-2">
+            Are you sure you want to delete "
+            <span className="text-cta-bluegreen">
+              {fieldToDelete?.text || "this appliance"}"?
+            </span>
+          </p>
+          <div className="flex justify-end space-x-4">
+            <Button
+              variant="outline"
+              onClick={() => setDeleteModal(false)}
+              color="gray"
+              className="text-white border-gray-500 hover:bg-gray-700"
+            >
+              Cancel
+            </Button>
+            <Button
+              color="red"
+              onClick={confirmDelete}
+              className="bg-red-500 hover:bg-red-600"
+            >
+              Delete
+            </Button>
+          </div>
         </div>
       </Modal>
     </>
