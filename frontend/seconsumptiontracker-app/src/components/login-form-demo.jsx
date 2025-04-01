@@ -80,7 +80,7 @@ export default function LoginFormDemo() {
           });
         }
 
-        navigate("/dashboard", { replace: true });
+        navigate("/profile", { replace: true });
       } else {
         setErrors({
           ...errors,
@@ -157,7 +157,7 @@ export default function LoginFormDemo() {
         localStorage.setItem("lastVisitedPage", "/dashboard");
 
         setRedirecting(true);
-        setTimeout(() => navigate("/dashboard"), 2000);
+        setTimeout(() => navigate("/profile"), 2000);
       } else {
         setErrors({
           ...errors,

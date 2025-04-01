@@ -33,14 +33,23 @@ function App() {
           <Route exact path="/login-form" element={<LoginFormDemo />} />
           <Route exact path="/signup-form" element={<SignupFormDemo />} />
           <Route exact path="/bill-calculator" element={<BillCalculator />} />
-          <Route exact path="/profile" element={<ProfilePage />} />
           <Route exact path="/bill-prediction" element={<BillPrediction />} />
-          <Route exact path="/forgot-password-form" element={<ForgotPassword />} />
+          <Route
+            exact
+            path="/forgot-password-form"
+            element={<ForgotPassword />}
+          />
 
           {/* Private route for user dashboard */}
           <Route
             path="/dashboard"
             element={<PrivateRoute element={<UserDashboard />} />}
+          />
+
+          {/* Private route for user dashboard */}
+          <Route
+            path="/profile"
+            element={<PrivateRoute element={<ProfilePage />} />}
           />
 
           <Route exact path="/bill-output" element={<BillCalcuOutput />} />
