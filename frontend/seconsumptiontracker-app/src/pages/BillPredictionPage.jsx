@@ -10,12 +10,14 @@ export default function BillPrediction() {
   const [month, setMonth] = useState(null);
   const [modalOpened, setModalOpened] = useState(false);
   const [applianceSets, setApplianceSets] = useState([]);
-  const [selectedApplianceSet, setSelectedApplianceSet] = useState(null);
-  const [selectedApplianceData, setSelectedApplianceData] = useState(null);
+  const [selectedApplianceSets, setSelectedApplianceSets] = useState([]);
   const [expandedAppliances, setExpandedAppliances] = useState({});
   const [loading, setLoading] = useState(true);
   const [authInitialized, setAuthInitialized] = useState(false);
   const [user, setUser] = useState(null);
+  const [selectedSetsData, setSelectedSetsData] = useState({});
+  const [tempSelectedSets, setTempSelectedSets] = useState([]);
+  const [expandedSets, setExpandedSets] = useState({});
 
   // First, set up an auth state listener to ensure we have auth before fetching data
   useEffect(() => {
@@ -102,54 +104,113 @@ export default function BillPrediction() {
     return () => unsubscribe();
   }, [user, authInitialized]);
 
-  const openModal = () => setModalOpened(true);
+  const openModal = () => {
+    setTempSelectedSets([...selectedApplianceSets]);
+    setModalOpened(true);
+  };
   const closeModal = () => setModalOpened(false);
 
-  const handleImport = (applianceSetKey) => {
-    console.log("Selected appliance set key:", applianceSetKey);
+  const toggleApplianceExpand = (setKey, applianceKey) => {
+    const combinedKey = `${setKey}-${applianceKey}`;
+    setExpandedAppliances((prev) => ({
+      ...prev,
+      [combinedKey]: !prev[combinedKey],
+    }));
+  };
 
-    // Find the selected appliance set data
-    const selectedSet = applianceSets.find(
-      (set) => set.value === applianceSetKey
-    );
-    setSelectedApplianceSet(applianceSetKey);
-
-    if (selectedSet && selectedSet.allAppliances) {
-      console.log("Using cached appliance data");
-      setSelectedApplianceData(selectedSet.allAppliances);
-    } else {
-      // If we don't have the data in state already, fetch it from Firebase
-      if (user) {
-        console.log("Fetching fresh appliance data");
-        const db = getDatabase();
-        const applianceSetRef = ref(
-          db,
-          `users/${user.uid}/applianceSets/${applianceSetKey}/appliances`
-        );
-
-        get(applianceSetRef)
-          .then((snapshot) => {
-            if (snapshot.exists()) {
-              const data = snapshot.val();
-              console.log("Fetched appliance data:", data);
-              setSelectedApplianceData(data);
-            } else {
-              console.log("No appliance data found");
-            }
-          })
-          .catch((error) => {
-            console.error("Error fetching appliance data:", error);
-          });
+  const toggleApplianceSetSelection = (applianceSetKey) => {
+    setTempSelectedSets((prev) => {
+      if (prev.includes(applianceSetKey)) {
+        return prev.filter((key) => key !== applianceSetKey);
+      } else {
+        return [...prev, applianceSetKey];
       }
-    }
+    });
+  };
 
+  const handleConfirmSelection = () => {
+    setSelectedApplianceSets(tempSelectedSets);
+    // Clear previous data
+    const newSelectedSetsData = {};
+
+    // Process each selected appliance set
+    tempSelectedSets.forEach((applianceSetKey) => {
+      const selectedSet = applianceSets.find(
+        (set) => set.value === applianceSetKey
+      );
+
+      if (selectedSet) {
+        // Store the set data with the set key
+        newSelectedSetsData[applianceSetKey] = {
+          label: selectedSet.label,
+          appliances: selectedSet.allAppliances || {},
+        };
+
+        // If we don't have cached appliance data, fetch it
+        if (
+          !selectedSet.allAppliances ||
+          Object.keys(selectedSet.allAppliances).length === 0
+        ) {
+          if (user) {
+            const db = getDatabase();
+            const applianceSetRef = ref(
+              db,
+              `users/${user.uid}/applianceSets/${applianceSetKey}/appliances`
+            );
+
+            get(applianceSetRef)
+              .then((snapshot) => {
+                if (snapshot.exists()) {
+                  const data = snapshot.val();
+                  // Update this specific set's appliances
+                  setSelectedSetsData((prev) => ({
+                    ...prev,
+                    [applianceSetKey]: {
+                      ...prev[applianceSetKey],
+                      appliances: data,
+                    },
+                  }));
+                }
+              })
+              .catch((error) => {
+                console.error("Error fetching appliance data:", error);
+              });
+          }
+        }
+      }
+    });
+
+    // Update state with all the new data
+    setSelectedSetsData(newSelectedSetsData);
     closeModal();
   };
 
-  const toggleApplianceExpand = (applianceKey) => {
-    setExpandedAppliances((prev) => ({
+  // function to toggle all appliances in a set
+  const toggleViewAllAppliances = (setKey) => {
+    const isCurrentlyExpanded = expandedSets[setKey];
+
+    // Get all appliance keys for this set
+    const applianceKeys = Object.keys(
+      selectedSetsData[setKey]?.appliances || {}
+    );
+
+    // Create a new expandedAppliances state
+    const newExpandedAppliances = { ...expandedAppliances };
+
+    // For each appliance in this set
+    applianceKeys.forEach((applianceKey) => {
+      const combinedKey = `${setKey}-${applianceKey}`;
+      // If we're expanding, set all to true. If collapsing, set all to false
+      newExpandedAppliances[combinedKey] = !isCurrentlyExpanded;
+    });
+
+    // Update expanded appliances state
+    setExpandedAppliances(newExpandedAppliances);
+
+    // Toggle the expanded state of this set
+    setExpandedSets((prev) => ({
       ...prev,
-      [applianceKey]: !prev[applianceKey],
+      [setKey]: !prev[setKey],
     }));
   };
 
@@ -198,85 +259,113 @@ export default function BillPrediction() {
             </div>
           )}
 
-          {selectedApplianceSet && selectedApplianceData && (
-            <div className="mt-4 p-4 bg-gray-800 rounded">
-              <h3 className="text-xl font-semibold mb-3">
-                Selected Appliance Set:{" "}
-                <span className="text-cta-bluegreen">
-                  {applianceSets.find(
-                    (set) => set.value === selectedApplianceSet
-                  )?.label || selectedApplianceSet}
-                </span>
-              </h3>
+          {/* Display selected appliance sets */}
+          {selectedApplianceSets.length > 0 && (
+            <div className="mt-4 space-y-4">
+              {selectedApplianceSets.map((setKey) => {
+                const setData = selectedSetsData[setKey] || {};
+                const appliances = setData.appliances || {};
 
-              <div className="space-y-2">
-                <h4 className="text-lg font-medium">Appliances:</h4>
-                <ul className="space-y-2">
-                  {Object.entries(selectedApplianceData).map(
-                    ([key, appliance]) => (
-                      <li
-                        key={key}
-                        className="bg-gray-700 rounded overflow-hidden"
-                      >
-                        <div
-                          className="flex items-center justify-between p-2 cursor-pointer hover:bg-gray-600 transition"
-                          onClick={() => toggleApplianceExpand(key)}
+                return (
+                  <div key={setKey} className="p-4 bg-gray-800 rounded">
+                    <h3 className="text-xl font-semibold mb-3">
+                      Selected Set:{" "}
+                      <span className="text-cta-bluegreen">
+                        {setData.label || setKey}
+                      </span>
+                    </h3>
+
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center">
+                        <h4 className="text-lg font-medium">Appliances:</h4>
+                        <button
+                          onClick={() => toggleViewAllAppliances(setKey)}
+                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline"
                         >
-                          <span>{appliance.name}</span>
-                          <span className="flex items-center">
-                            {expandedAppliances[key] ? (
-                              <FiChevronDown />
-                            ) : (
-                              <FiChevronRight />
-                            )}
-                          </span>
-                        </div>
+                          {expandedSets[setKey] ? "Collapse All" : "View All"}
+                        </button>
+                      </div>
+                      <ul className="space-y-2">
+                        {Object.keys(appliances).length > 0 ? (
+                          Object.entries(appliances).map(([key, appliance]) => (
+                            <li
+                              key={key}
+                              className="bg-gray-700 rounded overflow-hidden"
+                            >
+                              <div
+                                className="flex items-center justify-between p-2 cursor-pointer hover:bg-gray-600 transition"
+                                onClick={() =>
+                                  toggleApplianceExpand(setKey, key)
+                                }
+                              >
+                                <span>{appliance.name}</span>
+                                <span className="flex items-center">
+                                  {expandedAppliances[`${setKey}-${key}`] ? (
+                                    <FiChevronDown />
+                                  ) : (
+                                    <FiChevronRight />
+                                  )}
+                                </span>
+                              </div>
 
-                        {expandedAppliances[key] && (
-                          <div className="p-3 bg-gray-800 border-t border-gray-600 space-y-2">
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">Wattage:</span>
-                              <span>{appliance.watt} W</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">Quantity:</span>
-                              <span>{appliance.quant}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">
-                                Hours per day:
-                              </span>
-                              <span>{appliance.hours}</span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">Days:</span>
-                              <span>
-                                {Array.isArray(appliance.days)
-                                  ? appliance.days.join(", ")
-                                  : appliance.days || "N/A"}
-                              </span>
-                            </div>
-                            <div className="flex justify-between">
-                              <span className="text-gray-400">Weeks:</span>
-                              <span>{appliance.weeks}</span>
-                            </div>
-                          </div>
+                              {expandedAppliances[`${setKey}-${key}`] && (
+                                <div className="p-3 bg-gray-800 border-t border-gray-600 space-y-2">
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">
+                                      Wattage:
+                                    </span>
+                                    <span>{appliance.watt} W</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">
+                                      Quantity:
+                                    </span>
+                                    <span>{appliance.quant}</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">
+                                      Hours per day:
+                                    </span>
+                                    <span>{appliance.hours}</span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">Days:</span>
+                                    <span>
+                                      {Array.isArray(appliance.days)
+                                        ? appliance.days.join(", ")
+                                        : appliance.days || "N/A"}
+                                    </span>
+                                  </div>
+                                  <div className="flex justify-between">
+                                    <span className="text-gray-400">
+                                      Weeks:
+                                    </span>
+                                    <span>{appliance.weeks}</span>
+                                  </div>
+                                </div>
+                              )}
+                            </li>
+                          ))
+                        ) : (
+                          <li className="text-gray-400">
+                            No appliances found in this set.
+                          </li>
                         )}
-                      </li>
-                    )
-                  )}
-                </ul>
-              </div>
+                      </ul>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
       </div>
 
-      {/* Import Modal */}
+      {/* Import Modal with Checkboxes */}
       <Modal
         opened={modalOpened}
         onClose={closeModal}
-        title="Select Appliance Set"
+        title="Select Appliance Sets"
         styles={{
           title: { color: "white", fontWeight: "bold" },
           header: { backgroundColor: "#2C2E33" },
@@ -289,13 +378,44 @@ export default function BillPrediction() {
             <p>Loading appliance sets...</p>
           ) : applianceSets.length > 0 ? (
             <>
-              <Select
-                label="Available Appliance Sets"
-                placeholder="Select an appliance set"
-                data={applianceSets}
-                onChange={handleImport}
-                searchable
-              />
+              <h3 className="mb-2">Available Appliance Sets</h3>
+              <div className="space-y-2 max-h-60 overflow-y-auto">
+                {applianceSets.map((set) => (
+                  <div
+                    key={set.value}
+                    className="flex items-center p-2 bg-gray-700 rounded hover:bg-gray-600"
+                  >
+                    <input
+                      type="checkbox"
+                      id={`set-${set.value}`}
+                      checked={tempSelectedSets?.includes(set.value)}
+                      onChange={() => toggleApplianceSetSelection(set.value)}
+                      className="mr-3"
+                    />
+                    <label
+                      htmlFor={`set-${set.value}`}
+                      className="cursor-pointer flex-1"
+                    >
+                      {set.label}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-6 flex justify-end space-x-3">
+                <button
+                  onClick={closeModal}
+                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmSelection}
+                  className="py-2 px-4 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded"
+                  disabled={!tempSelectedSets.length}
+                >
+                  Confirm Selection
+                </button>
+              </div>
             </>
           ) : (
             <p>No appliance sets found. Please create one first.</p>
