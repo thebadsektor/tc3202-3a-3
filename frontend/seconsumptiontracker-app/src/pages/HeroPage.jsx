@@ -437,7 +437,7 @@ function HeroPage() {
               </section>
             </div>
           </section>
-          <section className="h-screen"></section>
+          <section className="h-20"></section>
         </div>
       </ClickSpark>
     </>

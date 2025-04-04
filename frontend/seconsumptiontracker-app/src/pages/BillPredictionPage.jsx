@@ -216,7 +216,7 @@ export default function BillPrediction() {
 
   return (
     <>
-      <div className="w-full h-screen flex items-start justify-center mt-[15vh]">
+      <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
         <div className="w-2xl mx-auto p-5 text-white rounded-lg shadow-lg">
           <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
             <IoMdHome /> Home / Bill Prediction
@@ -422,6 +422,7 @@ export default function BillPrediction() {
           )}
         </div>
       </Modal>
+      <section className="h-20"></section>
     </>
   );
 }
