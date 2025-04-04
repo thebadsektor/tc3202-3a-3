@@ -54,6 +54,7 @@ function App() {
 
           <Route exact path="/bill-output" element={<BillCalcuOutput />} />
         </Routes>
+        <Footer />
       </MantineProvider>
     </Router>
   );
