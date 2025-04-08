@@ -7,7 +7,9 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, onValue, get } from "firebase/database";
 
 export default function BillPrediction() {
-  const [month, setMonth] = useState(null);
+  // lock in default april lang muna
+  const [month, setMonth] = useState(new Date(2025, 3, 1));
+
   const [modalOpened, setModalOpened] = useState(false);
   const [applianceSets, setApplianceSets] = useState([]);
   const [selectedApplianceSets, setSelectedApplianceSets] = useState([]);
@@ -244,6 +246,7 @@ export default function BillPrediction() {
               placeholder="Select Month"
               value={month}
               onChange={setMonth}
+              disabled
               classNames={{
                 input:
                   "!bg-gray-800 !text-white !border-gray-600 !w-auto !py-2 mt-2",
@@ -261,7 +264,7 @@ export default function BillPrediction() {
 
           {/* Display selected appliance sets */}
           {selectedApplianceSets.length > 0 && (
-            <div className="mt-4 space-y-4">
+            <div className="mt-15 space-y-4">
               {selectedApplianceSets.map((setKey) => {
                 const setData = selectedSetsData[setKey] || {};
                 const appliances = setData.appliances || {};
@@ -356,12 +359,19 @@ export default function BillPrediction() {
                   </div>
                 );
               })}
+
+              {/* Button to calculate prediction */}
+              <button
+                className="w-full mt-2 py-2 px-5 bg-green-400 hover:bg-green-400/80 text-black cursor-pointer rounded transition"
+                disabled={!user || loading}
+              >
+                Calculate
+              </button>
             </div>
           )}
         </div>
       </div>
 
-      {/* Import Modal with Checkboxes */}
       <Modal
         opened={modalOpened}
         onClose={closeModal}
