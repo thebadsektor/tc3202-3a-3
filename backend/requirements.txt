@@ -6,3 +6,21 @@ firebase-admin
 python-dotenv
 google-genai
 dotenv
+# Core libraries
+numpy
+pandas
+scikit-learn
+
+# XGBoost model
+xgboost
+
+# Time series modeling
+statsmodels
+pmdarima
+
+# Plotting (optional)
+matplotlib
+seaborn
+
+# Model serialization
+joblib

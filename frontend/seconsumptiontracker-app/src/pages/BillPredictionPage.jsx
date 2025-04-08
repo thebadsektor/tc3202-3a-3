@@ -216,6 +216,64 @@ export default function BillPrediction() {
     }));
   };
 
+  const handlePrediction = async () => {
+    const selectedMonth = month.toISOString().slice(0, 7); // e.g., "2025-04"
+  
+    try {
+      //Get predicted rate for the month from backend
+      //fixed pa 'yung month sa april lang
+      const res = await fetch("http://localhost:8000/api/predict/", {
+        method: "GET",
+      });
+  
+      const data = await res.json();
+
+      const predictedRate = data.prediction; 
+      console.log("Predicted rate for the month:", predictedRate);
+  
+      // Calculate total consumption in kWh
+      let totalKWh = 0;
+  
+      selectedApplianceSets.forEach((setKey) => {
+        const setData = selectedSetsData[setKey];
+        const appliances = setData?.appliances || {};
+  
+        Object.values(appliances).forEach((appliance) => {
+          const watts = parseFloat(appliance.watt) || 0;
+          const hours = parseFloat(appliance.hours) || 0;
+          const quantity = parseInt(appliance.quant) || 1;
+          const days = Array.isArray(appliance.days) ? appliance.days.length : 7;
+          const weeks = parseFloat(appliance.weeks) || 4;
+  
+          // Calculate monthly consumption based on days per week and weeks per month
+          const dailyKWh = (watts * hours * quantity) / 1000;
+          const monthlyKWh = dailyKWh * days * weeks / 7; // Convert days per week to monthly
+          totalKWh += monthlyKWh;
+        });
+      });
+  
+      //Calculate total predicted bill
+      const totalBill = totalKWh * predictedRate;
+      console.log("Total kWh:", totalKWh);
+      console.log("Predicted rate:", predictedRate);
+  
+      // display
+      alert(`Predicted Electricity Bill Summary:
+      - Monthly Consumption: ${totalKWh.toFixed(2)} kWh
+      - Predicted Rate: ₱${predictedRate.toFixed(4)} per kWh
+      - Total Bill: ₱${totalBill.toFixed(2)}`);
+    } catch (err) {
+      console.error("Prediction failed:", err);
+      alert("Error while predicting. Please try again.");
+    }
+  };
+
+  
+  
+  
+  
+
+
   return (
     <>
       <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
@@ -362,6 +420,7 @@ export default function BillPrediction() {
 
               {/* Button to calculate prediction */}
               <button
+               onClick={handlePrediction}
                 className="w-full mt-2 py-2 px-5 bg-green-400 hover:bg-green-400/80 text-black cursor-pointer rounded transition"
                 disabled={!user || loading}
               >

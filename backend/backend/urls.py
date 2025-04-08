@@ -21,4 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('auth_app.urls')),
     path('wattdabork/', include('geminiApi.urls')),
+    path('api/', include('ml_predict.urls')),
 ]

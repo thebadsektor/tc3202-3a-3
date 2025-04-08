@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     
     'auth_app',
     'geminiApi',
+    'ml_predict',
 ]
 
 MIDDLEWARE = [
@@ -58,6 +59,14 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",  # Vite / React dev server
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://localhost:5173",
 ]
 
 ROOT_URLCONF = 'backend.urls'
