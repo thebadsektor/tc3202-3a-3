@@ -222,40 +222,42 @@ export default function BillPrediction() {
 
   const handlePrediction = async () => {
     const selectedMonth = month.toISOString().slice(0, 7); // e.g., "2025-04"
-  
+
     try {
       //Get predicted rate for the month from backend
       //fixed pa 'yung month sa april lang
       const res = await fetch("http://localhost:8000/api/predict/", {
         method: "GET",
       });
-  
+
       const data = await res.json();
 
-      const predictedRate = data.prediction; 
+      const predictedRate = data.prediction;
       console.log("Predicted rate for the month:", predictedRate);
-  
+
       // Calculate total consumption in kWh
       let totalKWh = 0;
-  
+
       selectedApplianceSets.forEach((setKey) => {
         const setData = selectedSetsData[setKey];
         const appliances = setData?.appliances || {};
-  
+
         Object.values(appliances).forEach((appliance) => {
           const watts = parseFloat(appliance.watt) || 0;
           const hours = parseFloat(appliance.hours) || 0;
           const quantity = parseInt(appliance.quant) || 1;
-          const days = Array.isArray(appliance.days) ? appliance.days.length : 7;
+          const days = Array.isArray(appliance.days)
+            ? appliance.days.length
+            : 7;
           const weeks = parseFloat(appliance.weeks) || 4;
-  
+
           // Calculate monthly consumption based on days per week and weeks per month
           const dailyKWh = (watts * hours * quantity) / 1000;
-          const monthlyKWh = dailyKWh * days * weeks / 7; // Convert days per week to monthly
+          const monthlyKWh = (dailyKWh * days * weeks) / 7; // Convert days per week to monthly
           totalKWh += monthlyKWh;
         });
       });
-  
+
       //Calculate total predicted bill
       const totalBill = totalKWh * predictedRate;
       console.log("Total kWh:", totalKWh);
@@ -298,7 +300,7 @@ export default function BillPrediction() {
     const db = getDatabase();
     const predictionRef = ref(
       db,
-      `users/${user.uid}/billPredictions/${formattedMonth}`,
+      `users/${user.uid}/billPredictions/${formattedMonth}`
     );
 
     try {
@@ -307,7 +309,7 @@ export default function BillPrediction() {
 
       if (snapshot.exists()) {
         const userConfirmed = window.confirm(
-          `You already have a saved prediction for ${formattedMonth}. This will overwrite the existing prediction. Do you want to continue?`,
+          `You already have a saved prediction for ${formattedMonth}. This will overwrite the existing prediction. Do you want to continue?`
         );
 
         if (!userConfirmed) {
@@ -347,7 +349,8 @@ export default function BillPrediction() {
             <button
               onClick={openModal}
               className="mt-2 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition"
-              disabled={!user || loading}>
+              disabled={!user || loading}
+            >
               Import
             </button>
             <MonthPickerInput
@@ -391,7 +394,8 @@ export default function BillPrediction() {
                         <h4 className="text-lg font-medium">Appliances:</h4>
                         <button
                           onClick={() => toggleViewAllAppliances(setKey)}
-                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline">
+                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline"
+                        >
                           {expandedSets[setKey] ? "Collapse All" : "View All"}
                         </button>
                       </div>
@@ -400,12 +404,14 @@ export default function BillPrediction() {
                           Object.entries(appliances).map(([key, appliance]) => (
                             <li
                               key={key}
-                              className="bg-gray-700 rounded overflow-hidden">
+                              className="bg-gray-700 rounded overflow-hidden"
+                            >
                               <div
                                 className="flex items-center justify-between p-2 cursor-pointer hover:bg-gray-600 transition"
                                 onClick={() =>
                                   toggleApplianceExpand(setKey, key)
-                                }>
+                                }
+                              >
                                 <span>{appliance.name}</span>
                                 <span className="flex items-center">
                                   {expandedAppliances[`${setKey}-${key}`] ? (
@@ -469,16 +475,17 @@ export default function BillPrediction() {
               <button
                 onClick={handlePrediction}
                 className="w-full mt-2 py-2 px-5 bg-green-400 hover:bg-green-400/80 text-black cursor-pointer rounded transition"
-                disabled={!user || loading}>
+                disabled={!user || loading}
+              >
                 Calculate
               </button>
               {predictionResult && (
                 <div className="mt-5 p-4 bg-gray-800 rounded shadow text-white space-y-3 border border-gray-700">
-                  <h3 className="text-2xl font-bold text-cta-bluegreen">
+                  <h3 className="text-xl font-bold">
                     Predicted Electricity Bill Summary
                   </h3>
 
-                  <div className="flex justify-between border-b border-gray-700 pb-2">
+                  <div className="flex justify-between border-b border-gray-700 pb-2 mt-10">
                     <span>Monthly Consumption:</span>
                     <span className="font-semibold">
                       {predictionResult.totalKWh} kWh
@@ -503,7 +510,8 @@ export default function BillPrediction() {
                     {!isSaved ? (
                       <button
                         onClick={handleSavePrediction}
-                        className="mt-4 py-2 px-5 bg-blue-500 hover:bg-blue-600 text-white rounded transition">
+                        className="mt-4 py-2 px-5 bg-cta-bluegreen  hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer"
+                      >
                         Save Prediction
                       </button>
                     ) : (
@@ -528,7 +536,8 @@ export default function BillPrediction() {
           header: { backgroundColor: "#2C2E33" },
           content: { backgroundColor: "#2C2E33", color: "white" },
           close: { color: "white" },
-        }}>
+        }}
+      >
         <div className="py-4">
           {loading ? (
             <p>Loading appliance sets...</p>
@@ -539,7 +548,8 @@ export default function BillPrediction() {
                 {applianceSets.map((set) => (
                   <div
                     key={set.value}
-                    className="flex items-center p-2 bg-gray-700 rounded hover:bg-gray-600">
+                    className="flex items-center p-2 bg-gray-700 rounded hover:bg-gray-600"
+                  >
                     <input
                       type="checkbox"
                       id={`set-${set.value}`}
@@ -549,7 +559,8 @@ export default function BillPrediction() {
                     />
                     <label
                       htmlFor={`set-${set.value}`}
-                      className="cursor-pointer flex-1">
+                      className="cursor-pointer flex-1"
+                    >
                       {set.label}
                     </label>
                   </div>
@@ -558,13 +569,15 @@ export default function BillPrediction() {
               <div className="mt-6 flex justify-end space-x-3">
                 <button
                   onClick={closeModal}
-                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded">
+                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded"
+                >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmSelection}
                   className="py-2 px-4 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded"
-                  disabled={!tempSelectedSets.length}>
+                  disabled={!tempSelectedSets.length}
+                >
                   Confirm Selection
                 </button>
               </div>
