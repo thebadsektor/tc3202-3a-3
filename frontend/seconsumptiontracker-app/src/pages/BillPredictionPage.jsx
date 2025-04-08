@@ -4,7 +4,7 @@ import { Modal, Select } from "@mantine/core";
 import { IoMdHome } from "react-icons/io";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getDatabase, ref, onValue, get } from "firebase/database";
+import { getDatabase, ref, onValue, get, set } from "firebase/database";
 
 export default function BillPrediction() {
   // lock in default april lang muna
@@ -20,6 +20,10 @@ export default function BillPrediction() {
   const [selectedSetsData, setSelectedSetsData] = useState({});
   const [tempSelectedSets, setTempSelectedSets] = useState([]);
   const [expandedSets, setExpandedSets] = useState({});
+
+  // to handle the prediction result
+  const [predictionResult, setPredictionResult] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
 
   // First, set up an auth state listener to ensure we have auth before fetching data
   useEffect(() => {
@@ -256,23 +260,70 @@ export default function BillPrediction() {
       const totalBill = totalKWh * predictedRate;
       console.log("Total kWh:", totalKWh);
       console.log("Predicted rate:", predictedRate);
-  
+
+      setPredictionResult({
+        totalKWh: totalKWh.toFixed(2),
+        predictedRate: predictedRate.toFixed(4),
+        totalBill: totalBill.toFixed(2),
+      });
+      /*
       // display
       alert(`Predicted Electricity Bill Summary:
       - Monthly Consumption: ${totalKWh.toFixed(2)} kWh
       - Predicted Rate: ₱${predictedRate.toFixed(4)} per kWh
       - Total Bill: ₱${totalBill.toFixed(2)}`);
+      */
     } catch (err) {
       console.error("Prediction failed:", err);
       alert("Error while predicting. Please try again.");
     }
   };
 
-  
-  
-  
-  
+  // save the prediction into the relatime databse
+  const handleSavePrediction = async () => {
+    if (!user || !predictionResult) return;
 
+    const predictionMonth = new Date(month);
+    predictionMonth.setMonth(predictionMonth.getMonth() + 1);
+    const formattedMonth = predictionMonth.toISOString().slice(0, 7); // e.g., "2025-04"
+
+    const predictionData = {
+      month: formattedMonth,
+      totalKWh: predictionResult.totalKWh,
+      predictedRate: predictionResult.predictedRate,
+      totalBill: predictionResult.totalBill,
+      timestamp: Date.now(),
+    };
+
+    const db = getDatabase();
+    const predictionRef = ref(
+      db,
+      `users/${user.uid}/billPredictions/${formattedMonth}`,
+    );
+
+    try {
+      // Check if data already exists for this month
+      const snapshot = await get(predictionRef);
+
+      if (snapshot.exists()) {
+        const userConfirmed = window.confirm(
+          `You already have a saved prediction for ${formattedMonth}. This will overwrite the existing prediction. Do you want to continue?`,
+        );
+
+        if (!userConfirmed) {
+          return; // User canceled, don't save
+        }
+      }
+
+      // Save or overwrite the prediction data
+      await set(predictionRef, predictionData);
+      setIsSaved(true);
+      alert("Prediction saved successfully!");
+    } catch (error) {
+      console.error("Error saving prediction:", error);
+      alert("Failed to save prediction. Please try again.");
+    }
+  };
 
   return (
     <>
@@ -296,8 +347,7 @@ export default function BillPrediction() {
             <button
               onClick={openModal}
               className="mt-2 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition"
-              disabled={!user || loading}
-            >
+              disabled={!user || loading}>
               Import
             </button>
             <MonthPickerInput
@@ -341,8 +391,7 @@ export default function BillPrediction() {
                         <h4 className="text-lg font-medium">Appliances:</h4>
                         <button
                           onClick={() => toggleViewAllAppliances(setKey)}
-                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline"
-                        >
+                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline">
                           {expandedSets[setKey] ? "Collapse All" : "View All"}
                         </button>
                       </div>
@@ -351,14 +400,12 @@ export default function BillPrediction() {
                           Object.entries(appliances).map(([key, appliance]) => (
                             <li
                               key={key}
-                              className="bg-gray-700 rounded overflow-hidden"
-                            >
+                              className="bg-gray-700 rounded overflow-hidden">
                               <div
                                 className="flex items-center justify-between p-2 cursor-pointer hover:bg-gray-600 transition"
                                 onClick={() =>
                                   toggleApplianceExpand(setKey, key)
-                                }
-                              >
+                                }>
                                 <span>{appliance.name}</span>
                                 <span className="flex items-center">
                                   {expandedAppliances[`${setKey}-${key}`] ? (
@@ -420,12 +467,53 @@ export default function BillPrediction() {
 
               {/* Button to calculate prediction */}
               <button
-               onClick={handlePrediction}
+                onClick={handlePrediction}
                 className="w-full mt-2 py-2 px-5 bg-green-400 hover:bg-green-400/80 text-black cursor-pointer rounded transition"
-                disabled={!user || loading}
-              >
+                disabled={!user || loading}>
                 Calculate
               </button>
+              {predictionResult && (
+                <div className="mt-5 p-4 bg-gray-800 rounded shadow text-white space-y-3 border border-gray-700">
+                  <h3 className="text-2xl font-bold text-cta-bluegreen">
+                    Predicted Electricity Bill Summary
+                  </h3>
+
+                  <div className="flex justify-between border-b border-gray-700 pb-2">
+                    <span>Monthly Consumption:</span>
+                    <span className="font-semibold">
+                      {predictionResult.totalKWh} kWh
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-gray-700 pb-2">
+                    <span>Predicted Rate:</span>
+                    <span className="font-semibold">
+                      ₱{predictionResult.predictedRate} / kWh
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-gray-700 pb-4">
+                    <span>Total Predicted Bill:</span>
+                    <span className="font-semibold text-green-400">
+                      ₱{predictionResult.totalBill}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-end">
+                    {!isSaved ? (
+                      <button
+                        onClick={handleSavePrediction}
+                        className="mt-4 py-2 px-5 bg-blue-500 hover:bg-blue-600 text-white rounded transition">
+                        Save Prediction
+                      </button>
+                    ) : (
+                      <div className="mt-4 inline-flex items-center gap-2 text-green-400 font-medium">
+                        Prediction saved
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -440,8 +528,7 @@ export default function BillPrediction() {
           header: { backgroundColor: "#2C2E33" },
           content: { backgroundColor: "#2C2E33", color: "white" },
           close: { color: "white" },
-        }}
-      >
+        }}>
         <div className="py-4">
           {loading ? (
             <p>Loading appliance sets...</p>
@@ -452,8 +539,7 @@ export default function BillPrediction() {
                 {applianceSets.map((set) => (
                   <div
                     key={set.value}
-                    className="flex items-center p-2 bg-gray-700 rounded hover:bg-gray-600"
-                  >
+                    className="flex items-center p-2 bg-gray-700 rounded hover:bg-gray-600">
                     <input
                       type="checkbox"
                       id={`set-${set.value}`}
@@ -463,8 +549,7 @@ export default function BillPrediction() {
                     />
                     <label
                       htmlFor={`set-${set.value}`}
-                      className="cursor-pointer flex-1"
-                    >
+                      className="cursor-pointer flex-1">
                       {set.label}
                     </label>
                   </div>
@@ -473,15 +558,13 @@ export default function BillPrediction() {
               <div className="mt-6 flex justify-end space-x-3">
                 <button
                   onClick={closeModal}
-                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded"
-                >
+                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded">
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmSelection}
                   className="py-2 px-4 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded"
-                  disabled={!tempSelectedSets.length}
-                >
+                  disabled={!tempSelectedSets.length}>
                   Confirm Selection
                 </button>
               </div>
