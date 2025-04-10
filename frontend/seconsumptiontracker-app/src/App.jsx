@@ -16,6 +16,7 @@ import HeroPage from "./pages/HeroPage";
 import ProfilePage from "./pages/ProfilePage";
 import BillPrediction from "./pages/BillPredictionPage";
 import ForgotPassword from "./components/ForgotPasswordForm";
+import AboutPage from "./pages/AboutPage";
 
 function App() {
   const location = useLocation();
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/signup-form" element={<SignupFormDemo />} />
         <Route exact path="/bill-calculator" element={<BillCalculator />} />
         <Route exact path="/bill-prediction" element={<BillPrediction />} />
+        <Route exact path="/about" element={<AboutPage />} />
         <Route
           exact
           path="/forgot-password-form"
