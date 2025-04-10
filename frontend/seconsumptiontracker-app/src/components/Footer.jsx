@@ -149,8 +149,10 @@ const Footer = () => {
         <div className="lg:hidden">
           {/* Mobile logo and description */}
           <div className="flex flex-col items-center text-center mb-8">
-            <BoltIcon className="h-10 w-10 text-yellow-400 mb-2" />
-            <div className="text-xl font-bold mb-2">EnergyIQ</div>
+            <div className="">
+              <img src={wattifyLogo} alt="Wattify" className="w-14" />
+            </div>
+            <div className="text-xl font-bold mb-2">Wattify</div>
             <p className="text-gray-300 text-sm max-w-sm">
               Helping you understand and optimize your energy consumption with
               smart predictions and practical recommendations.
@@ -274,7 +276,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-6 border-t border-gray-700 text-sm text-center text-gray-400">
-          <p>© {new Date().getFullYear()} EnergyIQ. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} Wattify. All rights reserved.</p>
         </div>
       </div>
     </footer>
