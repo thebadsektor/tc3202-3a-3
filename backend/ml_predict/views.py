@@ -11,7 +11,6 @@ import joblib
 model_path = os.path.join("models", "xgb_total_bill_model_tuned.pkl")
 model = joblib.load(model_path)
 @csrf_exempt
-@csrf_exempt
 def predict_total_bill(request):
     try:
         input_data = build_next_month_input()
