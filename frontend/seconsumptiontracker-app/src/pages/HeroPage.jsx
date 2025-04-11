@@ -114,16 +114,16 @@ function HeroPage() {
 
   const features = [
     {
-      title: "Simple and Fast Bill Calculator",
+      title: "Simple and Accurate Bill Prediction",
       description:
         "Get insights from your data with our advanced machine learning algorithms that identify patterns and trends automatically.",
-      link: "/bill-calculator",
+      link: "/bill-prediction",
     },
     {
       title: "Energy Consumption Calculator",
       description:
         "All components are fully responsive and adapt seamlessly to any device size for optimal user experience.",
-      link: "#",
+      link: "/consumption-calculator",
     },
     {
       title: "Energy Consumption Optimizer",

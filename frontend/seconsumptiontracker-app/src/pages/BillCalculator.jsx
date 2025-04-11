@@ -34,7 +34,8 @@ export default function DynamicTextFields() {
   const [dataLoading, setDataLoading] = useState(true);
   const [userDetails, setUserDetails] = useState(null);
   const [currentSetId, setCurrentSetId] = useState(null);
-
+  const [selectedType, setSelectedType] = useState("residential");
+  const [electricityRate, setElectricityRate] = useState(12.2901);
   const [applianceSets, setApplianceSets] = useState({});
   const [importModalOpened, setImportModalOpened] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
@@ -175,39 +176,12 @@ export default function DynamicTextFields() {
     }
   }, []);
 
-  const handleIncrement = () => {
-    setValue((prev) => {
-      const newValue = prev === "" ? 500 : prev + 500;
-      setError(false);
-      return newValue;
-    });
-  };
-
-  const handleDecrement = () => {
-    setValue((prev) => {
-      if (prev === "" || prev - 500 < 500) {
-        setError(true); // Show error if below 500
-        return prev === "" ? 500 : prev; // Prevent going below 500
-      }
-      return prev - 500;
-    });
-  };
-
-  const handleChange = (e) => {
-    const newValue = e.target.value.replace(/[^0-9]/g, ""); // Remove non-numeric chars
-    if (newValue === "") {
-      setValue("");
-      setError(false); // Hide error if empty
-      return;
-    }
-
-    const parsedValue = parseInt(newValue, 10);
-    setValue(parsedValue);
-
-    if (parsedValue < 500) {
-      setError(true); // Show error if below 500
+  const handleTypeSelection = (type) => {
+    setSelectedType(type);
+    if (type === "residential") {
+      setElectricityRate(12.2901);
     } else {
-      setError(false); // Hide error if valid
+      setElectricityRate(13.4717);
     }
   };
 
@@ -463,8 +437,6 @@ export default function DynamicTextFields() {
 
     if (fields.some((field) => !field.completed)) return;
 
-    const electricityRate = 12.1901;
-
     const applianceResults = Object.entries(applianceData).map(
       ([name, data]) => {
         const { watt, hours, days, weeks, quant } = data;
@@ -636,7 +608,7 @@ export default function DynamicTextFields() {
   return (
     <>
       <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
-        <div className="max-w-lg mx-auto p-5 text-white rounded-lg shadow-lg">
+        <div className="max-w-lg mx-auto p-5 text-white rounded-lg shadow-lg ">
           <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
             <IoMdHome /> Home / Energy consumption calculator
           </span>
@@ -651,48 +623,47 @@ export default function DynamicTextFields() {
 
           <p className="font-bold mb-4">Start by filling out this form</p>
 
-          <div className="bg-blue-100 py-5 px-15 rounded-2xl text-black mb-5">
+          <div className="bg-blue-100 py-5 px-6 rounded-2xl text-black mb-5">
             <h1 className="text-xl text-center font-bold">
-              Average Monthly Bill
+              Select environment
             </h1>
             <p className="text-center">
               This will determine the rate per kWh to be applied.
             </p>
           </div>
-          <div className="flex flex-col items-center gap-2 mb-10">
-            <div className="flex items-center gap-2">
+          <div className="flex flex-col items-center gap-4 mb-10">
+            <div className="flex justify-center gap-4 w-full max-w-md">
               <button
-                className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-blue-200 text-blue-200 hover:bg-white/20 cursor-pointer"
-                onClick={handleDecrement}
+                className={`flex-1 py-3 px-6 rounded-lg border-1  cursor-pointer ${
+                  selectedType === "residential"
+                    ? "border-blue-500 bg-blue-500 text-white"
+                    : "border-blue-200 text-white hover:bg-blue-400"
+                } font-medium transition-colors`}
+                onClick={() => handleTypeSelection("residential")}
               >
-                <FaMinus />
+                Residential
               </button>
 
-              <div className="flex items-center w-48 p-2 border rounded-lg bg-white font-bold text-gray-800">
-                <span className="text-gray-400 mr-2">Php</span>
-                <input
-                  type="text"
-                  value={value === "" ? "" : value.toLocaleString()}
-                  onChange={handleChange}
-                  placeholder="500"
-                  className="w-full bg-transparent outline-none text-right font-bold placeholder-gray-400"
-                />
-              </div>
-
               <button
-                className="w-10 h-10 flex items-center justify-center rounded-full border-2 border-blue-200 text-blue-200 hover:bg-white/20 cursor-pointer"
-                onClick={handleIncrement}
+                className={`flex-1 py-3 px-6 rounded-lg border-1  cursor-pointer ${
+                  selectedType === "business"
+                    ? "border-gray-500 bg-blue-500 text-white"
+                    : "border-gray-200 text-white hover:bg-blue-400"
+                } font-medium transition-colors`}
+                onClick={() => handleTypeSelection("business")}
               >
-                <FaPlus />
+                Small Business
               </button>
             </div>
 
-            {/* Error Message */}
-            {error && (
-              <p className="text-red-500 text-sm">
-                Value cannot be lower than 500
+            <div className="text-center mt-2">
+              <p>
+                Selected rate:{" "}
+                <span className="font-bold">
+                  ₱{electricityRate.toFixed(5)}/kWh
+                </span>
               </p>
-            )}
+            </div>
           </div>
           <div className="flex justify-between">
             <p className="">Appliances</p>

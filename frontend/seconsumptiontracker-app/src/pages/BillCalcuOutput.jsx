@@ -269,7 +269,7 @@ function BillCalcuOutput() {
               View Details
             </button>
             <button
-              onClick={() => navigate("/bill-calculator")}
+              onClick={() => navigate("/consumption-calculator")}
               className="w-50 text-white py-3 px-4 mt-3 text-5xl leading-tight cursor-pointer font-semibold bg-transparent border-2 hover:bg-gray-800 rounded transition"
             >
               Compute Another

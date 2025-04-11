@@ -84,7 +84,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    href="/bill-calculator"
+                    href="/consumption-calculator"
                     className="flex items-center hover:text-white transition duration-200"
                   >
                     <BarChartIcon className="h-4 w-4 mr-2" />
