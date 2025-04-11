@@ -284,7 +284,7 @@ function Navigation() {
                 </li>
                 <li>
                   <Link
-                    to="/bill-calculator"
+                    to="/consumption-calculator"
                     className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg"
                   >
                     Energy Consumption Calculator
@@ -417,7 +417,7 @@ function Navigation() {
                   Bill Calculator
                 </Link>
                 <Link
-                  to="/bill-calculator"
+                  to="/consumption-calculator"
                   className="text-xl hover:underline transition duration-500"
                   onClick={() => setMobileMenuOpen(false)}
                 >

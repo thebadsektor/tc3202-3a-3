@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
 import Navigation from "./components/Navigation";
 import UserDashboard from "./pages/UserDashboardPage";
@@ -31,7 +30,11 @@ function App() {
         <Route exact path="/" element={<HeroPage />} />
         <Route exact path="/login-form" element={<LoginFormDemo />} />
         <Route exact path="/signup-form" element={<SignupFormDemo />} />
-        <Route exact path="/bill-calculator" element={<BillCalculator />} />
+        <Route
+          exact
+          path="/consumption-calculator"
+          element={<BillCalculator />}
+        />
         <Route exact path="/bill-prediction" element={<BillPrediction />} />
         <Route exact path="/about" element={<AboutPage />} />
         <Route
