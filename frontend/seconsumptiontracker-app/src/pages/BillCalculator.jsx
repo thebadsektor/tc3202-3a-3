@@ -463,7 +463,8 @@ export default function DynamicTextFields() {
 
     if (fields.some((field) => !field.completed)) return;
 
-    const electricityRate = 12.1901;
+    const electricityRate = 12.2901; // if residential
+    // const electricityRateSB = 13.4717; // if small-business
 
     const applianceResults = Object.entries(applianceData).map(
       ([name, data]) => {
@@ -674,7 +675,7 @@ export default function DynamicTextFields() {
                   type="text"
                   value={value === "" ? "" : value.toLocaleString()}
                   onChange={handleChange}
-                  placeholder="500"
+                  placeholder="(change this to Residential/Small-business)" //may rate na ng para sa small business na naka comment 
                   className="w-full bg-transparent outline-none text-right font-bold placeholder-gray-400"
                 />
               </div>
