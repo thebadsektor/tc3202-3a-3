@@ -255,7 +255,7 @@ function Navigation() {
             </li>
             <li>
               <Link
-                to="#"
+                to="/about"
                 className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
               >
                 About
@@ -385,7 +385,7 @@ function Navigation() {
             Home
           </Link>
           <Link
-            to=""
+            to="/about"
             className="text-2xl hover:underline transition duration-500"
             onClick={() => setMobileMenuOpen(false)}
           >
