@@ -437,8 +437,6 @@ export default function DynamicTextFields() {
 
     if (fields.some((field) => !field.completed)) return;
 
-    const electricityRate = 12.1901;
-
     const applianceResults = Object.entries(applianceData).map(
       ([name, data]) => {
         const { watt, hours, days, weeks, quant } = data;
@@ -645,17 +643,6 @@ export default function DynamicTextFields() {
               >
                 Residential
               </button>
-
-              <div className="flex items-center w-48 p-2 border rounded-lg bg-white font-bold text-gray-800">
-                <span className="text-gray-400 mr-2">Php</span>
-                <input
-                  type="text"
-                  value={value === "" ? "" : value.toLocaleString()}
-                  onChange={handleChange}
-                  placeholder="500"
-                  className="w-full bg-transparent outline-none text-right font-bold placeholder-gray-400"
-                />
-              </div>
 
               <button
                 className={`flex-1 py-3 px-6 rounded-lg border-1  cursor-pointer ${
