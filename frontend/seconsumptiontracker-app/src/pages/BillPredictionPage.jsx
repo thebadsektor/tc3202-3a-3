@@ -4,7 +4,7 @@ import { Modal, Select } from "@mantine/core";
 import { IoMdHome } from "react-icons/io";
 import { FiChevronDown, FiChevronRight } from "react-icons/fi";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { getDatabase, ref, onValue, get } from "firebase/database";
+import { getDatabase, ref, onValue, get, set } from "firebase/database";
 
 export default function BillPrediction() {
   // lock in default april lang muna
@@ -20,6 +20,10 @@ export default function BillPrediction() {
   const [selectedSetsData, setSelectedSetsData] = useState({});
   const [tempSelectedSets, setTempSelectedSets] = useState([]);
   const [expandedSets, setExpandedSets] = useState({});
+
+  // to handle the prediction result
+  const [predictionResult, setPredictionResult] = useState(null);
+  const [isSaved, setIsSaved] = useState(false);
 
   // First, set up an auth state listener to ensure we have auth before fetching data
   useEffect(() => {
@@ -220,18 +224,17 @@ export default function BillPrediction() {
     const selectedMonth = month.toISOString().slice(0, 7); // e.g., "2025-04"
   
     try {
-      //Get predicted rate for the month from backend
-      //fixed pa 'yung month sa april lang
+      // Get predicted rate for the month from backend
       const res = await fetch("http://localhost:8000/api/predict/", {
         method: "GET",
       });
   
       const data = await res.json();
-
-      const predictedRate = data.prediction; 
+  
+      const predictedRate = parseFloat(data.prediction);
       console.log("Predicted rate for the month:", predictedRate);
   
-      // Calculate total consumption in kWh
+      let totalBill = 0;
       let totalKWh = 0;
   
       selectedApplianceSets.forEach((setKey) => {
@@ -239,40 +242,81 @@ export default function BillPrediction() {
         const appliances = setData?.appliances || {};
   
         Object.values(appliances).forEach((appliance) => {
-          const watts = parseFloat(appliance.watt) || 0;
+          const watt = parseFloat(appliance.watt) || 0;
           const hours = parseFloat(appliance.hours) || 0;
-          const quantity = parseInt(appliance.quant) || 1;
+          const quant = parseFloat(appliance.quant) || 1;
           const days = Array.isArray(appliance.days) ? appliance.days.length : 7;
-          const weeks = parseFloat(appliance.weeks) || 4;
+          const weeks = parseFloat(appliance.weeks?.split(" ")[0]) || 4;
   
-          // Calculate monthly consumption based on days per week and weeks per month
-          const dailyKWh = (watts * hours * quantity) / 1000;
-          const monthlyKWh = dailyKWh * days * weeks / 7; // Convert days per week to monthly
-          totalKWh += monthlyKWh;
+          const kWhPerHour = watt / 1000;
+          const kWhPerDay = kWhPerHour * hours;
+          const kWhPerWeek = kWhPerDay * days;
+          const kWhPerMonth = kWhPerWeek * weeks;
+          const costPerMonth = kWhPerMonth * predictedRate * quant;
+  
+          totalKWh += kWhPerMonth * quant;
+          totalBill += costPerMonth;
         });
       });
   
-      //Calculate total predicted bill
-      const totalBill = totalKWh * predictedRate;
-      console.log("Total kWh:", totalKWh);
-      console.log("Predicted rate:", predictedRate);
+      setPredictionResult({
+        totalKWh: totalKWh.toFixed(2),
+        predictedRate: predictedRate.toFixed(4),
+        totalBill: totalBill.toFixed(2),
+      });
   
-      // display
-      alert(`Predicted Electricity Bill Summary:
-      - Monthly Consumption: ${totalKWh.toFixed(2)} kWh
-      - Predicted Rate: ₱${predictedRate.toFixed(4)} per kWh
-      - Total Bill: ₱${totalBill.toFixed(2)}`);
     } catch (err) {
       console.error("Prediction failed:", err);
       alert("Error while predicting. Please try again.");
     }
   };
-
-  
-  
-  
   
 
+  // save the prediction into the realtime databse
+  const handleSavePrediction = async () => {
+    if (!user || !predictionResult) return;
+
+    const predictionMonth = new Date(month);
+    predictionMonth.setMonth(predictionMonth.getMonth() + 1);
+    const formattedMonth = predictionMonth.toISOString().slice(0, 7); // e.g., "2025-04"
+
+    const predictionData = {
+      month: formattedMonth,
+      totalKWh: predictionResult.totalKWh,
+      predictedRate: predictionResult.predictedRate,
+      totalBill: predictionResult.totalBill,
+      timestamp: Date.now(),
+    };
+
+    const db = getDatabase();
+    const predictionRef = ref(
+      db,
+      `users/${user.uid}/billPredictions/${formattedMonth}`
+    );
+
+    try {
+      // Check if data already exists for this month
+      const snapshot = await get(predictionRef);
+
+      if (snapshot.exists()) {
+        const userConfirmed = window.confirm(
+          `You already have a saved prediction for ${formattedMonth}. This will overwrite the existing prediction. Do you want to continue?`
+        );
+
+        if (!userConfirmed) {
+          return; // User canceled, don't save
+        }
+      }
+
+      // Save or overwrite the prediction data
+      await set(predictionRef, predictionData);
+      setIsSaved(true);
+      alert("Prediction saved successfully!");
+    } catch (error) {
+      console.error("Error saving prediction:", error);
+      alert("Failed to save prediction. Please try again.");
+    }
+  };
 
   return (
     <>
@@ -420,12 +464,55 @@ export default function BillPrediction() {
 
               {/* Button to calculate prediction */}
               <button
-               onClick={handlePrediction}
+                onClick={handlePrediction}
                 className="w-full mt-2 py-2 px-5 bg-green-400 hover:bg-green-400/80 text-black cursor-pointer rounded transition"
                 disabled={!user || loading}
               >
                 Calculate
               </button>
+              {predictionResult && (
+                <div className="mt-5 p-4 bg-gray-800 rounded shadow text-white space-y-3 border border-gray-700">
+                  <h3 className="text-xl font-bold">
+                    Predicted Electricity Bill Summary
+                  </h3>
+
+                  <div className="flex justify-between border-b border-gray-700 pb-2 mt-10">
+                    <span>Monthly Consumption:</span>
+                    <span className="font-semibold">
+                      {predictionResult.totalKWh} kWh
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-gray-700 pb-2">
+                    <span>Predicted Rate:</span>
+                    <span className="font-semibold">
+                      ₱{predictionResult.predictedRate} / kWh
+                    </span>
+                  </div>
+
+                  <div className="flex justify-between border-b border-gray-700 pb-4">
+                    <span>Total Predicted Bill:</span>
+                    <span className="font-semibold text-green-400">
+                      ₱{predictionResult.totalBill}
+                    </span>
+                  </div>
+
+                  <div className="flex justify-end">
+                    {!isSaved ? (
+                      <button
+                        onClick={handleSavePrediction}
+                        className="mt-4 py-2 px-5 bg-cta-bluegreen  hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer"
+                      >
+                        Save Prediction
+                      </button>
+                    ) : (
+                      <div className="mt-4 inline-flex items-center gap-2 text-green-400 font-medium">
+                        Prediction saved
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>

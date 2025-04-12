@@ -40,8 +40,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/"
-                    className="flex items-center  hover:text-white transition duration-200"
-                  >
+                    className="flex items-center  hover:text-white transition duration-200">
                     <HomeIcon className="h-4 w-4 mr-2" />
                     Home
                   </a>
@@ -49,8 +48,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/about"
-                    className="flex items-center  hover:text-white transition duration-200"
-                  >
+                    className="flex items-center  hover:text-white transition duration-200">
                     <InfoIcon className="h-4 w-4 mr-2" />
                     About
                   </a>
@@ -58,8 +56,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/contact"
-                    className="flex items-center hover:text-white transition duration-200"
-                  >
+                    className="flex items-center hover:text-white transition duration-200">
                     <PhoneIcon className="h-4 w-4 mr-2" />
                     Contact
                   </a>
@@ -76,8 +73,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/bill-prediction"
-                    className="flex items-center  hover:text-white transition duration-200"
-                  >
+                    className="flex items-center  hover:text-white transition duration-200">
                     <CalculatorIcon className="h-4 w-4 mr-2" />
                     Bill Prediction
                   </a>
@@ -94,8 +90,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/recommendations"
-                    className="flex items-center hover:text-white transition duration-200"
-                  >
+                    className="flex items-center hover:text-white transition duration-200">
                     <BoltIcon className="h-4 w-4 mr-2" />
                     Efficient Recommendations
                   </a>
@@ -111,18 +106,18 @@ const Footer = () => {
             </h3>
             <div className="space-y-2 text-white/60">
               <a
-                href="mailto:info@energyiq.com"
-                className="flex items-center hover:text-white transition duration-200"
-              >
+                href="mailto:seconsumptiontracker@gmail.com"
+                target ="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center hover:text-white transition duration-200">
                 <MailIcon className="h-5 w-5 mr-2" />
-                info@energyiq.com
+                seconsumptiontracker@gmail.com
               </a>
               <a
                 href="https://github.com/energyiq"
                 className="flex items-center hover:text-white transition duration-200"
                 target="_blank"
-                rel="noopener noreferrer"
-              >
+                rel="noopener noreferrer">
                 <GithubIcon className="h-5 w-5 mr-2" />
                 GitHub
               </a>
@@ -130,13 +125,11 @@ const Footer = () => {
                 href="https://google.com"
                 className="flex items-center hover:text-white transition duration-200"
                 target="_blank"
-                rel="noopener noreferrer"
-              >
+                rel="noopener noreferrer">
                 <svg
                   className="h-5 w-5 mr-2"
                   viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
+                  fill="currentColor">
                   <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" />
                 </svg>
                 Google
@@ -170,8 +163,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/"
-                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200"
-                  >
+                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200">
                     <HomeIcon className="h-4 w-4 mr-2" />
                     Home
                   </a>
@@ -179,8 +171,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/about"
-                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200"
-                  >
+                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200">
                     <InfoIcon className="h-4 w-4 mr-2" />
                     About
                   </a>
@@ -188,8 +179,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/contact"
-                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200"
-                  >
+                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200">
                     <PhoneIcon className="h-4 w-4 mr-2" />
                     Contact
                   </a>
@@ -206,8 +196,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/bill-prediction"
-                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200"
-                  >
+                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200">
                     <CalculatorIcon className="h-4 w-4 mr-2" />
                     Bill Prediction
                   </a>
@@ -215,8 +204,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/energy-calculator"
-                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200"
-                  >
+                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200">
                     <BarChartIcon className="h-4 w-4 mr-2" />
                     Consumption Calculator
                   </a>
@@ -224,8 +212,7 @@ const Footer = () => {
                 <li>
                   <a
                     href="/recommendations"
-                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200"
-                  >
+                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200">
                     <BoltIcon className="h-4 w-4 mr-2" />
                     Efficient Recommendations
                   </a>
@@ -243,8 +230,7 @@ const Footer = () => {
               <a
                 href="mailto:info@energyiq.com"
                 className="text-gray-300 hover:text-white transition duration-200"
-                aria-label="Email"
-              >
+                aria-label="Email">
                 <MailIcon className="h-6 w-6" />
               </a>
               <a
@@ -252,8 +238,7 @@ const Footer = () => {
                 className="text-gray-300 hover:text-white transition duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="GitHub"
-              >
+                aria-label="GitHub">
                 <GithubIcon className="h-6 w-6" />
               </a>
               <a
@@ -261,13 +246,11 @@ const Footer = () => {
                 className="text-gray-300 hover:text-white transition duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Google"
-              >
+                aria-label="Google">
                 <svg
                   className="h-6 w-6"
                   viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
+                  fill="currentColor">
                   <path d="M12.545,10.239v3.821h5.445c-0.712,2.315-2.647,3.972-5.445,3.972c-3.332,0-6.033-2.701-6.033-6.032s2.701-6.032,6.033-6.032c1.498,0,2.866,0.549,3.921,1.453l2.814-2.814C17.503,2.988,15.139,2,12.545,2C7.021,2,2.543,6.477,2.543,12s4.478,10,10.002,10c8.396,0,10.249-7.85,9.426-11.748L12.545,10.239z" />
                 </svg>
               </a>
