@@ -194,20 +194,6 @@ function HeroPage() {
                               className="w-full h-full object-cover"
                             />
                           </div>
-                          <div className="aspect-square overflow-hidden rounded-lg">
-                            <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
-                              alt="Account feature 3"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="aspect-square overflow-hidden rounded-lg">
-                            <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
-                              alt="Account feature 4"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
                         </div>
                       </div>
                     ),
@@ -228,17 +214,17 @@ function HeroPage() {
                         <ul className="mt-5 ml-10 space-y-1.5 font-semibold list-disc cursor-pointer">
                           <li>
                             <LinkPreview
-                              url=""
+                              url="/bill-prediction"
                               imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
                               width={100}
                               height={50}
                             >
-                              Bill Calculator
+                              Bill Prediction
                             </LinkPreview>
                           </li>
                           <li>
                             <LinkPreview
-                              url=""
+                              url="/consumption-calculator"
                               imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
                               width={250}
                               height={50}
@@ -270,20 +256,6 @@ function HeroPage() {
                             <img
                               src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
                               alt="Account feature 2"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="aspect-square overflow-hidden rounded-lg">
-                            <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
-                              alt="Account feature 3"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="aspect-square overflow-hidden rounded-lg">
-                            <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
-                              alt="Account feature 4"
                               className="w-full h-full object-cover"
                             />
                           </div>
@@ -321,20 +293,6 @@ function HeroPage() {
                               className="w-full h-full object-cover"
                             />
                           </div>
-                          <div className="aspect-square overflow-hidden rounded-lg">
-                            <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
-                              alt="Account feature 3"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="aspect-square overflow-hidden rounded-lg">
-                            <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
-                              alt="Account feature 4"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
                         </div>
                       </div>
                     ),
@@ -366,20 +324,6 @@ function HeroPage() {
                             <img
                               src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
                               alt="Account feature 2"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="aspect-square overflow-hidden rounded-lg">
-                            <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
-                              alt="Account feature 3"
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <div className="aspect-square overflow-hidden rounded-lg">
-                            <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/I_am_Yul.jpeg"
-                              alt="Account feature 4"
                               className="w-full h-full object-cover"
                             />
                           </div>

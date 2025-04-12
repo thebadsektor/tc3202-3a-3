@@ -27,7 +27,7 @@ const LinkPreview = ({
         className={` hover:text-blue-200  ${className}`}
         asChild
       >
-        <a href={url} target="_blank" rel="noopener noreferrer">
+        <a href={url} rel="noopener noreferrer">
           {children}
         </a>
       </HoverCardTrigger>
