@@ -224,17 +224,18 @@ export default function BillPrediction() {
     const selectedMonth = month.toISOString().slice(0, 7); // e.g., "2025-04"
   
     try {
-      // Get predicted rate for the month from backend
       const res = await fetch("http://localhost:8000/api/predict/", {
         method: "GET",
       });
   
       const data = await res.json();
-  
       const predictedRate = parseFloat(data.prediction);
       console.log("Predicted rate for the month:", predictedRate);
   
-      let totalBill = 0;
+      const margin = 0.30; // Estimated model error
+      const minRate = predictedRate - margin;
+      const maxRate = predictedRate + margin;
+  
       let totalKWh = 0;
   
       selectedApplianceSets.forEach((setKey) => {
@@ -252,17 +253,23 @@ export default function BillPrediction() {
           const kWhPerDay = kWhPerHour * hours;
           const kWhPerWeek = kWhPerDay * days;
           const kWhPerMonth = kWhPerWeek * weeks;
-          const costPerMonth = kWhPerMonth * predictedRate * quant;
   
           totalKWh += kWhPerMonth * quant;
-          totalBill += costPerMonth;
         });
       });
+  
+      const estimatedMinBill = totalKWh * minRate;
+      const estimatedMaxBill = totalKWh * maxRate;
+      const estimatedAvgBill = totalKWh * predictedRate;
   
       setPredictionResult({
         totalKWh: totalKWh.toFixed(2),
         predictedRate: predictedRate.toFixed(4),
-        totalBill: totalBill.toFixed(2),
+        estimatedBill: {
+          average: estimatedAvgBill.toFixed(2),
+          min: estimatedMinBill.toFixed(2),
+          max: estimatedMaxBill.toFixed(2),
+        },
       });
   
     } catch (err) {
@@ -270,45 +277,41 @@ export default function BillPrediction() {
       alert("Error while predicting. Please try again.");
     }
   };
-  
+    
 
   // save the prediction into the realtime databse
   const handleSavePrediction = async () => {
     if (!user || !predictionResult) return;
-
+  
     const predictionMonth = new Date(month);
     predictionMonth.setMonth(predictionMonth.getMonth() + 1);
     const formattedMonth = predictionMonth.toISOString().slice(0, 7); // e.g., "2025-04"
-
+  
     const predictionData = {
       month: formattedMonth,
       totalKWh: predictionResult.totalKWh,
       predictedRate: predictionResult.predictedRate,
-      totalBill: predictionResult.totalBill,
+      estimatedBill: predictionResult.estimatedBill, // contains min, max, average
       timestamp: Date.now(),
     };
-
+  
     const db = getDatabase();
     const predictionRef = ref(
       db,
       `users/${user.uid}/billPredictions/${formattedMonth}`
     );
-
+  
     try {
-      // Check if data already exists for this month
       const snapshot = await get(predictionRef);
-
+  
       if (snapshot.exists()) {
         const userConfirmed = window.confirm(
           `You already have a saved prediction for ${formattedMonth}. This will overwrite the existing prediction. Do you want to continue?`
         );
-
-        if (!userConfirmed) {
-          return; // User canceled, don't save
-        }
+  
+        if (!userConfirmed) return;
       }
-
-      // Save or overwrite the prediction data
+  
       await set(predictionRef, predictionData);
       setIsSaved(true);
       alert("Prediction saved successfully!");
@@ -317,7 +320,7 @@ export default function BillPrediction() {
       alert("Failed to save prediction. Please try again.");
     }
   };
-
+  
   return (
     <>
       <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
@@ -471,48 +474,48 @@ export default function BillPrediction() {
                 Calculate
               </button>
               {predictionResult && (
-                <div className="mt-5 p-4 bg-gray-800 rounded shadow text-white space-y-3 border border-gray-700">
-                  <h3 className="text-xl font-bold">
-                    Predicted Electricity Bill Summary
-                  </h3>
+  <div className="mt-5 p-4 bg-gray-800 rounded shadow text-white space-y-3 border border-gray-700">
+    <h3 className="text-xl font-bold">
+      Predicted Electricity Bill Summary
+    </h3>
 
-                  <div className="flex justify-between border-b border-gray-700 pb-2 mt-10">
-                    <span>Monthly Consumption:</span>
-                    <span className="font-semibold">
-                      {predictionResult.totalKWh} kWh
-                    </span>
-                  </div>
+    <div className="flex justify-between border-b border-gray-700 pb-2 mt-10">
+      <span>Monthly Consumption:</span>
+      <span className="font-semibold">
+        {predictionResult.totalKWh} kWh
+      </span>
+    </div>
 
-                  <div className="flex justify-between border-b border-gray-700 pb-2">
-                    <span>Predicted Rate:</span>
-                    <span className="font-semibold">
-                      ₱{predictionResult.predictedRate} / kWh
-                    </span>
-                  </div>
+    <div className="flex justify-between border-b border-gray-700 pb-2">
+      <span>Predicted Rate:</span>
+      <span className="font-semibold">
+        ₱{predictionResult.predictedRate} / kWh
+      </span>
+    </div>
 
-                  <div className="flex justify-between border-b border-gray-700 pb-4">
-                    <span>Total Predicted Bill:</span>
-                    <span className="font-semibold text-green-400">
-                      ₱{predictionResult.totalBill}
-                    </span>
-                  </div>
+    <div className="flex justify-between border-b border-gray-700 pb-4">
+      <span>Estimated Bill Range:</span>
+      <span className="font-semibold text-green-400">
+        ₱{predictionResult.estimatedBill.min} – ₱{predictionResult.estimatedBill.max}
+      </span>
+    </div>
 
-                  <div className="flex justify-end">
-                    {!isSaved ? (
-                      <button
-                        onClick={handleSavePrediction}
-                        className="mt-4 py-2 px-5 bg-cta-bluegreen  hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer"
-                      >
-                        Save Prediction
-                      </button>
-                    ) : (
-                      <div className="mt-4 inline-flex items-center gap-2 text-green-400 font-medium">
-                        Prediction saved
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
+    <div className="flex justify-end">
+      {!isSaved ? (
+        <button
+          onClick={handleSavePrediction}
+          className="mt-4 py-2 px-5 bg-cta-bluegreen  hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer"
+        >
+          Save Prediction
+        </button>
+      ) : (
+        <div className="mt-4 inline-flex items-center gap-2 text-green-400 font-medium">
+          Prediction saved
+        </div>
+      )}
+    </div>
+  </div>
+)}
             </div>
           )}
         </div>
