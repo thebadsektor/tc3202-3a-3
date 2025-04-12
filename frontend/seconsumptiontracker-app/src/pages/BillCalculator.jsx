@@ -656,14 +656,16 @@ export default function DynamicTextFields() {
               </button>
             </div>
 
-            <div className="text-center mt-2">
+
+        {/*Commented out muna para hindi secret muna sa user*/}
+            {/* <div className="text-center mt-2">
               <p>
                 Selected rate:{" "}
                 <span className="font-bold">
                   ₱{electricityRate.toFixed(5)}/kWh
                 </span>
               </p>
-            </div>
+            </div> */}
           </div>
           <div className="flex justify-between">
             <p className="">Appliances</p>

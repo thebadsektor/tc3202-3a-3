@@ -73,8 +73,7 @@ const AboutPage = () => {
                 Smart Energy Consumption Calculator
               </h3>
               <p className="text-white/70">
-                Users input details about their appliances (quantity and
-                estimated duration of usage) to calculate the total energy
+                Users input details about their appliances (number of devices, wattage, hours of usage, days used per week, weeks used per month) to calculate the total energy
                 consumption based on standard consumption values.
               </p>
             </div>
@@ -93,7 +92,7 @@ const AboutPage = () => {
               </h3>
               <p className="text-white/70">
                 The system retrieves the calculated energy consumption data and
-                processes it through an (LSTM/Regression) machine learning model
+                processes it through an (SARIMAX/XGBoost) machine learning model
                 trained on historical electricity rate data, providing users
                 with an estimated electricity bill.
               </p>
@@ -237,7 +236,7 @@ const AboutPage = () => {
                 <div className="bg-white rounded-xl shadow-md p-4 text-center transform transition duration-300 hover:scale-105">
                   <div className="w-24 h-24 rounded-full bg-blue-200 mx-auto mb-4 overflow-hidden">
                     <img
-                      src="/api/placeholder/200/200"
+                      src="https://i.ibb.co/XX5GcgJ/91ff0839465f.jpg"
                       alt="Team member"
                       className="w-full h-full object-cover"
                     />
