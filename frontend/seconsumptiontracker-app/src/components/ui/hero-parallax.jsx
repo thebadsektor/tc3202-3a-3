@@ -153,7 +153,7 @@ export const ProductCard = ({ product, translate }) => {
       >
         <img
           src={product.thumbnail}
-          className="object-cover object-left-top absolute h-full w-full inset-0"
+          className="object-cover object-center absolute h-full w-full inset-0 shadow-2xl hover:shadow-lg transition-shadow duration-300 rounded-md"
           alt={product.title}
           loading="lazy"
         />

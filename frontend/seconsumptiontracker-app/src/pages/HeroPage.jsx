@@ -18,37 +18,38 @@ import { HoverEffect } from "../components/ui/card-hover-effect";
 import "../App.css";
 import LinkPreview from "../components/ui/link-preview";
 import ClickSpark from "../components/ui/click-spark";
+import loginImage from "../assets/home-images/login.png";
+import calculatorImage from "../assets/home-images/calculator.png";
+import predictionImage from "../assets/home-images/prediction.png";
+import featuresImage from "../assets/home-images/features1.png";
+import usageImage from "../assets/home-images/usage.png";
+import outputImage from "../assets/home-images/output.png";
 
 function HeroPage() {
   const products = [
     {
       title: "Dashboard2",
-      thumbnail:
-        "https://www.geckoboard.com/uploads/google-sheets-dashboard-geckoboard--d.png",
+      thumbnail: outputImage,
       link: "#",
     },
     {
-      title: "Smart Meters23",
-      thumbnail:
-        "https://cdn.shopify.com/s/files/1/0070/7032/files/about-us-page-yeti-2.png?v=1716989532",
-      link: "#",
+      title: "Bill Prediction",
+      thumbnail: predictionImage,
+      link: "/bill-prediction",
     },
     {
-      title: "Eco Homes23",
-      thumbnail:
-        "https://cdn.shopify.com/s/files/1/0070/7032/files/about-us-page-yeti-2.png?v=1716989532",
-      link: "#",
+      title: "Consumption Calculator",
+      thumbnail: calculatorImage,
+      link: "/consumption-calculator",
     },
     {
-      title: "Solar Panels1",
-      thumbnail:
-        "https://www.geckoboard.com/uploads/google-sheets-dashboard-geckoboard--d.png",
-      link: "#",
+      title: "Features",
+      thumbnail: featuresImage,
+      link: "/about",
     },
     {
       title: "Dashboard1",
-      thumbnail:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_P115pICTVV2qmUZT3IGa-nV16j584lX-NA&s",
+      thumbnail: "",
       link: "#",
     },
     {
@@ -182,16 +183,16 @@ function HeroPage() {
                         <div className="grid grid-cols-2 gap-5 mt-6">
                           <div className="aspect-square overflow-hidden rounded-lg">
                             <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                              src={loginImage}
                               alt="Account feature 1"
                               className="w-full h-full object-cover"
                             />
                           </div>
                           <div className="aspect-square overflow-hidden rounded-lg">
                             <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                              src={predictionImage}
                               alt="Account feature 2"
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-cover object-center"
                             />
                           </div>
                         </div>
@@ -215,9 +216,9 @@ function HeroPage() {
                           <li>
                             <LinkPreview
                               url="/bill-prediction"
-                              imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
-                              width={100}
-                              height={50}
+                              imageSrc={predictionImage}
+                              width={250}
+                              height={150}
                             >
                               Bill Prediction
                             </LinkPreview>
@@ -225,7 +226,7 @@ function HeroPage() {
                           <li>
                             <LinkPreview
                               url="/consumption-calculator"
-                              imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/Penny_a.png"
+                              imageSrc={calculatorImage}
                               width={250}
                               height={50}
                             >
@@ -247,14 +248,14 @@ function HeroPage() {
                         <div className="grid grid-cols-2 gap-5 mt-6">
                           <div className="aspect-square overflow-hidden rounded-lg">
                             <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                              src={featuresImage}
                               alt="Account feature 1"
                               className="w-full h-full object-cover"
                             />
                           </div>
-                          <div className="aspect-square overflow-hidden rounded-lg">
+                          <div className="aspect-square overflow-hidden rounded-lg ">
                             <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                              src={calculatorImage}
                               alt="Account feature 2"
                               className="w-full h-full object-cover"
                             />
@@ -281,14 +282,14 @@ function HeroPage() {
                         <div className="grid grid-cols-2 gap-5 mt-6">
                           <div className="aspect-square overflow-hidden rounded-lg">
                             <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                              src={usageImage}
                               alt="Account feature 1"
                               className="w-full h-full object-cover"
                             />
                           </div>
                           <div className="aspect-square overflow-hidden rounded-lg">
                             <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                              src={outputImage}
                               alt="Account feature 2"
                               className="w-full h-full object-cover"
                             />
@@ -315,14 +316,14 @@ function HeroPage() {
                         <div className="grid grid-cols-2 gap-5 mt-6">
                           <div className="aspect-square overflow-hidden rounded-lg">
                             <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/thewarmiswood.png"
+                              src={outputImage}
                               alt="Account feature 1"
                               className="w-full h-full object-cover"
                             />
                           </div>
                           <div className="aspect-square overflow-hidden rounded-lg">
                             <img
-                              src="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                              src={outputImage}
                               alt="Account feature 2"
                               className="w-full h-full object-cover"
                             />

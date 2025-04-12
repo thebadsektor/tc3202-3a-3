@@ -12,7 +12,7 @@ const AboutPage = () => {
   return (
     <div className="container min-h-screen py-20">
       {/* Project Overview Section */}
-      <section className="py-16 px-4 sm:px-10 max-w-8xl mx-auto">
+      <section className="py-16 px-4 sm:px-10 max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl font-bold text-white">Project Overview</h2>
           <div className="h-1 w-24 bg-cta-bluegreen mx-auto mt-4"></div>
@@ -39,7 +39,7 @@ const AboutPage = () => {
             </p>
           </div>
           <div className="order-1 md:order-2">
-            <div className="rounded-xl p-6 shadow-lg transform transition-all duration-300 hover:shadow-xl hover:scale-105">
+            <div className="rounded-xl shadow-lg transform transition-all duration-300 hover:shadow-xl hover:scale-105">
               <img
                 src="https://images.ctfassets.net/fevtq3bap7tj/4Z3xdca3bymwimUoa408Ck/8c3bf8a8d2335a9613131d03c650131b/Energy_Dashboard_2x.jpg.png"
                 alt="Energy management dashboard"
@@ -63,27 +63,29 @@ const AboutPage = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Feature 1 */}
-          <div className="bg-[#333] rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl">
+          <div className="bg-[#333] rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col">
             <div className="h-3 bg-blue-500"></div>
-            <div className="p-6">
+            <div className="p-6 flex-grow">
               <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
                 <BarChart2 className="w-8 h-8 text-blue-600" />
               </div>
               <h3 className="text-xl font-bold text-white mb-4">
-                Smart Energy Consumption Calculator
+                Energy Consumption Calculator
               </h3>
               <p className="text-white/70">
-                Users input details about their appliances (number of devices, wattage, hours of usage, days used per week, weeks used per month) to calculate the total energy
-                consumption based on standard consumption values.
+                Users input details about their appliances (number of devices,
+                wattage, hours of usage, days used per week, weeks used per
+                month) to calculate the total energy consumption based on
+                standard consumption values.
               </p>
             </div>
-            <div className="bg-blue-100  p-6"></div>
+            <div className="bg-blue-100 p-6 mt-auto"></div>
           </div>
 
           {/* Feature 2 */}
-          <div className="bg-[#333] rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl">
+          <div className="bg-[#333] rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col">
             <div className="h-3 bg-green-500"></div>
-            <div className="p-6">
+            <div className="p-6 flex-grow">
               <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
                 <LineChart className="w-8 h-8 text-green-600" />
               </div>
@@ -97,13 +99,13 @@ const AboutPage = () => {
                 with an estimated electricity bill.
               </p>
             </div>
-            <div className="bg-green-100 p-6"></div>
+            <div className="bg-green-100 p-6 mt-auto"></div>
           </div>
 
           {/* Feature 3 */}
-          <div className="bg-[#333] rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl">
+          <div className="bg-[#333] rounded-xl shadow-lg overflow-hidden transform transition duration-300 hover:scale-105 hover:shadow-xl flex flex-col">
             <div className="h-3 bg-yellow-500"></div>
-            <div className="p-6">
+            <div className="p-6 flex-grow">
               <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-6">
                 <Lightbulb className="w-8 h-8 text-yellow-600" />
               </div>
@@ -116,7 +118,7 @@ const AboutPage = () => {
                 and switching to LED lighting help users reduce consumption.
               </p>
             </div>
-            <div className="bg-yellow-100 p-6"></div>
+            <div className="bg-yellow-100 p-6 mt-auto"></div>
           </div>
         </div>
       </section>
