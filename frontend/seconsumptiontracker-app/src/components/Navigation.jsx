@@ -230,7 +230,7 @@ function Navigation() {
             ) : (
               <Link
                 to="/login-form"
-                className="text-gray-100 py-2 px-4 text-sm bg-cta-blue rounded-lg font-semibold hover:bg-blue-400 transition-all duration-200"
+                className="text-gray-100 py-2 px-4 text-sm bg-cta-bluegreen rounded-lg font-semibold hover:bg-blue-400 transition-all duration-200"
               >
                 Login
               </Link>
@@ -362,7 +362,7 @@ function Navigation() {
               ) : (
                 <Link
                   to="/login-form"
-                  className="text-gray-100 py-3 px-6 base bg-cta-blue rounded-lg font-semibold hover:bg-blue-400 transition-all duration-200"
+                  className="text-black py-3 px-6 base bg-cta-bluegreen rounded-lg font-semibold hover:bg-cta-bluegreen/80 transition-all duration-200"
                 >
                   Login
                 </Link>

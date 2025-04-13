@@ -27,13 +27,16 @@ import outputImage from "../assets/home-images/output.png";
 import ratesImage from "../assets/home-images/meralco-rates.jpg";
 import ratesImage2 from "../assets/home-images/meralco-rates2.jpg";
 import ratesImage3 from "../assets/home-images/meralco-rates3.jpg";
+import ratesImage4 from "../assets/home-images/meralco-rates4.png";
+import ratesImage5 from "../assets/home-images/meralco-rates5.jpg";
+import ratesImage6 from "../assets/home-images/meralco-rates6.jpg";
 
 function HeroPage() {
   const products = [
     {
-      title: "Calculator Output",
-      thumbnail: outputImage,
-      link: "/consumption-calculator",
+      title: "Higher rates for Feb 2025",
+      thumbnail: ratesImage4,
+      link: "https://company.meralco.com.ph/news-and-advisories/higher-rates-february-2025",
     },
     {
       title: "Jan 2024",
@@ -42,13 +45,13 @@ function HeroPage() {
     },
     {
       title: "Consumption Calculator",
-      thumbnail: calculatorImage,
+      thumbnail: ratesImage5,
       link: "/consumption-calculator",
     },
     {
-      title: "Features",
-      thumbnail: featuresImage,
-      link: "/about",
+      title: "Rates from 2011 to 2018",
+      thumbnail: ratesImage3,
+      link: "https://www.bworldonline.com/opinion/2023/04/17/517293/more-on-meralco-distribution-charges-and-energy-transition/",
     },
     {
       title: "Dashboard1",
@@ -62,9 +65,9 @@ function HeroPage() {
       link: "#",
     },
     {
-      title: "Calculator Output",
-      thumbnail: outputImage,
-      link: "/consumption-calculator",
+      title: "March 2025",
+      thumbnail: ratesImage6,
+      link: "",
     },
     {
       title: "Feb 2025 increase rates",
@@ -73,8 +76,8 @@ function HeroPage() {
     },
     {
       title: "Bill Prediction",
-      thumbnail: predictionImage,
-      link: "/bill-prediction",
+      thumbnail: ratesImage4,
+      link: "",
     },
     {
       title: "Rates from 2011 to 2018",
