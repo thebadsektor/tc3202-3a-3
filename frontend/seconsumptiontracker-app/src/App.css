@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Metrophobic&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Racing+Sans+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&family=Metrophobic&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Racing+Sans+One&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
 @plugin "tailwindcss-animate";
 
@@ -11,44 +11,43 @@
   --font-mont: Montserrat, "sans-serif";
   --font-dm: "DM Serif Text", serif;
   --color-lightblue: #f8fbfd;
-  --color-cta-bluegreen: #00F0FF;
+  --color-cta-bluegreen: #00f0ff;
   --color-cta-blue: #187bfc;
   --color-font-black: #252323;
   --color-bg-black: #252323;
 }
 
 @theme inline {
-  --shadow-input:
-    0px 2px 3px -1px rgba(0, 0, 0, 0.1),
+  --shadow-input: 0px 2px 3px -1px rgba(0, 0, 0, 0.1),
     0px 1px 0px 0px rgba(25, 28, 33, 0.02),
     0px 0px 0px 1px rgba(25, 28, 33, 0.08);
 }
 
 .container {
-  @apply max-w-[1463px] mx-auto w-full px-5
+  @apply max-w-[1463px] mx-auto w-full px-5;
 }
 
 @font-face {
-  font-family: 'Helvetica';
-  src: url('./assets/fonts/Helvetica.ttf');
+  font-family: "Helvetica";
+  src: url("./assets/fonts/Helvetica.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Nura';
-  src: url('./assets/fonts/Nura-Light.ttf');
+  font-family: "Nura";
+  src: url("./assets/fonts/Nura-Light.ttf");
   font-weight: normal;
   font-style: normal;
 }
 
 * {
-  font-family: "Montserrat", sans-serif
+  font-family: "Montserrat", sans-serif;
 }
 
 body {
   @apply font-mont;
-  background-color: #13171C !important;
+  background-color: #13171c !important;
   color: white;
 }
 

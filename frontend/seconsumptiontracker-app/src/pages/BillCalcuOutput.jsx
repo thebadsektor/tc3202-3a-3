@@ -115,13 +115,13 @@ function BillCalcuOutput() {
     const user = localStorage.getItem("uid");
 
     if (!userToken || !user) {
-      alert("User not logged in");
+      toastOnSave(false);
       return;
     }
 
     // Prevent saving if already saved
     if (isSaved) {
-      alert("This calculation has already been saved");
+      toastOnSave(true);
       return;
     }
 
@@ -139,26 +139,33 @@ function BillCalcuOutput() {
         timestamp: Date.now(),
       });
       setIsSaved(true);
-      alert("Calculation saved");
+      toastOnSave(true);
     } catch (error) {
       console.error("Error saving calculation:", error);
-      alert("Failed to save calculation.");
+      toastOnSave(false);
     }
   };
 
-  const toastOnSave = () => {
-    toast("Data saved successfully! ✅", {
-      description: "All saved data is available on your profile history.",
-      duration: 3000,
-    });
+  const toastOnSave = (isValid) => {
+    if (isValid) {
+      toast("Data saved successfully! ✅", {
+        description: "All saved data is available on your profile history.",
+        duration: 3000,
+      });
+    } else {
+      toast("User not logged in! ❌", {
+        description: "Login or Sign up for free to access this feature.",
+        duration: 5000,
+      });
+    }
   };
 
   return (
     <>
-      <div className="h-auto mt-[15vh] flex items-center justify-center flex-col">
+      <div className="h-auto mt-[15vh] flex items-center justify-center flex-col pb-20">
         <div className="max-w-3xl w-full p-5">
           <div className="w-full">
-            <h1 className="text-left text-blue-400 text-3xl font-semibold mb-3">
+            <h1 className="text-left text-cta-bluegreen text-3xl font-semibold mb-3">
               Appliance Energy Calculator
             </h1>
             <p className="text-white/80 mb-5">Estimated cost to operate:</p>
@@ -180,7 +187,7 @@ function BillCalcuOutput() {
                         </div>
                         <button
                           onClick={() => toggleAppliance(index)}
-                          className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 transition"
+                          className="bg-cta-bluegreen text-black px-3 py-1 rounded hover:bg-cta-bluegreen/70 transition cursor-pointer"
                         >
                           {expandedAppliance === index
                             ? "Hide Details"
@@ -202,23 +209,27 @@ function BillCalcuOutput() {
                           </div>
                           <ul className="list-disc pl-8 text-white/70">
                             <li>
-                              Total cost per Hour: Php{" "}
-                              {appliance.costPerHour.toFixed(2)}
+                              Total cost per Hour:{" "}
+                              <b> ₱{appliance.costPerHour.toFixed(2)}</b>
                             </li>
                             <li>
-                              Total cost per Day: Php{" "}
-                              {appliance.costPerDay.toFixed(2)}
+                              Total cost per Day:{" "}
+                              <b> ₱{appliance.costPerDay.toFixed(2)}</b>
                             </li>
                             <li>
-                              Total cost per Week: Php{" "}
-                              {appliance.costPerWeek.toFixed(2)}
+                              Total cost per Week:{" "}
+                              <b> ₱{appliance.costPerWeek.toFixed(2)}</b>
                             </li>
                             <li>
-                              Total cost per Month: Php{" "}
-                              {(
-                                appliance.costPerWeek *
-                                extractWeeks(appliance.weeks)
-                              ).toFixed(2)}
+                              Total cost per Month:{" "}
+                              <b>
+                                {" "}
+                                ₱
+                                {(
+                                  appliance.costPerWeek *
+                                  extractWeeks(appliance.weeks)
+                                ).toFixed(2)}{" "}
+                              </b>
                             </li>
                           </ul>
                         </div>
@@ -234,59 +245,50 @@ function BillCalcuOutput() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10">
             <div className="bg-blue-100 p-6 rounded-lg text-center">
               <p className="text-gray-600">Total cost per hour</p>
               <p className="text-xl font-bold text-blue-900">
-                Php {totalCostPerHour.toFixed(2)}
+                ₱{totalCostPerHour.toFixed(2)}
               </p>
             </div>
             <div className="bg-blue-100 p-6 rounded-lg text-center">
               <p className="text-gray-600">Total cost per day</p>
               <p className="text-xl font-bold text-blue-900">
-                Php {totalCostPerDay.toFixed(2)}
+                ₱{totalCostPerDay.toFixed(2)}
               </p>
             </div>
             <div className="bg-blue-100 p-6 rounded-lg text-center">
               <p className="text-gray-600">Total cost per week</p>
               <p className="text-xl font-bold text-blue-900">
-                Php {totalCostPerWeek.toFixed(2)}
+                ₱{totalCostPerWeek.toFixed(2)}
               </p>
             </div>
             <div className="bg-blue-100 p-6 rounded-lg text-center">
               <p className="text-gray-600">Total cost per month</p>
               <p className="text-xl font-bold text-blue-900">
-                Php {totalCost.toFixed(2)}
+                ₱{totalCost.toFixed(2)}
               </p>
             </div>
           </div>
 
           <div className="flex items-center justify-center pt-5 gap-5">
             <button
-              onClick={toastOnSave}
-              className="w-50 py-3 px-4 mt-3 text-5xl leading-tight cursor-pointer font-semibold bg-blue-400 hover:bg-blue-600 rounded transition"
-            >
-              View Details
-            </button>
-            <button
-              onClick={() => navigate("/consumption-calculator")}
-              className="w-50 text-white py-3 px-4 mt-3 text-5xl leading-tight cursor-pointer font-semibold bg-transparent border-2 hover:bg-gray-800 rounded transition"
-            >
-              Compute Another
-            </button>
-          </div>
-          {/* save result button */}
-          <div className="flex items-center justify-center pt-5">
-            <button
               onClick={handleSaveResult}
               disabled={isSaved}
-              className={`w-50 text-white py-3 px-4 text-5xl leading-tight cursor-pointer font-semibold rounded transition ${
+              className={`w-50 text-white py-3 px-4 mt-5 leading-tight cursor-pointer font-semibold rounded transition ${
                 isSaved
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-green-500 hover:bg-green-600"
               }`}
             >
               {isSaved ? "Saved" : "Save Result"}
+            </button>
+            <button
+              onClick={() => navigate("/consumption-calculator")}
+              className="w-50 text-white py-3 px-4 mt-5 leading-tight cursor-pointer font-semibold bg-transparent border-1 hover:bg-gray-800 rounded transition"
+            >
+              Compute Another
             </button>
           </div>
         </div>

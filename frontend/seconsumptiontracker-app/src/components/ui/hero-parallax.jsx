@@ -113,7 +113,7 @@ export const Header = () => {
           duration={3000}
           className="hover:bg-sky-900 transition-all cursor-pointer text-xl z-10"
         >
-          Get Started
+          <a href="/consumption-calculator">Get Started</a>
         </Button>
       </div>
 

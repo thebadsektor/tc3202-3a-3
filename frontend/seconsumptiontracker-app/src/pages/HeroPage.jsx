@@ -24,18 +24,21 @@ import predictionImage from "../assets/home-images/prediction.png";
 import featuresImage from "../assets/home-images/features1.png";
 import usageImage from "../assets/home-images/usage.png";
 import outputImage from "../assets/home-images/output.png";
+import ratesImage from "../assets/home-images/meralco-rates.jpg";
+import ratesImage2 from "../assets/home-images/meralco-rates2.jpg";
+import ratesImage3 from "../assets/home-images/meralco-rates3.jpg";
 
 function HeroPage() {
   const products = [
     {
-      title: "Dashboard2",
+      title: "Calculator Output",
       thumbnail: outputImage,
-      link: "#",
+      link: "/consumption-calculator",
     },
     {
-      title: "Bill Prediction",
-      thumbnail: predictionImage,
-      link: "/bill-prediction",
+      title: "Jan 2024",
+      thumbnail: ratesImage2,
+      link: "#",
     },
     {
       title: "Consumption Calculator",
@@ -53,32 +56,30 @@ function HeroPage() {
       link: "#",
     },
     {
-      title: "Smart Meters",
-      thumbnail:
-        "https://evolve-systems.com/wp-content/uploads/2020/02/dark-mode-website-design.png",
-      link: "#",
-    },
-    {
-      title: "Eco Homes",
-      thumbnail: "https://i.ytimg.com/vi/py3W80hMuzE/maxresdefault.jpg",
-      link: "#",
-    },
-    {
       title: "Solar Panels",
       thumbnail:
         "https://cdn.prod.website-files.com/63e230081c53f7989f5e0f64/64a3ba12c9f71e0de0487fb8_crm-saas-webflow-template.jpg",
       link: "#",
     },
     {
-      title: "Eco Homes232",
-      thumbnail: "https://i.ytimg.com/vi/py3W80hMuzE/maxresdefault.jpg",
-      link: "#",
+      title: "Calculator Output",
+      thumbnail: outputImage,
+      link: "/consumption-calculator",
     },
     {
-      title: "Solar Panels11",
-      thumbnail:
-        "https://resend.com/_next/image?url=%2Fstatic%2Fposts%2Fintroducing-light-mode.jpg&w=3840&q=100",
-      link: "#",
+      title: "Feb 2025 increase rates",
+      thumbnail: ratesImage,
+      link: "https://company.meralco.com.ph/news-and-advisories/higher-rates-february-2025",
+    },
+    {
+      title: "Bill Prediction",
+      thumbnail: predictionImage,
+      link: "/bill-prediction",
+    },
+    {
+      title: "Rates from 2011 to 2018",
+      thumbnail: ratesImage3,
+      link: "https://www.bworldonline.com/opinion/2023/04/17/517293/more-on-meralco-distribution-charges-and-energy-transition/",
     },
   ];
 
@@ -117,19 +118,19 @@ function HeroPage() {
     {
       title: "Simple and Accurate Bill Prediction",
       description:
-        "Get insights from your data with our advanced machine learning algorithms that identify patterns and trends automatically.",
+        "Forecast your monthly utility expenses with precision based on historical rate patterns and current rates. Get reliable estimates to better plan your budget and avoid billing surprises.",
       link: "/bill-prediction",
     },
     {
       title: "Energy Consumption Calculator",
       description:
-        "All components are fully responsive and adapt seamlessly to any device size for optimal user experience.",
+        "Track and analyze your household's energy usage across all devices and systems. Understand exactly where your power goes each month to identify unexpected costs and consumption patterns.",
       link: "/consumption-calculator",
     },
     {
       title: "Energy Consumption Optimizer",
       description:
-        "Work together with your team in real-time, with changes syncing instantly across all connected devices.",
+        "Receive personalized recommendations to reduce your energy footprint and lower monthly bills. Smart suggestions adapt to your lifestyle while maximizing efficiency and minimizing waste.",
       link: "#",
     },
   ];
@@ -174,10 +175,12 @@ function HeroPage() {
                           Create Your Account
                         </h4>
                         <p className=" dark:text-neutral-300">
-                          Sign up for free to access basic features like bill
-                          calculation and viewing historical data. A simple
-                          registration gives you immediate access to understand
-                          your energy consumption.
+                          Sign up for free to access premium features like{" "}
+                          <b>bill prediction</b>,{" "}
+                          <b> energy saving recommendation </b>
+                          and viewing historical data. A simple registration
+                          gives you immediate access to understand your energy
+                          consumption.
                         </p>
 
                         <div className="grid grid-cols-2 gap-5 mt-6">

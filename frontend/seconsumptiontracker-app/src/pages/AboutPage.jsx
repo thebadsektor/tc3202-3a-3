@@ -249,7 +249,7 @@ const AboutPage = () => {
                 <div className="bg-white rounded-xl shadow-md p-4 text-center transform transition duration-300 hover:scale-105">
                   <div className="w-24 h-24 rounded-full bg-green-200 mx-auto mb-4 overflow-hidden">
                     <img
-                      src="/api/placeholder/200/200"
+                      src="https://scontent.fmnl7-1.fna.fbcdn.net/v/t39.30808-6/455192045_1166450214639759_6679097367727026065_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeG3xIup5qOjkLfeqUFp0s0jjeqxuoCeUGCN6rG6gJ5QYPt1QIMHp4gkh0budfLXVESTkataoWfM8y9EAwC60jpx&_nc_ohc=iUh9BzhKNZIQ7kNvwEOmGSi&_nc_oc=AdkqCACSIPdY0_X52XJOWRjZAVgXh0s4dyOdS0O5bFo1kglVWF2MCOfvGckbnjVhnjE&_nc_zt=23&_nc_ht=scontent.fmnl7-1.fna&_nc_gid=5muasDHG9iopJM3GxRMZAQ&oh=00_AfG2LEzWWMzBnYUYtLnjXn6POym843uUbNdFvaMwDI3FOA&oe=6800D503"
                       alt="Team member"
                       className="w-full h-full object-cover"
                     />
@@ -260,7 +260,7 @@ const AboutPage = () => {
                 <div className="bg-white rounded-xl shadow-md p-4 text-center transform transition duration-300 hover:scale-105">
                   <div className="w-24 h-24 rounded-full bg-yellow-200 mx-auto mb-4 overflow-hidden">
                     <img
-                      src="/api/placeholder/200/200"
+                      src="https://lh3.googleusercontent.com/a/ACg8ocJZBBZV_AlBIJgpn9PTTNV3vZquqVzAjUmwGlvzbWDnxcxBzajL=s288-c-no"
                       alt="Team member"
                       className="w-full h-full object-cover"
                     />
@@ -271,7 +271,7 @@ const AboutPage = () => {
                 <div className="bg-white rounded-xl shadow-md p-4 text-center transform transition duration-300 hover:scale-105">
                   <div className="w-24 h-24 rounded-full bg-purple-200 mx-auto mb-4 overflow-hidden">
                     <img
-                      src="/api/placeholder/200/200"
+                      src="https://lh3.googleusercontent.com/a/ACg8ocJfeKXR8YDuzkHu39Vr5Y5GAsj6LN_kcxzFWh0_o_Ay-0M8DiFC=s288-c-no"
                       alt="Team member"
                       className="w-full h-full object-cover"
                     />
