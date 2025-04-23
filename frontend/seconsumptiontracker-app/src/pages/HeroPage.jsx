@@ -44,7 +44,7 @@ function HeroPage() {
       link: "#",
     },
     {
-      title: "Consumption Calculator",
+      title: "Februate rates",
       thumbnail: ratesImage5,
       link: "/consumption-calculator",
     },
@@ -75,7 +75,7 @@ function HeroPage() {
       link: "https://company.meralco.com.ph/news-and-advisories/higher-rates-february-2025",
     },
     {
-      title: "Bill Prediction",
+      title: "Power rate increase",
       thumbnail: ratesImage4,
       link: "",
     },
