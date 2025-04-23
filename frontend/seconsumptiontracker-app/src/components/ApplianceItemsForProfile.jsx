@@ -5,12 +5,20 @@ import {
   FaTrash,
   FaCheck,
   FaTimes,
-  FaMinus,
   FaArrowLeft,
   FaSave,
+  FaMobile,
+  FaLightbulb,
 } from "react-icons/fa";
 import { useDisclosure } from "@mantine/hooks";
-import { Modal, NumberInput, Chip, NativeSelect, Button } from "@mantine/core";
+import {
+  Modal,
+  NumberInput,
+  Chip,
+  NativeSelect,
+  Button,
+  Checkbox,
+} from "@mantine/core";
 import { getDatabase, ref, push, update, onValue } from "firebase/database";
 
 const ApplianceItems = ({
@@ -43,6 +51,37 @@ const ApplianceItems = ({
 
   // Modal for usage details
   const [opened, { open, close }] = useDisclosure(false);
+
+  // Modal for gadgets selection
+  const [gadgetsModalOpened, gadgetsModalHandlers] = useDisclosure(false);
+
+  // Modal for lighting selection
+  const [lightingsModalOpened, lightingsModalHandlers] = useDisclosure(false);
+
+  // Predefined gadget and lighting options
+  const gadgetOptions = [
+    "Smartphone",
+    "Tablet/iPad",
+    "Laptop",
+    "Desktop Computer",
+    "Monitor",
+    "Game Console",
+    "Smart Watch",
+    "Bluetooth Speaker",
+  ];
+
+  const lightingOptions = [
+    "LED Bulb",
+    "CFL Bulb",
+    "Incandescent Bulb",
+    "Fluorescent Tube Light",
+    "Desk Lamp",
+    "Ceiling Fan with Light",
+  ];
+
+  // State for selected gadgets and lightings
+  const [selectedGadgets, setSelectedGadgets] = useState([]);
+  const [selectedLightings, setSelectedLightings] = useState([]);
 
   const [
     deleteModalOpened,
@@ -94,6 +133,110 @@ const ApplianceItems = ({
         item.id === id ? { ...item, name: value } : item
       )
     );
+  };
+
+  // Add selected gadgets to appliance list
+  const addSelectedGadgets = () => {
+    if (selectedGadgets.length === 0) {
+      alert("Please select at least one gadget");
+      return;
+    }
+
+    // Filter out gadgets that already exist in appliance list
+    const existingNames = applianceItems.map((item) => item.name);
+    const newGadgets = selectedGadgets.filter(
+      (gadget) => !existingNames.includes(gadget)
+    );
+    const duplicates = selectedGadgets.filter((gadget) =>
+      existingNames.includes(gadget)
+    );
+
+    // Add only new gadgets
+    if (newGadgets.length > 0) {
+      const newAppliances = newGadgets.map((gadget) => ({
+        id: Date.now() + Math.random(),
+        name: gadget,
+        isEditing: false,
+        completed: false,
+      }));
+
+      setApplianceItems([...applianceItems, ...newAppliances]);
+    }
+
+    // Show feedback about duplicates if any were found
+    if (duplicates.length > 0) {
+      alert(
+        `The following items were skipped as they already exist: ${duplicates.join(
+          ", "
+        )}`
+      );
+    }
+
+    setSelectedGadgets([]);
+    gadgetsModalHandlers.close();
+  };
+
+  // Add selected lightings to appliance list
+  const addSelectedLightings = () => {
+    if (selectedLightings.length === 0) {
+      alert("Please select at least one lighting option");
+      return;
+    }
+
+    // Filter out lightings that already exist in appliance list
+    const existingNames = applianceItems.map((item) => item.name);
+    const newLightings = selectedLightings.filter(
+      (lighting) => !existingNames.includes(lighting)
+    );
+    const duplicates = selectedLightings.filter((lighting) =>
+      existingNames.includes(lighting)
+    );
+
+    // Add only new lightings
+    if (newLightings.length > 0) {
+      const newAppliances = newLightings.map((lighting) => ({
+        id: Date.now() + Math.random(),
+        name: lighting,
+        isEditing: false,
+        completed: false,
+      }));
+
+      setApplianceItems([...applianceItems, ...newAppliances]);
+    }
+
+    // Show feedback about duplicates if any were found
+    if (duplicates.length > 0) {
+      alert(
+        `The following items were skipped as they already exist: ${duplicates.join(
+          ", "
+        )}`
+      );
+    }
+
+    setSelectedLightings([]);
+    lightingsModalHandlers.close();
+  };
+
+  // Toggle gadget selection
+  const toggleGadgetSelection = (gadget) => {
+    setSelectedGadgets((prev) => {
+      if (prev.includes(gadget)) {
+        return prev.filter((g) => g !== gadget);
+      } else {
+        return [...prev, gadget];
+      }
+    });
+  };
+
+  // Toggle lighting selection
+  const toggleLightingSelection = (lighting) => {
+    setSelectedLightings((prev) => {
+      if (prev.includes(lighting)) {
+        return prev.filter((l) => l !== lighting);
+      } else {
+        return [...prev, lighting];
+      }
+    });
   };
 
   // Delete appliance item
@@ -358,7 +501,7 @@ const ApplianceItems = ({
           <h2 className="text-3xl font-bold flex-1">{setName}</h2>
           <button
             onClick={handleSaveAll}
-            className="bg-green-500 hover:bg-green-600 text-black py-2 px-4 rounded flex items-center"
+            className="bg-green-400 hover:bg-green-600 text-black py-2 px-4 rounded flex items-center !font-semibold"
           >
             <FaSave className="mr-2" /> Save Set
           </button>
@@ -425,14 +568,40 @@ const ApplianceItems = ({
           </div>
         ))}
 
-        <button
-          onClick={addApplianceItem}
-          className="flex items-center justify-center w-auto py-2 px-5 mt-3 bg-cta-bluegreen text-black hover:bg-cta-bluegreen/80 cursoir-pointer rounded transition"
-        >
-          <FaPlus className="mr-2" /> Add Appliance
-        </button>
+        <div className="flex flex-wrap gap-2 mt-3">
+          <button
+            onClick={addApplianceItem}
+            className="flex items-center justify-center py-2 px-3 bg-cta-bluegreen !font-semibold text-black hover:bg-cta-bluegreen/80 cursor-pointer rounded transition"
+          >
+            <FaPlus className="mr-2" /> Add Appliance
+          </button>
+        </div>
+
+        <div className="mt-5 text-white/60">
+          <p>
+            Use these quick-add buttons to select from pre-defined common
+            electronics
+          </p>
+          <div className="flex gap-3 mt-3">
+            <button
+              onClick={gadgetsModalHandlers.open}
+              className="flex items-center justify-center bg-cta-bluegreen text-black !font-semibold border-gray-500 px-2 py-2 cursor-pointer rounded transition"
+            >
+              <FaMobile className="mr-2 text-black" />
+              Gadgets
+            </button>
+
+            <button
+              onClick={lightingsModalHandlers.open}
+              className="flex items-center justify-center bg-cta-bluegreen text-black !font-semibold border-gray-500 px-2 py-2 cursor-pointer rounded transition"
+            >
+              <FaLightbulb className="mr-2" /> Lightings
+            </button>
+          </div>
+        </div>
       </div>
 
+      {/* Usage Modal */}
       <Modal
         opened={opened}
         onClose={close}
@@ -594,7 +763,112 @@ const ApplianceItems = ({
           </button>
         </div>
       </Modal>
+      {/* Gadgets Selection Modal */}
+      <Modal
+        opened={gadgetsModalOpened}
+        onClose={gadgetsModalHandlers.close}
+        title="Select Gadgets"
+        styles={{
+          header: {
+            backgroundColor: "#13171C",
+            padding: "16px",
+            color: "white",
+          },
+          content: { backgroundColor: "#13171C" },
+        }}
+        size="lg"
+      >
+        <div className="text-white p-4">
+          <p className="mb-4">
+            Select the gadgets you want to add to your appliance list:
+          </p>
 
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            {gadgetOptions.map((gadget) => (
+              <div key={gadget} className="flex items-center">
+                <Checkbox
+                  checked={selectedGadgets.includes(gadget)}
+                  onChange={() => toggleGadgetSelection(gadget)}
+                  label={gadget}
+                  size="md"
+                  color="cyan"
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-end space-x-4 mt-6">
+            <Button
+              variant="outline"
+              onClick={gadgetsModalHandlers.close}
+              color="gray"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="filled"
+              color="blue"
+              onClick={addSelectedGadgets}
+              disabled={selectedGadgets.length === 0}
+            >
+              Add Selected Gadgets
+            </Button>
+          </div>
+        </div>
+      </Modal>
+      {/* Lightings Selection Modal */}
+      <Modal
+        opened={lightingsModalOpened}
+        onClose={lightingsModalHandlers.close}
+        title="Select Lighting Options"
+        styles={{
+          header: {
+            backgroundColor: "#13171C",
+            padding: "16px",
+            color: "white",
+          },
+          content: { backgroundColor: "#13171C" },
+        }}
+        size="lg"
+      >
+        <div className="text-white p-4">
+          <p className="mb-4">
+            Select the lighting options you want to add to your appliance list:
+          </p>
+
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            {lightingOptions.map((lighting) => (
+              <div key={lighting} className="flex items-center">
+                <Checkbox
+                  checked={selectedLightings.includes(lighting)}
+                  onChange={() => toggleLightingSelection(lighting)}
+                  label={lighting}
+                  size="md"
+                  color="yellow"
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="flex justify-end space-x-4 mt-6">
+            <Button
+              variant="outline"
+              onClick={lightingsModalHandlers.close}
+              color="gray"
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="filled"
+              color="yellow"
+              onClick={addSelectedLightings}
+              disabled={selectedLightings.length === 0}
+            >
+              Add Selected Lighting
+            </Button>
+          </div>
+        </div>
+      </Modal>
       {/* Delete Confirmation Modal */}
       <Modal
         opened={deleteModalOpened}
