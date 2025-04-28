@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 import { Modal, Button } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
+import { FaChevronDown, FaChevronUp, FaTrash } from "react-icons/fa";
 
 const History = () => {
   const [calculations, setCalculations] = useState([]);
@@ -37,7 +38,15 @@ const History = () => {
   // Function to format timestamp
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);
-    return date.toLocaleString();
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "2-digit",
+      hour12: true,
+    };
+    return date.toLocaleDateString("en-US", options);
   };
 
   // This function will open the confirmation modal
@@ -60,7 +69,7 @@ const History = () => {
       const db = getDatabase();
       const calculationRef = ref(
         db,
-        `users/${userId}/calculations/${calculationId}`,
+        `users/${userId}/calculations/${calculationId}`
       );
       await remove(calculationRef);
       toast.success("Calculation deleted successfully");
@@ -131,7 +140,7 @@ const History = () => {
           duration: 5000,
         });
         setLoading(false);
-      },
+      }
     );
 
     return () => unsubscribe();
@@ -149,11 +158,6 @@ const History = () => {
 
   return (
     <div className="mt-10">
-      {/* Main header similar to your sample */}
-      <div className="bg-gray-800 text-slate-200 p-6 rounded-lg shadow mb-8">
-        <h2 className="text-2xl font-bold mb-4">History</h2>
-        <p>View your activity history and past interactions here.</p>
-      </div>
       {/* Secondary header with your specified styling */}
       <div className="w-full">
         <h1 className="text-left text-cta-bluegreen text-3xl font-semibold mb-3">
@@ -171,7 +175,8 @@ const History = () => {
             </p>
             <button
               onClick={() => navigate("/consumption-calculator")}
-              className="bg-cta-bluegreen text-black px-4 py-2 rounded mt-4 hover:bg-cta-bluegreen/70 transition">
+              className="bg-cta-bluegreen text-black px-4 py-2 rounded mt-4 hover:bg-cta-bluegreen/70 transition"
+            >
               Go to Calculator
             </button>
           </div>
@@ -179,8 +184,9 @@ const History = () => {
           calculations.map((calculation, index) => (
             <div
               key={calculation.id}
-              className="mb-6 bg-gray-800 p-6 rounded-lg shadow">
-              <div className="flex justify-between items-center mb-4">
+              className="mb-6 bg-gray-800 p-6 rounded-lg shadow"
+            >
+              <div className="flex justify-between items-center">
                 <div>
                   <h2 className="text-xl font-semibold text-white">
                     Calculation #{calculations.length - index}
@@ -189,25 +195,35 @@ const History = () => {
                     {formatDate(calculation.timestamp)}
                   </p>
                 </div>
-                <button
-                  onClick={() => toggleCalculation(index)}
-                  className="bg-cta-bluegreen text-black px-3 py-1 rounded hover:bg-cta-bluegreen/70 transition cursor-pointer">
-                  {expandedCalculation === index
-                    ? "Hide Details"
-                    : "View Details"}
-                </button>
-                <button
-                  onClick={() =>
-                    handleDeleteConfirmation(calculation.id, index, calculations)
-                  }
-                  disabled={deleting}
-                  className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition cursor-pointer disabled:bg-red-300 disabled:cursor-not-allowed">
-                  Delete
-                </button>
+                <div>
+                  <button
+                    onClick={() => toggleCalculation(index)}
+                    className=" text-cta-bluegreen px-3 py-1 rounded  transition cursor-pointer"
+                  >
+                    {expandedCalculation === index ? (
+                      <FaChevronUp size={23} />
+                    ) : (
+                      <FaChevronDown size={23} />
+                    )}
+                  </button>
+                  <button
+                    onClick={() =>
+                      handleDeleteConfirmation(
+                        calculation.id,
+                        index,
+                        calculations
+                      )
+                    }
+                    disabled={deleting}
+                    className=" text-red-500 px-3 py-1 roundedtransition cursor-pointer disabled:bg-red-300 disabled:cursor-not-allowed"
+                  >
+                    <FaTrash size={23} />
+                  </button>
+                </div>
               </div>
 
               {expandedCalculation === index && (
-                <div className="mt-4">
+                <div className="mt-4 text-white">
                   <h3 className="text-blue-400 font-medium mb-2">
                     Appliances:
                   </h3>
@@ -215,7 +231,8 @@ const History = () => {
                     {calculation.appliances.map((appliance, appIndex) => (
                       <div
                         key={appIndex}
-                        className="mb-4 bg-gray-700 p-4 rounded-lg">
+                        className="mb-4 bg-gray-700 p-4 rounded-lg"
+                      >
                         <div className="flex justify-between items-center">
                           <div className="font-medium">
                             <span className="text-blue-400">
@@ -326,7 +343,8 @@ const History = () => {
           content: {
             backgroundColor: "#13171C",
           },
-        }}>
+        }}
+      >
         <div className="text-white p-2">
           <p className="mb-4">
             Are you sure you want to delete "
@@ -343,7 +361,8 @@ const History = () => {
               variant="filled"
               color="red"
               onClick={confirmDelete}
-              disabled={deleting}>
+              disabled={deleting}
+            >
               Delete
             </Button>
           </div>
