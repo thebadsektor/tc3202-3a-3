@@ -16,6 +16,7 @@ import ProfilePage from "./pages/ProfilePage";
 import BillPrediction from "./pages/BillPredictionPage";
 import ForgotPassword from "./components/ForgotPasswordForm";
 import AboutPage from "./pages/AboutPage";
+import RecommendationPage from "./pages/RecommendationPage";
 
 function App() {
   const location = useLocation();
@@ -36,6 +37,11 @@ function App() {
           element={<BillCalculator />}
         />
         <Route exact path="/bill-prediction" element={<BillPrediction />} />
+        <Route
+          exact
+          path="/energy-recommendation"
+          element={<RecommendationPage />}
+        />
         <Route exact path="/about" element={<AboutPage />} />
         <Route
           exact

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ref, getDatabase, push, onValue } from "firebase/database";
 import { toast } from "sonner";
 import { Toaster } from "../components/ui/sonner";
+
 function BillCalcuOutput() {
   const location = useLocation();
   const navigate = useNavigate();
@@ -12,6 +13,10 @@ function BillCalcuOutput() {
   const [isSaved, setIsSaved] = useState(false);
   const [savedCalculations, setSavedCalculations] = useState({});
   const [currentCalculationId, setCurrentCalculationId] = useState(null);
+
+  // Modal states
+  const [saveModal, setSaveModal] = useState(false);
+  const [calculationName, setCalculationName] = useState("");
 
   // Extract values from navigation state (passed from calculate function in CillCalculator.jsx)
   const {
@@ -109,8 +114,8 @@ function BillCalcuOutput() {
     .map((appliance) => `${appliance.name} (${appliance.quantity || 1})`)
     .join(", ");
 
-  // function to save the result in to the database
-  const handleSaveResult = async () => {
+  // Open the save modal
+  const openSaveModal = () => {
     const userToken = localStorage.getItem("idToken");
     const user = localStorage.getItem("uid");
 
@@ -125,11 +130,56 @@ function BillCalcuOutput() {
       return;
     }
 
+    // Format current date
+    const today = new Date();
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const formattedDate = today.toLocaleDateString("en-US", options);
+
+    // Generate default calculation name with date
+    let defaultName;
+    if (appliances.length > 0) {
+      const remainingCount = appliances.length - 1;
+      defaultName = `${formattedDate} | ${appliances[0].name}${
+        remainingCount > 0
+          ? ` + ${remainingCount} ${
+              remainingCount === 1 ? "Appliance" : "Appliances"
+            }`
+          : ""
+      }`;
+    } else {
+      defaultName = `${formattedDate} | Energy Calculation`;
+    }
+
+    setCalculationName(defaultName);
+    setSaveModal(true);
+  };
+
+  // function to save the result in to the database
+  const handleSaveResult = async () => {
+    const userToken = localStorage.getItem("idToken");
+    const user = localStorage.getItem("uid");
+
+    if (!userToken || !user) {
+      toastOnSave(false);
+      return;
+    }
+
+    // Close the modal
+    setSaveModal(false);
+
+    // Use default name if empty
+    const today = new Date();
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    const formattedDate = today.toLocaleDateString("en-US", options);
+    const name =
+      calculationName.trim() || `${formattedDate} | Energy Calculation`;
+
     const db = getDatabase();
     const calculationRef = ref(db, "users/" + user + "/calculations");
 
     try {
       await push(calculationRef, {
+        name, // Add calculation name
         appliances,
         totalCost,
         totalCostPerDay,
@@ -274,7 +324,7 @@ function BillCalcuOutput() {
 
           <div className="flex items-center justify-center pt-5 gap-5">
             <button
-              onClick={handleSaveResult}
+              onClick={openSaveModal}
               disabled={isSaved}
               className={`w-50 text-white py-3 px-4 mt-5 leading-tight cursor-pointer font-semibold rounded transition ${
                 isSaved
@@ -293,6 +343,52 @@ function BillCalcuOutput() {
           </div>
         </div>
       </div>
+
+      {/* Save Modal */}
+      {saveModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg w-full max-w-md mx-4">
+            <div className="px-6 py-4 border-b border-gray-700">
+              <h3 className="text-lg font-medium text-white">
+                Save Calculation
+              </h3>
+            </div>
+            <div className="p-6">
+              <div className="mb-4">
+                <label
+                  htmlFor="calculationName"
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
+                  Calculation Name
+                </label>
+                <input
+                  type="text"
+                  id="calculationName"
+                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-cta-bluegreen"
+                  value={calculationName}
+                  onChange={(e) => setCalculationName(e.target.value)}
+                  placeholder="Enter a name for this calculation"
+                  autoFocus
+                />
+              </div>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setSaveModal(false)}
+                  className="px-4 py-1 text-sm font-medium text-white bg-transparent border border-gray-500 rounded-md hover:bg-gray-700 focus:outline-none"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveResult}
+                  className="px-4 py-1 text-sm font-medium text-black bg-cta-bluegreen rounded-md hover:bg-cta-bluegreen/70 focus:outline-none"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Toaster />
     </>

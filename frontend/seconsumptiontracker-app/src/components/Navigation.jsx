@@ -292,7 +292,7 @@ function Navigation() {
                 </li>
                 <li>
                   <Link
-                    to="#"
+                    to="/energy-recommendation"
                     className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg"
                   >
                     Save Energy (Optimization Suggestions)

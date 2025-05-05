@@ -50,9 +50,10 @@ const History = () => {
   };
 
   // This function will open the confirmation modal
-  const handleDeleteConfirmation = (calculationId, index, calculations) => {
-    const formattedName = `Calculation #${calculations.length - index}`;
-    setCalculationToDelete({ id: calculationId, name: formattedName });
+  const handleDeleteConfirmation = (calculationId, calculation) => {
+    // Use the actual calculation name or a fallback
+    const calculationName = calculation.name || `Unnamed Calculation`;
+    setCalculationToDelete({ id: calculationId, name: calculationName });
     openDeleteModal();
   };
 
@@ -91,6 +92,29 @@ const History = () => {
     // Close the modal
     closeDeleteModal();
     setCalculationToDelete(null);
+  };
+
+  // Function to generate a fallback name if none exists
+  const getCalculationDisplayName = (calculation, index, totalCount) => {
+    if (calculation.name) {
+      return calculation.name;
+    }
+
+    // Fallback name if no custom name exists
+    if (calculation.appliances && calculation.appliances.length > 0) {
+      const mainAppliance = calculation.appliances[0].name;
+      const remainingCount = calculation.appliances.length - 1;
+
+      if (remainingCount > 0) {
+        return `${mainAppliance} + ${remainingCount} ${
+          remainingCount === 1 ? "Appliance" : "Appliances"
+        }`;
+      }
+      return mainAppliance;
+    }
+
+    // Last resort: use calculation number
+    return `Calculation #${totalCount - index}`;
   };
 
   useEffect(() => {
@@ -189,7 +213,11 @@ const History = () => {
               <div className="flex justify-between items-center">
                 <div>
                   <h2 className="text-xl font-semibold text-white">
-                    Calculation #{calculations.length - index}
+                    {getCalculationDisplayName(
+                      calculation,
+                      index,
+                      calculations.length
+                    )}
                   </h2>
                   <p className="text-white/60 text-sm">
                     {formatDate(calculation.timestamp)}
@@ -198,7 +226,7 @@ const History = () => {
                 <div>
                   <button
                     onClick={() => toggleCalculation(index)}
-                    className=" text-cta-bluegreen px-3 py-1 rounded  transition cursor-pointer"
+                    className="text-cta-bluegreen px-3 py-1 rounded transition cursor-pointer"
                   >
                     {expandedCalculation === index ? (
                       <FaChevronUp size={23} />
@@ -208,14 +236,10 @@ const History = () => {
                   </button>
                   <button
                     onClick={() =>
-                      handleDeleteConfirmation(
-                        calculation.id,
-                        index,
-                        calculations
-                      )
+                      handleDeleteConfirmation(calculation.id, calculation)
                     }
                     disabled={deleting}
-                    className=" text-red-500 px-3 py-1 roundedtransition cursor-pointer disabled:bg-red-300 disabled:cursor-not-allowed"
+                    className="text-red-500 px-3 py-1 rounded transition cursor-pointer disabled:bg-red-300 disabled:cursor-not-allowed"
                   >
                     <FaTrash size={23} />
                   </button>
