@@ -370,7 +370,7 @@ function HeroPage() {
                           duration: 0.5,
                           delay: index * 0.1,
                         }}
-                        className="bg-gray-50 dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
+                        className="bg-gradient-to-r from-white via-cyan-50 to-cyan-100 dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2"
                       >
                         <div className={`mb-4 ${advantage.color}`}>
                           <advantage.icon size={48} strokeWidth={1.5} />

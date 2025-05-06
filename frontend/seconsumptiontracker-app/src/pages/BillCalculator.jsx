@@ -656,8 +656,7 @@ export default function DynamicTextFields() {
               </button>
             </div>
 
-
-        {/*Commented out muna para hindi secret muna sa user*/}
+            {/*Commented out muna para hindi secret muna sa user*/}
             {/* <div className="text-center mt-2">
               <p>
                 Selected rate:{" "}
