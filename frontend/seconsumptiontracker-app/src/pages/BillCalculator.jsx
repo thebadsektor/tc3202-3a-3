@@ -179,9 +179,9 @@ export default function DynamicTextFields() {
   const handleTypeSelection = (type) => {
     setSelectedType(type);
     if (type === "residential") {
-      setElectricityRate(12.2901);
+      setElectricityRate(13.0127);
     } else {
-      setElectricityRate(13.4717);
+      setElectricityRate(14.1945);
     }
   };
 
