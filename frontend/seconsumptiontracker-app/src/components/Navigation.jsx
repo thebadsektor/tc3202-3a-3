@@ -135,8 +135,7 @@ function Navigation() {
       <div
         className={`w-full bg-[#1b2027] fixed top-0 z-50 transition-all duration-300 ${
           showNavbar ? "translate-y-0" : "-translate-y-full"
-        }`}
-      >
+        }`}>
         <nav className="container w-full h-[8vh] border-blue-200 flex items-center justify-between">
           {/* Mobile Menu and Logo container */}
           <div className="flex items-center">
@@ -183,8 +182,7 @@ function Navigation() {
                 <Avatar
                   ref={avatarRef}
                   onClick={() => setIsAvatarOpen((prev) => !prev)}
-                  className="cursor-pointer h-10 w-10"
-                >
+                  className="cursor-pointer h-10 w-10">
                   <AvatarImage
                     src={
                       localStorage.getItem("profilePic") ||
@@ -199,8 +197,7 @@ function Navigation() {
                 {isAvatarOpen && (
                   <div
                     ref={dropdownRef}
-                    className="absolute right-0 mt-2 w-50 bg-gray-800 shadow-lg rounded-lg p-2 z-50"
-                  >
+                    className="absolute right-0 mt-2 w-50 bg-gray-800 shadow-lg rounded-lg p-2 z-50">
                     <Link to="profile">
                       <button className="w-full text-gray-300 hover:bg-gray-600 text-left px-4 py-2 cursor-pointer mt-5">
                         Profile
@@ -208,20 +205,17 @@ function Navigation() {
                     </Link>
                     <button
                       className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600 cursor-pointer"
-                      onClick={() => navigate("/dashboard")}
-                    >
+                      onClick={() => navigate("/dashboard")}>
                       Dashboard
                     </button>
                     <button
                       className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600 cursor-pointer"
-                      onClick={() => alert("Go to History")}
-                    >
+                      onClick={() => alert("Go to History")}>
                       History
                     </button>
                     <button
                       className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-600 cursor-pointer"
-                      onClick={() => handleLogout()}
-                    >
+                      onClick={() => handleLogout()}>
                       Logout
                     </button>
                   </div>
@@ -230,8 +224,7 @@ function Navigation() {
             ) : (
               <Link
                 to="/login-form"
-                className="text-gray-100 py-2 px-4 text-sm bg-cta-bluegreen rounded-lg font-semibold hover:bg-blue-400 transition-all duration-200"
-              >
+                className="text-gray-100 py-2 px-4 text-sm bg-cta-bluegreen rounded-lg font-semibold hover:bg-blue-400 transition-all duration-200">
                 Login
               </Link>
             )}
@@ -239,35 +232,38 @@ function Navigation() {
 
           {/* Desktop Menu */}
           <ul className="items-center justify-center hidden md:flex text-white">
-            <li>
-              <Link
-                to="/"
-                onClick={(e) => {
-                  if (window.location.pathname === "/") {
-                    e.preventDefault();
-                    window.location.href = window.location.href; // Reloads the page
-                  }
-                }}
-                className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                to="/about"
-                className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
-              >
-                About
-              </Link>
-            </li>
+            {!localStorage.getItem("idToken") ? (
+              <div className="items-center justify-center hidden md:flex text-white">
+                <li>
+                  <Link
+                    to="/"
+                    onClick={(e) => {
+                      if (window.location.pathname === "/") {
+                        e.preventDefault();
+                        window.location.href = window.location.href; // Reloads the page
+                      }
+                    }}
+                    className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/about"
+                    className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200">
+                    About
+                  </Link>
+                </li>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2"></div>
+            )}
 
             {/* Features with Dropdown */}
             <li className="relative group">
               <Link
                 to="#"
-                className="flex items-center gap-2 py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
-              >
+                className="flex items-center gap-2 py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200">
                 Features
                 <IoIosArrowDropdown />
               </Link>
@@ -277,24 +273,21 @@ function Navigation() {
                 <li className="">
                   <Link
                     to="/bill-prediction"
-                    className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg"
-                  >
+                    className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg">
                     Bill Prediction
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/consumption-calculator"
-                    className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg"
-                  >
+                    className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg">
                     Energy Consumption Calculator
                   </Link>
                 </li>
                 <li>
                   <Link
                     to="/energy-recommendation"
-                    className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg"
-                  >
+                    className="block px-6 py-3 hover:bg-gray-700 text-base transition-all hover:rounded-lg">
                     Save Energy (Optimization Suggestions)
                   </Link>
                 </li>
@@ -303,8 +296,7 @@ function Navigation() {
             <li>
               <Link
                 to=""
-                className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200 mr-5"
-              >
+                className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200 mr-5">
                 Contact
               </Link>
             </li>
@@ -315,8 +307,7 @@ function Navigation() {
                   <Avatar
                     ref={avatarRef}
                     onClick={() => setIsAvatarOpen((prev) => !prev)}
-                    className="cursor-pointer"
-                  >
+                    className="cursor-pointer">
                     <AvatarImage
                       src={
                         localStorage.getItem("profilePic") ||
@@ -331,13 +322,13 @@ function Navigation() {
                   {isAvatarOpen && (
                     <div
                       ref={dropdownRef}
-                      className="absolute right-0 mt-2 w-50 bg-gray-800 shadow-lg rounded-lg p-2 z-50"
-                    >
+                      className="absolute right-0 mt-2 w-50 bg-gray-800 shadow-lg rounded-lg p-2 z-50">
                       <Link to="profile">
                         <button className="w-full text-gray-300 hover:bg-gray-600 text-left px-4 py-2 cursor-pointer ">
                           Profile
                         </button>
                       </Link>
+                      {/*
                       <button
                         className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600 cursor-pointer"
                         onClick={() => navigate("/dashboard")}
@@ -349,11 +340,10 @@ function Navigation() {
                         onClick={() => alert("Go to History")}
                       >
                         History
-                      </button>
+                      </button>*/}
                       <button
                         className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-600 cursor-pointer"
-                        onClick={() => handleLogout()}
-                      >
+                        onClick={() => handleLogout()}>
                         Logout
                       </button>
                     </div>
@@ -362,8 +352,7 @@ function Navigation() {
               ) : (
                 <Link
                   to="/login-form"
-                  className="text-black py-3 px-6 base bg-cta-bluegreen rounded-lg font-semibold hover:bg-cta-bluegreen/80 transition-all duration-200"
-                >
+                  className="text-black py-3 px-6 base bg-cta-bluegreen rounded-lg font-semibold hover:bg-cta-bluegreen/80 transition-all duration-200">
                   Login
                 </Link>
               )}
@@ -375,29 +364,33 @@ function Navigation() {
         <div
           className={`fixed top-[8vh] right-0 pl-10 w-full h-auto bg-[#13171C] text-white flex flex-col items-start justify-start py-10 gap-6 transition-transform duration-300 z-40 ${
             mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <Link
-            to="/"
-            className="text-2xl hover:underline transition duration-500"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Home
-          </Link>
-          <Link
-            to="/about"
-            className="text-2xl hover:underline transition duration-500"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            About
-          </Link>
+          }`}>
+          {!localStorage.getItem("idToken") ? (
+            <div className={`fixed top-[8vh] right-0 pl-10 w-full h-auto bg-[#13171C] text-white flex flex-col items-start justify-start py-10 gap-6 transition-transform duration-300 z-40 ${
+            mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+          }`}>
+              <Link
+                to="/"
+                className="text-2xl hover:underline transition duration-500"
+                onClick={() => setMobileMenuOpen(false)}>
+                Home
+              </Link>
+              <Link
+                to="/about"
+                className="text-2xl hover:underline transition duration-500"
+                onClick={() => setMobileMenuOpen(false)}>
+                About
+              </Link>
+            </div>
+          ) : (
+              <div></div>
+          )}
 
           {/* Features with dropdown on mobile - Simplified */}
           <div className="w-full flex flex-col items-start">
             <button
               className="flex items-center gap-2 !text-2xl hover:underline transition duration-500"
-              onClick={() => setMobileFeatureOpen(!mobileFeatureOpen)}
-            >
+              onClick={() => setMobileFeatureOpen(!mobileFeatureOpen)}>
               Features
               <IoIosArrowDropdown
                 className={`transition-transform duration-300 ${
@@ -412,22 +405,19 @@ function Navigation() {
                 <Link
                   to="/bill-calculator"
                   className="text-xl hover:underline transition duration-500"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
+                  onClick={() => setMobileMenuOpen(false)}>
                   Bill Calculator
                 </Link>
                 <Link
                   to="/consumption-calculator"
                   className="text-xl hover:underline transition duration-500"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
+                  onClick={() => setMobileMenuOpen(false)}>
                   Energy Consumption Calculator
                 </Link>
                 <Link
                   to="#"
                   className="text-xl hover:underline transition duration-500"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
+                  onClick={() => setMobileMenuOpen(false)}>
                   Save Energy (Optimization Suggestions)
                 </Link>
               </div>
@@ -437,8 +427,7 @@ function Navigation() {
           <Link
             to=""
             className="text-2xl hover:underline transition duration-500"
-            onClick={() => setMobileMenuOpen(false)}
-          >
+            onClick={() => setMobileMenuOpen(false)}>
             Contact
           </Link>
 
@@ -447,8 +436,7 @@ function Navigation() {
             <Link
               to="/login-form"
               className="text-white bg-blue-500 px-6 py-3 text-2xl rounded-lg"
-              onClick={() => setMobileMenuOpen(false)}
-            >
+              onClick={() => setMobileMenuOpen(false)}>
               Login
             </Link>
           )}
