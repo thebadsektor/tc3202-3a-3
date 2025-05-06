@@ -3,10 +3,39 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from .ml.feature_forecast import build_next_month_input
+import json
 import pandas as pd
 import numpy as np
 import os
 import joblib
+import threading
+import time
+from gradio_client import Client
+
+
+huggingface_lock = threading.Lock()
+
+@csrf_exempt
+def get_energy_recommendation(request):
+    if request.method == "POST":
+        if huggingface_lock.locked():
+            return JsonResponse(
+                {"error": "Model is currently processing another request. Please wait and try again."},
+                status=429  # Too Many Requests
+            )
+
+        try:
+            data = json.loads(request.body)
+            user_input = data.get("appliance_info", "")
+            prompt = user_input
+            with huggingface_lock:
+                client = Client("Wh1plashR/AppTry")
+                result = client.predict(appliance_info=prompt, api_name="/predict")
+                return JsonResponse({"recommendation": result})
+        except Exception as e:
+            return JsonResponse({"error": str(e)}, status=500)
+
+    return JsonResponse({"error": "POST request required."}, status=400)
 
 model_path = os.path.join("models", "xgb_total_bill_model_tuned.pkl")
 model = joblib.load(model_path)

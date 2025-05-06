@@ -11,8 +11,9 @@ numpy
 pandas
 scikit-learn
 
-# XGBoost model
+# XGBoost and Lightgbm model
 xgboost
+lightgbm
 
 # Time series modeling
 statsmodels
@@ -24,3 +25,6 @@ seaborn
 
 # Model serialization
 joblib
+
+#gradio
+gradio_client

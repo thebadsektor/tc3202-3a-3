@@ -8,7 +8,7 @@ import { getDatabase, ref, onValue, get, set } from "firebase/database";
 
 export default function BillPrediction() {
   // lock in default april lang muna
-  const [month, setMonth] = useState(new Date(2025, 3, 1));
+  const [month, setMonth] = useState(new Date(2025, 4, 1));
 
   const [modalOpened, setModalOpened] = useState(false);
   const [applianceSets, setApplianceSets] = useState([]);

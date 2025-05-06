@@ -17,6 +17,11 @@ export default function RecommendationPage() {
   const [tempSelectedCalculations, setTempSelectedCalculations] = useState([]);
   const [expandedSets, setExpandedSets] = useState({});
 
+ // Recommendation state
+ const [recommendation, setRecommendation] = useState("");
+ const [recLoading, setRecLoading] = useState(false);
+ const [recError, setRecError] = useState("");
+
   // to handle the prediction result
   const [isSaved, setIsSaved] = useState(false);
 
@@ -24,6 +29,53 @@ export default function RecommendationPage() {
   const extractWeeks = (weeksString) => {
     const match = weeksString?.match(/(\d+)/);
     return match ? parseInt(match[0], 10) : 4;
+  };
+
+  // build and fetch recommendation
+  const handleGetRecommendation = async () => {
+    setRecLoading(true);
+    setRecError("");
+    setRecommendation("");
+
+    // Build appliance_info lines
+    const lines = [];
+    Object.values(selectedCalculationsData).forEach((calc) => {
+      (calc.appliances || []).forEach((appl) => {
+        const name = appl.name;
+        const watt = appl.watt;
+        const hours = appl.hours;
+        let daysNum = 7;
+        if (Array.isArray(appl.days)) {
+          daysNum = appl.days.length;
+        } else if (typeof appl.days === 'number') {
+          daysNum = appl.days;
+        } else if (typeof appl.days === 'string') {
+          const parsed = parseInt(appl.days, 10);
+          if (!isNaN(parsed)) daysNum = parsed;
+        }
+        lines.push(`${name}: ${watt}W, ${hours}h/day, ${daysNum}d/week`);
+      });
+    });
+    const appliance_info = lines.join("\n");
+
+    try {
+      const response = await fetch("http://localhost:8000/api/recommend/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ appliance_info }),
+      });
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`API error ${response.status}: ${errText}`);
+      }
+      const data = await response.json();
+      setRecommendation(data.recommendation);
+    } catch (err) {
+      console.error(err);
+      setRecError(err.message);
+    } finally {
+      setRecLoading(false);
+    }
   };
 
   // First, set up an auth state listener to ensure we have auth before fetching data
@@ -476,12 +528,28 @@ export default function RecommendationPage() {
               })}
 
               {/* Button to calculate prediction */}
-              <button
-                className="w-full mt-6 py-3 px-5 bg-green-400 !font-semibold hover:bg-green-400/80 text-black cursor-pointer rounded transition"
-                disabled={!user || loading}
-              >
-                Get Recommendation
-              </button>
+              {/* Recommendation Section */}
+              <div className="mt-6">
+                <button
+                  onClick={handleGetRecommendation}
+                  disabled={!user || recLoading}
+                  className="w-full py-3 px-5 bg-green-400 hover:bg-green-400/80 text-black rounded"
+                >
+                  {recLoading ? "Fetching Recommendation..." : "Get Recommendation"}
+                </button>
+
+                {recommendation && (
+                  <div className="mt-4 p-4 bg-gray-800 text-white rounded whitespace-pre-wrap">
+                    {recommendation}
+                  </div>
+                )}
+
+                {recError && (
+                  <div className="mt-4 p-4 bg-red-800 text-white rounded">
+                    Error: {recError}
+                  </div>
+                )}
+              </div>
             </div>
           )}
         </div>
