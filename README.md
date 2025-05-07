@@ -68,10 +68,10 @@ Step-by-step instructions for setting up the project locally.
    ```
 3. **Configure environment variables (if any)**: Provide instructions for setting up .env files or any other required configurations.
    ```bash
-   git clone https://github.com/your-repo-url.git
+   source .venv/Scripts/activate
    ```
 4. **Run the project:**
-   - For web projects:
+   - For frontend services:
    ```bash
    npm run dev
    ```
@@ -79,8 +79,6 @@ Step-by-step instructions for setting up the project locally.
    ```bash
    python manage.py runserver
    ```
-
-**Note:** If your project has external depencies like XAMPP, MySQL, special SDK, or other environemnt setup, create another section for it.
 
 ## Usage Instructions
 Provide detailed instructions on how to use the project after setup:
@@ -136,28 +134,22 @@ Outline the project timeline, including milestones or deliverables. Example:
 
 ## Changelog
 
-### [Version 1.0.0] - 2024-09-07
+### [Version 1.0.0] - 2025-04-12
 - Initial release of the project.
-- Added basic functionality for [Feature 1], [Feature 2], and [Feature 3].
+- Added basic functionality for Consumption Calculator and Bill Prediction.
 
-### [Version 1.1.0] - 2024-09-14
+### [Version 1.1.0] - 2024-5-5
 
-- Improved user interface for [Feature 1].
-- Fixed bugs related to [Feature 2].
+- Improved overall user interface.
+- Added functionality for Energy-saving recommendations.
 - Updated project documentation with setup instructions.
-
-### [Version 1.2.0] - 2024-09-21
-- Added new functionality for [Feature 4].
-- Refactored codebase for better performance.
-- Added unit tests for [Feature 3] and [Feature 4].
 
 
 ## Acknowledgments
 
 Acknowledge any resources, mentors, or external tools that helped in completing the project.
 
-This project was built from [Original Project Name](https://github.com/username/original-repo), created by [Original Author's Name]. You can view the original repository [here](https://github.com/username/original-repo).
-
+This project would not be put into fruition without the supervision of our instructors, Mr. Gerald Villaran, Ms. Mary Grace Guillermo, and Ms. Joville Avila. The machine learning model was created through online public resources provided by MERALCO, BSP, and PSA. We are also grateful to MERALCO and PSA for their prompt responses to our queries.
 ## License
 
 Specify the project's license. For starters, adapt the license of the original repository.
