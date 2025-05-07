@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { ref, getDatabase, onValue } from "firebase/database";
 import ElectricityRateGraph from "../components/PredictedElectricityRateGraph";
+import PastRatesGraph from "../components/PastRatesGraph";
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -189,7 +190,9 @@ const Dashboard = () => {
           </>
         )}
       </div>
-
+      
+      {/* Include the Past Rates Graph component */}
+      <PastRatesGraph />
       {/* Include the Electricity Rate Graph component */}
       <ElectricityRateGraph />
     </>

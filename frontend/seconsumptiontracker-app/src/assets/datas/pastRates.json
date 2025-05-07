@@ -1,0 +1,922 @@
+[
+    {
+      "Year": 2010,
+      "Month": 1,
+      "Total Bill": 9.3707
+    },
+    {
+      "Year": 2010,
+      "Month": 2,
+      "Total Bill": 10.1885
+    },
+    {
+      "Year": 2010,
+      "Month": 3,
+      "Total Bill": 11.209
+    },
+    {
+      "Year": 2010,
+      "Month": 4,
+      "Total Bill": 13.2501
+    },
+    {
+      "Year": 2010,
+      "Month": 5,
+      "Total Bill": 11.6832
+    },
+    {
+      "Year": 2010,
+      "Month": 6,
+      "Total Bill": 11.5444
+    },
+    {
+      "Year": 2010,
+      "Month": 7,
+      "Total Bill": 11.8705
+    },
+    {
+      "Year": 2010,
+      "Month": 8,
+      "Total Bill": 12.4758
+    },
+    {
+      "Year": 2010,
+      "Month": 9,
+      "Total Bill": 11.5987
+    },
+    {
+      "Year": 2010,
+      "Month": 10,
+      "Total Bill": 10.2917
+    },
+    {
+      "Year": 2010,
+      "Month": 11,
+      "Total Bill": 11.6646
+    },
+    {
+      "Year": 2010,
+      "Month": 12,
+      "Total Bill": 11.4167
+    },
+    {
+      "Year": 2011,
+      "Month": 1,
+      "Total Bill": 11.2313
+    },
+    {
+      "Year": 2011,
+      "Month": 2,
+      "Total Bill": 11.4619
+    },
+    {
+      "Year": 2011,
+      "Month": 3,
+      "Total Bill": 11.3826
+    },
+    {
+      "Year": 2011,
+      "Month": 4,
+      "Total Bill": 11.6558
+    },
+    {
+      "Year": 2011,
+      "Month": 5,
+      "Total Bill": 11.5429
+    },
+    {
+      "Year": 2011,
+      "Month": 6,
+      "Total Bill": 12.1038
+    },
+    {
+      "Year": 2011,
+      "Month": 7,
+      "Total Bill": 11.8125
+    },
+    {
+      "Year": 2011,
+      "Month": 8,
+      "Total Bill": 11.9034
+    },
+    {
+      "Year": 2011,
+      "Month": 9,
+      "Total Bill": 11.8215
+    },
+    {
+      "Year": 2011,
+      "Month": 10,
+      "Total Bill": 11.7159
+    },
+    {
+      "Year": 2011,
+      "Month": 11,
+      "Total Bill": 12.4008
+    },
+    {
+      "Year": 2011,
+      "Month": 12,
+      "Total Bill": 12.0335
+    },
+    {
+      "Year": 2012,
+      "Month": 1,
+      "Total Bill": 12.0377
+    },
+    {
+      "Year": 2012,
+      "Month": 2,
+      "Total Bill": 12.0244
+    },
+    {
+      "Year": 2012,
+      "Month": 3,
+      "Total Bill": 11.6564
+    },
+    {
+      "Year": 2012,
+      "Month": 4,
+      "Total Bill": 12.1039
+    },
+    {
+      "Year": 2012,
+      "Month": 5,
+      "Total Bill": 12.0436
+    },
+    {
+      "Year": 2012,
+      "Month": 6,
+      "Total Bill": 12.7506
+    },
+    {
+      "Year": 2012,
+      "Month": 7,
+      "Total Bill": 13.3306
+    },
+    {
+      "Year": 2012,
+      "Month": 8,
+      "Total Bill": 13.6277
+    },
+    {
+      "Year": 2012,
+      "Month": 9,
+      "Total Bill": 11.9008
+    },
+    {
+      "Year": 2012,
+      "Month": 10,
+      "Total Bill": 12.0193
+    },
+    {
+      "Year": 2012,
+      "Month": 11,
+      "Total Bill": 12.2563
+    },
+    {
+      "Year": 2012,
+      "Month": 12,
+      "Total Bill": 11.9425
+    },
+    {
+      "Year": 2013,
+      "Month": 1,
+      "Total Bill": 12.3022
+    },
+    {
+      "Year": 2013,
+      "Month": 2,
+      "Total Bill": 11.7262
+    },
+    {
+      "Year": 2013,
+      "Month": 3,
+      "Total Bill": 11.8272
+    },
+    {
+      "Year": 2013,
+      "Month": 4,
+      "Total Bill": 12.0999
+    },
+    {
+      "Year": 2013,
+      "Month": 5,
+      "Total Bill": 11.9814
+    },
+    {
+      "Year": 2013,
+      "Month": 6,
+      "Total Bill": 12.2003
+    },
+    {
+      "Year": 2013,
+      "Month": 7,
+      "Total Bill": 11.8974
+    },
+    {
+      "Year": 2013,
+      "Month": 8,
+      "Total Bill": 11.5443
+    },
+    {
+      "Year": 2013,
+      "Month": 9,
+      "Total Bill": 10.82233144
+    },
+    {
+      "Year": 2013,
+      "Month": 10,
+      "Total Bill": 10.60381631
+    },
+    {
+      "Year": 2013,
+      "Month": 11,
+      "Total Bill": 11.33073553
+    },
+    {
+      "Year": 2013,
+      "Month": 12,
+      "Total Bill": 12.4165
+    },
+    {
+      "Year": 2014,
+      "Month": 1,
+      "Total Bill": 12.4563
+    },
+    {
+      "Year": 2014,
+      "Month": 2,
+      "Total Bill": 12.4012
+    },
+    {
+      "Year": 2014,
+      "Month": 3,
+      "Total Bill": 11.9545
+    },
+    {
+      "Year": 2014,
+      "Month": 4,
+      "Total Bill": 12.8491
+    },
+    {
+      "Year": 2014,
+      "Month": 5,
+      "Total Bill": 12.8013
+    },
+    {
+      "Year": 2014,
+      "Month": 6,
+      "Total Bill": 11.9618
+    },
+    {
+      "Year": 2014,
+      "Month": 7,
+      "Total Bill": 11.9931
+    },
+    {
+      "Year": 2014,
+      "Month": 8,
+      "Total Bill": 12.3
+    },
+    {
+      "Year": 2014,
+      "Month": 9,
+      "Total Bill": 11.7225
+    },
+    {
+      "Year": 2014,
+      "Month": 10,
+      "Total Bill": 11.8267
+    },
+    {
+      "Year": 2014,
+      "Month": 11,
+      "Total Bill": 11.4163
+    },
+    {
+      "Year": 2014,
+      "Month": 12,
+      "Total Bill": 11.2262
+    },
+    {
+      "Year": 2015,
+      "Month": 1,
+      "Total Bill": 11.0321
+    },
+    {
+      "Year": 2015,
+      "Month": 2,
+      "Total Bill": 11.8714
+    },
+    {
+      "Year": 2015,
+      "Month": 3,
+      "Total Bill": 11.7768
+    },
+    {
+      "Year": 2015,
+      "Month": 4,
+      "Total Bill": 12.0442
+    },
+    {
+      "Year": 2015,
+      "Month": 5,
+      "Total Bill": 11.3488
+    },
+    {
+      "Year": 2015,
+      "Month": 6,
+      "Total Bill": 10.7701
+    },
+    {
+      "Year": 2015,
+      "Month": 7,
+      "Total Bill": 10.5942
+    },
+    {
+      "Year": 2015,
+      "Month": 8,
+      "Total Bill": 10.3314
+    },
+    {
+      "Year": 2015,
+      "Month": 9,
+      "Total Bill": 9.7641
+    },
+    {
+      "Year": 2015,
+      "Month": 10,
+      "Total Bill": 9.6322
+    },
+    {
+      "Year": 2015,
+      "Month": 11,
+      "Total Bill": 9.7582
+    },
+    {
+      "Year": 2015,
+      "Month": 12,
+      "Total Bill": 9.8129
+    },
+    {
+      "Year": 2016,
+      "Month": 1,
+      "Total Bill": 9.6064
+    },
+    {
+      "Year": 2016,
+      "Month": 2,
+      "Total Bill": 10.031
+    },
+    {
+      "Year": 2016,
+      "Month": 3,
+      "Total Bill": 9.8409
+    },
+    {
+      "Year": 2016,
+      "Month": 4,
+      "Total Bill": 10.0633
+    },
+    {
+      "Year": 2016,
+      "Month": 5,
+      "Total Bill": 9.6511
+    },
+    {
+      "Year": 2016,
+      "Month": 6,
+      "Total Bill": 9.5237
+    },
+    {
+      "Year": 2016,
+      "Month": 7,
+      "Total Bill": 9.8169
+    },
+    {
+      "Year": 2016,
+      "Month": 8,
+      "Total Bill": 9.7099
+    },
+    {
+      "Year": 2016,
+      "Month": 9,
+      "Total Bill": 9.6648
+    },
+    {
+      "Year": 2016,
+      "Month": 10,
+      "Total Bill": 9.5432
+    },
+    {
+      "Year": 2016,
+      "Month": 11,
+      "Total Bill": 9.4651
+    },
+    {
+      "Year": 2016,
+      "Month": 12,
+      "Total Bill": 9.5662
+    },
+    {
+      "Year": 2017,
+      "Month": 1,
+      "Total Bill": 9.408515257
+    },
+    {
+      "Year": 2017,
+      "Month": 2,
+      "Total Bill": 10.2116
+    },
+    {
+      "Year": 2017,
+      "Month": 3,
+      "Total Bill": 10.8739
+    },
+    {
+      "Year": 2017,
+      "Month": 4,
+      "Total Bill": 11.1001
+    },
+    {
+      "Year": 2017,
+      "Month": 5,
+      "Total Bill": 10.8094
+    },
+    {
+      "Year": 2017,
+      "Month": 6,
+      "Total Bill": 9.3824
+    },
+    {
+      "Year": 2017,
+      "Month": 7,
+      "Total Bill": 9.749203935
+    },
+    {
+      "Year": 2017,
+      "Month": 8,
+      "Total Bill": 9.5923
+    },
+    {
+      "Year": 2017,
+      "Month": 9,
+      "Total Bill": 10.4565
+    },
+    {
+      "Year": 2017,
+      "Month": 10,
+      "Total Bill": 10.491
+    },
+    {
+      "Year": 2017,
+      "Month": 11,
+      "Total Bill": 10.8346
+    },
+    {
+      "Year": 2017,
+      "Month": 12,
+      "Total Bill": 10.4561
+    },
+    {
+      "Year": 2018,
+      "Month": 1,
+      "Total Bill": 9.9301
+    },
+    {
+      "Year": 2018,
+      "Month": 2,
+      "Total Bill": 10.6801
+    },
+    {
+      "Year": 2018,
+      "Month": 3,
+      "Total Bill": 11.5301
+    },
+    {
+      "Year": 2018,
+      "Month": 4,
+      "Total Bill": 11.7551
+    },
+    {
+      "Year": 2018,
+      "Month": 5,
+      "Total Bill": 11.2115
+    },
+    {
+      "Year": 2018,
+      "Month": 6,
+      "Total Bill": 11.0863
+    },
+    {
+      "Year": 2018,
+      "Month": 7,
+      "Total Bill": 11.3999
+    },
+    {
+      "Year": 2018,
+      "Month": 8,
+      "Total Bill": 11.4263
+    },
+    {
+      "Year": 2018,
+      "Month": 9,
+      "Total Bill": 11.2805
+    },
+    {
+      "Year": 2018,
+      "Month": 10,
+      "Total Bill": 11.184
+    },
+    {
+      "Year": 2018,
+      "Month": 11,
+      "Total Bill": 11.2975
+    },
+    {
+      "Year": 2018,
+      "Month": 12,
+      "Total Bill": 11.3876
+    },
+    {
+      "Year": 2019,
+      "Month": 1,
+      "Total Bill": 11.0458
+    },
+    {
+      "Year": 2019,
+      "Month": 2,
+      "Total Bill": 11.614
+    },
+    {
+      "Year": 2019,
+      "Month": 3,
+      "Total Bill": 11.7035
+    },
+    {
+      "Year": 2019,
+      "Month": 4,
+      "Total Bill": 11.7668
+    },
+    {
+      "Year": 2019,
+      "Month": 5,
+      "Total Bill": 11.494
+    },
+    {
+      "Year": 2019,
+      "Month": 6,
+      "Total Bill": 11.2992
+    },
+    {
+      "Year": 2019,
+      "Month": 7,
+      "Total Bill": 11.1923
+    },
+    {
+      "Year": 2019,
+      "Month": 8,
+      "Total Bill": 10.7748
+    },
+    {
+      "Year": 2019,
+      "Month": 9,
+      "Total Bill": 10.2488
+    },
+    {
+      "Year": 2019,
+      "Month": 10,
+      "Total Bill": 10.2936
+    },
+    {
+      "Year": 2019,
+      "Month": 11,
+      "Total Bill": 10.7654
+    },
+    {
+      "Year": 2019,
+      "Month": 12,
+      "Total Bill": 11.0697
+    },
+    {
+      "Year": 2020,
+      "Month": 1,
+      "Total Bill": 10.6597
+    },
+    {
+      "Year": 2020,
+      "Month": 2,
+      "Total Bill": 10.0696
+    },
+    {
+      "Year": 2020,
+      "Month": 3,
+      "Total Bill": 10.0975
+    },
+    {
+      "Year": 2020,
+      "Month": 4,
+      "Total Bill": 10.2025
+    },
+    {
+      "Year": 2020,
+      "Month": 5,
+      "Total Bill": 9.9541
+    },
+    {
+      "Year": 2020,
+      "Month": 6,
+      "Total Bill": 9.9325
+    },
+    {
+      "Year": 2020,
+      "Month": 7,
+      "Total Bill": 9.904
+    },
+    {
+      "Year": 2020,
+      "Month": 8,
+      "Total Bill": 9.6985
+    },
+    {
+      "Year": 2020,
+      "Month": 9,
+      "Total Bill": 9.6362
+    },
+    {
+      "Year": 2020,
+      "Month": 10,
+      "Total Bill": 9.7574
+    },
+    {
+      "Year": 2020,
+      "Month": 11,
+      "Total Bill": 9.7179
+    },
+    {
+      "Year": 2020,
+      "Month": 12,
+      "Total Bill": 9.6827
+    },
+    {
+      "Year": 2021,
+      "Month": 1,
+      "Total Bill": 9.9571
+    },
+    {
+      "Year": 2021,
+      "Month": 2,
+      "Total Bill": 9.8866
+    },
+    {
+      "Year": 2021,
+      "Month": 3,
+      "Total Bill": 9.5269
+    },
+    {
+      "Year": 2021,
+      "Month": 4,
+      "Total Bill": 9.6141
+    },
+    {
+      "Year": 2021,
+      "Month": 5,
+      "Total Bill": 9.7935
+    },
+    {
+      "Year": 2021,
+      "Month": 6,
+      "Total Bill": 9.8733
+    },
+    {
+      "Year": 2021,
+      "Month": 7,
+      "Total Bill": 10.1146
+    },
+    {
+      "Year": 2021,
+      "Month": 8,
+      "Total Bill": 10.2113
+    },
+    {
+      "Year": 2021,
+      "Month": 9,
+      "Total Bill": 10.3166
+    },
+    {
+      "Year": 2021,
+      "Month": 10,
+      "Total Bill": 10.3449
+    },
+    {
+      "Year": 2021,
+      "Month": 11,
+      "Total Bill": 10.6704
+    },
+    {
+      "Year": 2021,
+      "Month": 12,
+      "Total Bill": 10.9847
+    },
+    {
+      "Year": 2022,
+      "Month": 1,
+      "Total Bill": 10.9042
+    },
+    {
+      "Year": 2022,
+      "Month": 2,
+      "Total Bill": 10.7917
+    },
+    {
+      "Year": 2022,
+      "Month": 3,
+      "Total Bill": 10.8541
+    },
+    {
+      "Year": 2022,
+      "Month": 4,
+      "Total Bill": 11.3903
+    },
+    {
+      "Year": 2022,
+      "Month": 5,
+      "Total Bill": 11.2703
+    },
+    {
+      "Year": 2022,
+      "Month": 6,
+      "Total Bill": 11.6686
+    },
+    {
+      "Year": 2022,
+      "Month": 7,
+      "Total Bill": 10.9619
+    },
+    {
+      "Year": 2022,
+      "Month": 8,
+      "Total Bill": 10.7279
+    },
+    {
+      "Year": 2022,
+      "Month": 9,
+      "Total Bill": 11.1189
+    },
+    {
+      "Year": 2022,
+      "Month": 10,
+      "Total Bill": 11.045
+    },
+    {
+      "Year": 2022,
+      "Month": 11,
+      "Total Bill": 11.1295
+    },
+    {
+      "Year": 2022,
+      "Month": 12,
+      "Total Bill": 11.4592
+    },
+    {
+      "Year": 2023,
+      "Month": 1,
+      "Total Bill": 12.0766
+    },
+    {
+      "Year": 2023,
+      "Month": 2,
+      "Total Bill": 12.0718
+    },
+    {
+      "Year": 2023,
+      "Month": 3,
+      "Total Bill": 12.6171
+    },
+    {
+      "Year": 2023,
+      "Month": 4,
+      "Total Bill": 12.499
+    },
+    {
+      "Year": 2023,
+      "Month": 5,
+      "Total Bill": 12.6751
+    },
+    {
+      "Year": 2023,
+      "Month": 6,
+      "Total Bill": 13.0936
+    },
+    {
+      "Year": 2023,
+      "Month": 7,
+      "Total Bill": 12.3722
+    },
+    {
+      "Year": 2023,
+      "Month": 8,
+      "Total Bill": 12.0814
+    },
+    {
+      "Year": 2023,
+      "Month": 9,
+      "Total Bill": 12.582
+    },
+    {
+      "Year": 2023,
+      "Month": 10,
+      "Total Bill": 13.0022
+    },
+    {
+      "Year": 2023,
+      "Month": 11,
+      "Total Bill": 13.2368
+    },
+    {
+      "Year": 2023,
+      "Month": 12,
+      "Total Bill": 12.4407
+    },
+    {
+      "Year": 2024,
+      "Month": 1,
+      "Total Bill": 12.5196
+    },
+    {
+      "Year": 2024,
+      "Month": 2,
+      "Total Bill": 13.099
+    },
+    {
+      "Year": 2024,
+      "Month": 3,
+      "Total Bill": 13.122
+    },
+    {
+      "Year": 2024,
+      "Month": 4,
+      "Total Bill": 12.1342
+    },
+    {
+      "Year": 2024,
+      "Month": 5,
+      "Total Bill": 12.5962
+    },
+    {
+      "Year": 2024,
+      "Month": 6,
+      "Total Bill": 10.634
+    },
+    {
+      "Year": 2024,
+      "Month": 7,
+      "Total Bill": 12.7836
+    },
+    {
+      "Year": 2024,
+      "Month": 8,
+      "Total Bill": 12.8163
+    },
+    {
+      "Year": 2024,
+      "Month": 9,
+      "Total Bill": 12.9705
+    },
+    {
+      "Year": 2024,
+      "Month": 10,
+      "Total Bill": 12.6118
+    },
+    {
+      "Year": 2024,
+      "Month": 11,
+      "Total Bill": 13.0385
+    },
+    {
+      "Year": 2024,
+      "Month": 12,
+      "Total Bill": 13.1434
+    },
+    {
+      "Year": 2025,
+      "Month": 1,
+      "Total Bill": 12.9194
+    },
+    {
+      "Year": 2025,
+      "Month": 2,
+      "Total Bill": 13.2079
+    },
+    {
+      "Year": 2025,
+      "Month": 3,
+      "Total Bill": 13.4717
+    },
+    {
+      "Year": 2025,
+      "Month": 4,
+      "Total Bill": 14.1945
+    }
+]

@@ -184,7 +184,6 @@ const ElectricityRateGraph = () => {
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Electricity Rate Predictions</h2>
         <div className="flex items-center gap-4">
-          {/* 
           <div className="flex items-center">
             <label htmlFor="displayMode" className="mr-2">
               Display:
@@ -197,7 +196,7 @@ const ElectricityRateGraph = () => {
               <option value="rate">Rate</option>
               <option value="bill">Bill Estimates</option>
             </select>
-          </div>*/}
+          </div>
           <div className="flex items-center">
             <label htmlFor="yearSelect" className="mr-2">
               Year:
@@ -245,7 +244,7 @@ const ElectricityRateGraph = () => {
                   tick={{ fill: "#ccc" }}
                   domain={[0, "auto"]}
                   label={{
-                    value: "Rate (₱)",
+                    //value: "Rate (₱)",
                     angle: -90,
                     position: "insideLeft",
                     style: { fill: "#ccc" },
@@ -274,7 +273,7 @@ const ElectricityRateGraph = () => {
                   tick={{ fill: "#ccc" }}
                   domain={[0, "auto"]}
                   label={{
-                    value: "Bill Amount (₱)",
+                    //value: "Bill Amount (₱)",
                     angle: -90,
                     position: "insideLeft",
                     style: { fill: "#ccc" },

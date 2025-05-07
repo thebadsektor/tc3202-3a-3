@@ -49,11 +49,13 @@ function App() {
           element={<ForgotPassword />}
         />
 
-        {/* Private route for user dashboard */}
+        {/* Dashboard route will not be used anymore since it's jut a place holder */}
+        {/* Private route for user dashboard 
         <Route
           path="/dashboard"
           element={<PrivateRoute element={<UserDashboard />} />}
         />
+        */}
 
         {/* Private route for user dashboard */}
         <Route
