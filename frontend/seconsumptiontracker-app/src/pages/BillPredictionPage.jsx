@@ -7,8 +7,10 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, onValue, get, set } from "firebase/database";
 
 export default function BillPrediction() {
-  // lock in default april lang muna
-  const [month, setMonth] = useState(new Date(2025, 4, 1));
+  // Current month with ability to predict 2 months ahead
+  const currentDate = new Date();
+  const [month, setMonth] = useState(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
+  const maxDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 2, 1);
 
   const [modalOpened, setModalOpened] = useState(false);
   const [applianceSets, setApplianceSets] = useState([]);
@@ -220,11 +222,19 @@ export default function BillPrediction() {
     }));
   };
 
+  const handleMonthChange = (date) => {
+    setMonth(date);
+    // Reset prediction when month changes
+    setPredictionResult(null);
+    setIsSaved(false);
+  };
+
   const handlePrediction = async () => {
-    const selectedMonth = month.toISOString().slice(0, 7); // e.g., "2025-04"
+    const selectedMonth = month.getMonth() + 1; // 1-12 month format
+    const selectedYear = month.getFullYear();
 
     try {
-      const res = await fetch("http://localhost:8000/api/predict/", {
+      const res = await fetch(`http://localhost:8000/api/predict/?month=${selectedMonth}&year=${selectedYear}`, {
         method: "GET",
       });
 
@@ -283,9 +293,7 @@ export default function BillPrediction() {
   const handleSavePrediction = async () => {
     if (!user || !predictionResult) return;
 
-    const predictionMonth = new Date(month);
-    predictionMonth.setMonth(predictionMonth.getMonth() + 1);
-    const formattedMonth = predictionMonth.toISOString().slice(0, 7); // e.g., "2025-04"
+    const formattedMonth = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, '0')}`;
 
     const predictionData = {
       month: formattedMonth,
@@ -321,6 +329,11 @@ export default function BillPrediction() {
     }
   };
 
+  // Month name formatter
+  const formatMonthYear = (date) => {
+    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+  };
+
   return (
     <>
       <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
@@ -350,8 +363,9 @@ export default function BillPrediction() {
             <MonthPickerInput
               placeholder="Select Month"
               value={month}
-              onChange={setMonth}
-              disabled
+              onChange={handleMonthChange}
+              minDate={new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)}
+              maxDate={maxDate}
               classNames={{
                 input:
                   "!bg-gray-800 !text-white !border-gray-600 !w-auto !py-2 mt-2",
@@ -478,6 +492,9 @@ export default function BillPrediction() {
                   <h3 className="text-xl font-bold">
                     Predicted Electricity Bill Summary
                   </h3>
+                  <p className="text-sm text-gray-400">
+                    Forecast for {formatMonthYear(month)}
+                  </p>
 
                   <div className="flex justify-between border-b border-gray-700 pb-2 mt-10">
                     <span>Monthly Consumption:</span>
@@ -505,7 +522,7 @@ export default function BillPrediction() {
                     {!isSaved ? (
                       <button
                         onClick={handleSavePrediction}
-                        className="mt-4 py-2 px-5 bg-cta-bluegreen  hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer"
+                        className="mt-4 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer"
                       >
                         Save Prediction
                       </button>

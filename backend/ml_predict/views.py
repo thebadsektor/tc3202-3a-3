@@ -40,12 +40,27 @@ def get_energy_recommendation(request):
 @csrf_exempt
 def predict_total_bill(request):
     try:
+        # Get target month and year from query parameters
+        target_month = request.GET.get('month')
+        target_year = request.GET.get('year')
+        
+        # Convert to integers if provided
+        if target_month and target_year:
+            target_month = int(target_month)
+            target_year = int(target_year)
+            print(f"Predicting for month: {target_month}, year: {target_year}")
+        else:
+            # Default to next month if not specified
+            print("No month/year specified, using default next month")
+            target_month = None
+            target_year = None
+        
         # Load model
         model_path = os.path.join("models", "xgb_total_bill_model_tuned_may.pkl")
         model = joblib.load(model_path)
         
-        # Build input data for prediction
-        input_data = build_next_month_input()
+        # Build input data for prediction with specified month/year
+        input_data = build_next_month_input(target_month=target_month, target_year=target_year)
         print("INPUT DATA:", input_data)  # Debug log
         
         # Create DataFrame for prediction
@@ -70,11 +85,11 @@ def predict_total_bill(request):
         april_value = 14.1945  # The April known value
         
         # Check if we're predicting for May
-        is_may = 'month' in input_data and input_data['month'] == 5
+        is_may = input_data.get('Month') == 5
         
         if is_may:
             # May is the hottest month, apply stronger adjustment
-            seasonal_factor = 1.10  # 10% increase for May
+            seasonal_factor = 1.06  # 10% increase for May
         else:
             # More conservative adjustment for other months
             seasonal_factor = 1.03  # 3% adjustment
@@ -96,7 +111,7 @@ def predict_total_bill(request):
             "calibrated_prediction": round(float(calibrated_prediction), 4),  # After calibration factor
             "calibration_factor": round(float(calibration_factor), 4),
             "seasonal_factor": round(float(seasonal_factor), 4),
-            "month": input_data.get('month', 'unknown'),
+            "month": input_data.get('Month', 'unknown'),
             "april_reference": april_value,
             "input_used": {k: float(v) if isinstance(v, (np.float32, np.float64)) else int(v) if isinstance(v, (np.int32, np.int64)) else v for k, v in input_data.items()}
         })
