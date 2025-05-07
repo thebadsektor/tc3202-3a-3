@@ -89,7 +89,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <a
-                    href="/recommendations"
+                    href="/energy-recommendation"
                     className="flex items-center hover:text-white transition duration-200">
                     <BoltIcon className="h-4 w-4 mr-2" />
                     Efficient Recommendations

@@ -157,9 +157,10 @@ function Navigation() {
             </div>
 
             {/* Logo - Now staying on left */}
-            <div className="relative group cursor-pointer">
-              <img
-                src={wattifyLogo}
+            <Link to="/">
+              <div className="relative group cursor-pointer">
+                <img
+                  src={wattifyLogo}
                 alt="Wattify Logo"
                 className="w-30 mt-[-5px] cursor-pointer"
               />
@@ -171,8 +172,9 @@ function Navigation() {
                   loop
                   autoplay
                 />
+                </div>
               </div>
-            </div>
+            </Link>
           </div>
 
           {/* Profile Avatar - Always visible on right side */}
