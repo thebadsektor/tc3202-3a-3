@@ -95,19 +95,6 @@ Another Screenshot
 ## Project Structure
 ```bash
 .
-├── 📂 src/
-│   ├── 📂 components/
-│   │   ├── <component>
-│   │   ├── <anotherComponent>
-│   │   └── ...
-│   ├── 📂 pages/
-│   └── 📂 utils/
-├── 📂 public/
-├── 📂 tests/
-├── .env.example
-├── package.json
-└── README.md
- 
 ├─ README.md
 ├─ 📂 backend
 │  ├─ .gitignore
