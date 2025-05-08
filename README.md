@@ -1,7 +1,6 @@
 # TC-3202 Smart Energy Consumption Tracker
 
-![Project Banner](![logo namin](https://github.com/user-attachments/assets/85d8100a-1161-4d28-83a4-9a7a6a9b4657)
-)
+![logo namin](https://github.com/user-attachments/assets/85d8100a-1161-4d28-83a4-9a7a6a9b4657)
 
 
 ## Table of Contents
