@@ -1,6 +1,7 @@
 # TC-3202 Smart Energy Consumption Tracker
 
-![logo namin](https://github.com/user-attachments/assets/85d8100a-1161-4d28-83a4-9a7a6a9b4657)
+![logo namin (1)](https://github.com/user-attachments/assets/b4dade02-dfe8-4f63-98b3-8cd57d98c220)
+
 
 
 ## Table of Contents
@@ -38,9 +39,8 @@ The main objectives of the project:
 - Energy-Saving Recommendations: Based on the consumption breakdown, the system generates personalized optimization tips—such as reducing aircon usage, and switching to LED lighting help users reduce their overall energy consumption.
 
 ## Technologies Used
-Mention the tools, frameworks, and technologies used in the project:
 - Programming Languages: [Python, JavaScript]
-- Frameworks/Libraries: [eReact, Django]
+- Frameworks/Libraries: [React, Django]
 - Databases: [Firebase Realtime Database]
 - Other Tools: [Git, VSCode]
 
@@ -71,10 +71,12 @@ Step-by-step instructions for setting up the project locally.
 4. **Run the project:**
    - For frontend services:
    ```bash
+   cd frontend/seconsumptiontracker-app
    npm run dev
    ```
    - For backend services:
    ```bash
+   cd backend/
    python manage.py runserver
    ```
 
@@ -267,12 +269,11 @@ Another Screenshot
 
 ## Contributors
 
-List all the team members involved in the project. Include their roles and responsibilities:
-
 - **Collado Jr., Iner Jaime** : Frontend Developer, UI/UX Designer
 - **Ignacio, Sweet Katrina Bianca**: Frontend Developer, UI/UX Designer
 - **Maestro, Jomar**: Backend Developer
 -  **Vallejo, Rouin**: Machine Learning Developer
+-  **Villaran, Gerald**: Adviser
 
 ## Project Timeline
 
@@ -302,10 +303,8 @@ List all the team members involved in the project. Include their roles and respo
 
 ## Acknowledgments
 
-Acknowledge any resources, mentors, or external tools that helped in completing the project.
-
 This project would not be put into fruition without the supervision of our instructors, Mr. Gerald Villaran, Ms. Mary Grace Guillermo, and Ms. Joville Avila. The machine learning model was created through online public resources provided by MERALCO, BSP, and PSA. We are also grateful to MERALCO and PSA for their prompt responses to our queries.
 ## License
 
-Specify the project's license. For starters, adapt the license of the original repository.
+School project and was not built upon a prior repository
 
