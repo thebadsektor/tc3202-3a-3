@@ -319,7 +319,7 @@ export default function RecommendationPage() {
       <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
         <div className="w-2xl mx-auto p-5 text-white rounded-lg shadow-2xl">
           <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
-            <IoMdHome /> Home / Bill Prediction
+            <IoMdHome /> Home / Energy Saving Recommendation
           </span>
           <h2 className="text-4xl font-bold mb-3">
             Energy Saving Recommendation
