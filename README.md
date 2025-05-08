@@ -24,19 +24,17 @@ The Smart Energy Consumption Tracker is a web application that aims to assist us
 
 
 ## Project Overview
-Describe the project in detail. Include:
 
 This project addresses the growing need for efficient energy management in commercial settings. It leverages modern web and machine learning technologies to provide users with detailed insights into their energy consumption. The application is aimed at small-scale company owners, building managers, and environmentally conscious individuals who want to monitor and reduce their energy expenses. By integrating historical electricity rate data and standard consumption values, the project not only predicts future bills but also offers personalized energy-saving tips, that can be used to significantly save budget and reduce environmental footprint.
 
 ## Objectives
-State the main objectives of the capstone project, such as:
-- Develop a solution for [problem].
-- Implement features to [goal].
-- Test and validate [key aspect].
+The main objectives of the project:
+- Develop a solution for energy-saving and energy efficiency problems.
+- Implement features to track energy consumption and get recommendations in lowering costs.
 
 ## Features
 - Smart Energy Consumption Calculator: Users input details about their appliances (quantity and estimated duration of usage) to calculate the total energy consumption based on standard consumption values.
-- Bill Prediction with LSTM Model: The system retrieves the calculated energy consumption data and processes it through an (LSTM/Regression) machine learning model trained on historical electricity rate data, providing users with an estimated electricity bill.
+- Bill Prediction with SARIMAX and XGBoost Model: The system retrieves the calculated energy consumption data and processes it through an (XGBoost) machine learning model trained on historical electricity rate data, providing users with an estimated electricity bill.
 - Energy-Saving Recommendations: Based on the consumption breakdown, the system generates personalized optimization tips—such as reducing aircon usage, and switching to LED lighting help users reduce their overall energy consumption.
 
 ## Technologies Used
@@ -44,7 +42,7 @@ Mention the tools, frameworks, and technologies used in the project:
 - Programming Languages: [Python, JavaScript]
 - Frameworks/Libraries: [eReact, Django]
 - Databases: [Firebase Realtime Database]
-- Other Tools: [Git]
+- Other Tools: [Git, VSCode]
 
 ## Setup and Installation
 Step-by-step instructions for setting up the project locally.
@@ -66,7 +64,7 @@ Step-by-step instructions for setting up the project locally.
    source .venv/Scripts/activate
    pip install -r requirements.txt
    ```
-3. **Configure environment variables (if any)**: Provide instructions for setting up .env files or any other required configurations.
+3. **Configure environment variables (if any)**:
    ```bash
    source .venv/Scripts/activate
    ```
@@ -110,7 +108,176 @@ Explain the structure of the project directory. Example:
 ├── .env.example
 ├── package.json
 └── README.md
+ 
+├─ README.md
+├─ 📂 backend
+│  ├─ .gitignore
+│  ├─ 📂 auth_app
+│  │  ├─ __init__.py
+│  │  ├─ admin.py
+│  │  ├─ apps.py
+│  │  ├─ 📂 migrations
+│  │  │  ├─ 0001_initial.py
+│  │  │  └─ __init__.py
+│  │  ├─ models.py
+│  │  ├─ tests.py
+│  │  ├─ urls.py
+│  │  └─ views.py
+│  ├─ 📂backend
+│  │  ├─ __init__.py
+│  │  ├─ asgi.py
+│  │  ├─ settings.py
+│  │  ├─ urls.py
+│  │  └─ wsgi.py
+│  ├─ 📂 data
+│  │  └─ enhanced_kWh_800_edited_records.csv
+│  ├─ db.sqlite3
+│  ├─ firebase.py
+│  ├─ 📂 geminiApi
+│  │  ├─ __init__.py
+│  │  ├─ admin.py
+│  │  ├─ apps.py
+│  │  ├─ 📂 migrations
+│  │  │  └─ __init__.py
+│  │  ├─ models.py
+│  │  ├─ tests.py
+│  │  ├─ urls.py
+│  │  └─ views.py
+│  ├─ gemini_service.py
+│  ├─ manage.py
+│  ├─ 📂 ml_predict
+│  │  ├─ __init__.py
+│  │  ├─ admin.py
+│  │  ├─ apps.py
+│  │  ├─ 📂 migrations
+│  │  │  └─ __init__.py
+│  │  ├─ 📂 ml
+│  │  │  └─ feature_forecast.py
+│  │  ├─ models.py
+│  │  ├─ tests.py
+│  │  ├─ urls.py
+│  │  └─ views.py
+│  ├─ 📂 models
+│  │  ├─ ensemble_electricity_bill_modelC.pkl
+│  │  ├─ feature_scaler.pkl
+│  │  ├─ feature_scaler_adj2.pkl
+│  │  ├─ lgb_total_bill_model.pkl
+│  │  ├─ lgb_total_bill_model_adj.pkl
+│  │  ├─ xgb_total_bill_model.pkl
+│  │  ├─ xgb_total_bill_model_adj.pkl
+│  │  ├─ xgb_total_bill_model_tuned.pkl
+│  │  └─ xgb_total_bill_model_tuned_may.pkl
+│  └─ requirements.txt
+└─ 📂 frontend
+   └─ 📂 seconsumptiontracker-app
+      ├─ .gitignore
+      ├─ README.md
+      ├─ components.json
+      ├─ eslint.config.js
+      ├─ index.html
+      ├─ jsconfig.json
+      ├─ package-lock.json
+      ├─ package.json
+      ├─ postcss.config.cjs
+      ├─ 📂 public
+      │  ├─ 📂 assets
+      │  │  ├─ history.png
+      │  │  ├─ icons8-goa.png
+      │  │  ├─ save-energy.png
+      │  │  └─ turbine.png
+      │  ├─ vite.svg
+      │  └─ wattify.png
+      ├─ 📂 src
+      │  ├─ App.css
+      │  ├─ App.jsx
+      │  ├─ 📂 api
+      │  │  └─ predict.js
+      │  ├─ 📂 assets
+      │  │  ├─ 📂 about-images
+      │  │  │  └─ calculator.png
+      │  │  ├─ calculator.png
+      │  │  ├─ 📂 datas
+      │  │  │  └─ pastRates.json
+      │  │  ├─ 📂 fonts
+      │  │  │  ├─ Helvetica.ttf
+      │  │  │  └─ Nura-Light.ttf
+      │  │  ├─ hero-img.jpg
+      │  │  ├─ hero-img.png
+      │  │  ├─ 📂 home-images
+      │  │  │  ├─ calculator.png
+      │  │  │  ├─ features.png
+      │  │  │  ├─ features1.png
+      │  │  │  ├─ login.png
+      │  │  │  ├─ meralco-rates.jpg
+      │  │  │  ├─ meralco-rates2.jpg
+      │  │  │  ├─ meralco-rates3.jpg
+      │  │  │  ├─ meralco-rates4.png
+      │  │  │  ├─ meralco-rates5.jpg
+      │  │  │  ├─ meralco-rates6.jpg
+      │  │  │  ├─ output.png
+      │  │  │  ├─ prediction.png
+      │  │  │  ├─ prediction1.png
+      │  │  │  ├─ prediction2.png
+      │  │  │  └─ usage.png
+      │  │  ├─ icons8-goa.png
+      │  │  ├─ react.svg
+      │  │  ├─ save-energy.png
+      │  │  ├─ 📂 svg
+      │  │  │  ├─ blob.svg
+      │  │  │  ├─ block.svg
+      │  │  │  ├─ wave.svg
+      │  │  │  ├─ wavebg.svg
+      │  │  │  └─ waveus.svg
+      │  │  ├─ wattify-logo.png
+      │  │  └─ wattify.png
+      │  ├─ 📂 components
+      │  │  ├─ ApplianceItemsForProfile.jsx
+      │  │  ├─ Footer.jsx
+      │  │  ├─ ForgotPasswordForm.jsx
+      │  │  ├─ Layout.jsx
+      │  │  ├─ Navigation.jsx
+      │  │  ├─ PastRatesGraph.jsx
+      │  │  ├─ PredictedElectricityRateGraph.jsx
+      │  │  ├─ Prediction.jsx
+      │  │  ├─ PrivateRoute.jsx
+      │  │  ├─ Sidebar.jsx
+      │  │  ├─ Tooltip.jsx
+      │  │  ├─ login-form-demo.jsx
+      │  │  ├─ signup-form-demo.jsx
+      │  │  └─ 📂 ui
+      │  │     ├─ alert-dialog.jsx
+      │  │     ├─ avatar.jsx
+      │  │     ├─ button.jsx
+      │  │     ├─ card-hover-effect.jsx
+      │  │     ├─ click-spark.jsx
+      │  │     ├─ hero-parallax.jsx
+      │  │     ├─ input.jsx
+      │  │     ├─ label.jsx
+      │  │     ├─ link-preview.jsx
+      │  │     ├─ moving-border.jsx
+      │  │     ├─ sonner.jsx
+      │  │     ├─ sticky-scroll-reveal.jsx
+      │  │     └─ timeline.jsx
+      │  ├─ firebase.js
+      │  ├─ 📂 lib
+      │  │  └─ utils.js
+      │  ├─ main.jsx
+      │  └─ 📂 pages
+      │     ├─ AboutPage.jsx
+      │     ├─ Appliance.jsx
+      │     ├─ BillCalcuOutput.jsx
+      │     ├─ BillCalculator.jsx
+      │     ├─ BillPredictionPage.jsx
+      │     ├─ Dashboard.jsx
+      │     ├─ HeroPage.jsx
+      │     ├─ History.jsx
+      │     ├─ ProfilePage.jsx
+      │     ├─ RecommendationPage.jsx
+      │     └─ UserDashboardPage.jsx
+      ├─ tailwind.config.js
+      └─ vite.config.js
 ```
+
 
 ## Contributors
 
@@ -123,14 +290,16 @@ List all the team members involved in the project. Include their roles and respo
 
 ## Project Timeline
 
-Outline the project timeline, including milestones or deliverables. Example:
-
 - **Week 1-2 (February 3)**: Concept Paper Proposal.
 - **Week 2-7**: Research
 - **Week 3-5 (February 25)**: Consultation
 - **Week 5-6 (March 10)**: Plan User Journey & User Journey Refinement
 - **Week 8-9 (March 18)**: Respository Preparation & Research 
-   - Related Repositories
+- **Week 10-12 (April 10)**: Development of at least 50% of the application with Machine Learning integration
+- **Week 13 (April 14)**: Initial Project Presentation
+- **Week 14 (April 26)**: Continuation of development and paper Chapter I completion
+- **Week 15 (May 3)**: Continuation of development and paper Chapter II completion
+- **Week 16 (May 11)**: Finalisation of project, final tests, and completion of paper Chapter III
 
 ## Changelog
 
