@@ -335,7 +335,7 @@ export default function RecommendationPage() {
             <button
               onClick={openModal}
               className="mt-2 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition"
-              disabled={!user || loading}
+              disabled={!user || loading || recLoading}
             >
               Import From History
             </button>

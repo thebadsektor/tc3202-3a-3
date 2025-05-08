@@ -10,12 +10,12 @@ export default function BillPrediction() {
   // Current month with ability to predict 2 months ahead
   const currentDate = new Date();
   const [month, setMonth] = useState(
-    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
   );
   const maxDate = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() + 2,
-    1
+    1,
   );
 
   const [modalOpened, setModalOpened] = useState(false);
@@ -32,6 +32,11 @@ export default function BillPrediction() {
   // to handle the prediction result
   const [predictionResult, setPredictionResult] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
+
+  // New state for confirmation modal
+  const [saveModal, setSaveModal] = useState(false);
+  const [existingPrediction, setExistingPrediction] = useState(false);
+  const [predictionData, setPredictionData] = useState(null);
 
   // First, set up an auth state listener to ensure we have auth before fetching data
   useEffect(() => {
@@ -111,7 +116,7 @@ export default function BillPrediction() {
       (error) => {
         console.error("Error fetching appliance sets:", error);
         setLoading(false);
-      }
+      },
     );
 
     // Cleanup function
@@ -150,7 +155,7 @@ export default function BillPrediction() {
     // Process each selected appliance set
     tempSelectedSets.forEach((applianceSetKey) => {
       const selectedSet = applianceSets.find(
-        (set) => set.value === applianceSetKey
+        (set) => set.value === applianceSetKey,
       );
 
       if (selectedSet) {
@@ -169,7 +174,7 @@ export default function BillPrediction() {
             const db = getDatabase();
             const applianceSetRef = ref(
               db,
-              `users/${user.uid}/applianceSets/${applianceSetKey}/appliances`
+              `users/${user.uid}/applianceSets/${applianceSetKey}/appliances`,
             );
 
             get(applianceSetRef)
@@ -205,7 +210,7 @@ export default function BillPrediction() {
 
     // Get all appliance keys for this set
     const applianceKeys = Object.keys(
-      selectedSetsData[setKey]?.appliances || {}
+      selectedSetsData[setKey]?.appliances || {},
     );
 
     // Create a new expandedAppliances state
@@ -244,7 +249,7 @@ export default function BillPrediction() {
         `http://localhost:8000/api/predict/?month=${selectedMonth}&year=${selectedYear}`,
         {
           method: "GET",
-        }
+        },
       );
 
       const data = await res.json();
@@ -298,12 +303,12 @@ export default function BillPrediction() {
     }
   };
 
-  // save the prediction into the realtime databse
+  // Check for existing prediction and show modal if needed
   const handleSavePrediction = async () => {
     if (!user || !predictionResult) return;
 
     const formattedMonth = `${month.getFullYear()}-${String(
-      month.getMonth() + 1
+      month.getMonth() + 1,
     ).padStart(2, "0")}`;
 
     const predictionData = {
@@ -314,26 +319,47 @@ export default function BillPrediction() {
       timestamp: Date.now(),
     };
 
+    setPredictionData(predictionData);
+
+    // Check if prediction already exists
     const db = getDatabase();
     const predictionRef = ref(
       db,
-      `users/${user.uid}/billPredictions/${formattedMonth}`
+      `users/${user.uid}/billPredictions/${formattedMonth}`,
     );
 
     try {
       const snapshot = await get(predictionRef);
-
       if (snapshot.exists()) {
-        const userConfirmed = window.confirm(
-          `You already have a saved prediction for ${formattedMonth}. This will overwrite the existing prediction. Do you want to continue?`
-        );
-
-        if (!userConfirmed) return;
+        // Show confirmation modal if prediction already exists
+        setExistingPrediction(true);
+        setSaveModal(true);
+      } else {
+        // Save directly if no existing prediction
+        await set(predictionRef, predictionData);
+        setIsSaved(true);
       }
+    } catch (error) {
+      console.error("Error checking existing prediction:", error);
+      alert("Failed to save prediction. Please try again.");
+    }
+  };
 
+  // Function to handle confirmation and save
+  const handleSaveResult = async () => {
+    if (!user || !predictionData) return;
+
+    const db = getDatabase();
+    const formattedMonth = predictionData.month;
+    const predictionRef = ref(
+      db,
+      `users/${user.uid}/billPredictions/${formattedMonth}`,
+    );
+
+    try {
       await set(predictionRef, predictionData);
       setIsSaved(true);
-      alert("Prediction saved successfully!");
+      setSaveModal(false);
     } catch (error) {
       console.error("Error saving prediction:", error);
       alert("Failed to save prediction. Please try again.");
@@ -367,8 +393,7 @@ export default function BillPrediction() {
             <button
               onClick={openModal}
               className="mt-2 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition"
-              disabled={!user || loading}
-            >
+              disabled={!user || loading}>
               Import
             </button>
             <MonthPickerInput
@@ -415,8 +440,7 @@ export default function BillPrediction() {
                         <h4 className="text-lg font-medium">Appliances:</h4>
                         <button
                           onClick={() => toggleViewAllAppliances(setKey)}
-                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline"
-                        >
+                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline">
                           {expandedSets[setKey] ? "Collapse All" : "View All"}
                         </button>
                       </div>
@@ -425,14 +449,12 @@ export default function BillPrediction() {
                           Object.entries(appliances).map(([key, appliance]) => (
                             <li
                               key={key}
-                              className="bg-[#383c3d] rounded overflow-hidden"
-                            >
+                              className="bg-[#383c3d] rounded overflow-hidden">
                               <div
                                 className="flex items-center justify-between p-2 cursor-pointer transition"
                                 onClick={() =>
                                   toggleApplianceExpand(setKey, key)
-                                }
-                              >
+                                }>
                                 <span>{appliance.name}</span>
                                 <span className="flex items-center">
                                   {expandedAppliances[`${setKey}-${key}`] ? (
@@ -496,8 +518,7 @@ export default function BillPrediction() {
               <button
                 onClick={handlePrediction}
                 className="w-full mt-2 py-2 px-5 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black cursor-pointer rounded transition"
-                disabled={!user || loading}
-              >
+                disabled={!user || loading}>
                 Calculate
               </button>
               {predictionResult && (
@@ -535,8 +556,7 @@ export default function BillPrediction() {
                     {!isSaved ? (
                       <button
                         onClick={handleSavePrediction}
-                        className="mt-4 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer"
-                      >
+                        className="mt-4 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer">
                         Save Prediction
                       </button>
                     ) : (
@@ -561,8 +581,7 @@ export default function BillPrediction() {
           header: { backgroundColor: "#212121" },
           content: { backgroundColor: "#212121", color: "white" },
           close: { color: "white" },
-        }}
-      >
+        }}>
         <div className="py-4">
           {loading ? (
             <p>Loading appliance sets...</p>
@@ -573,8 +592,7 @@ export default function BillPrediction() {
                 {applianceSets.map((set) => (
                   <div
                     key={set.value}
-                    className="flex items-center p-2 bg-[#383c3d] rounded hover:bg-gray-600"
-                  >
+                    className="flex items-center p-2 bg-[#383c3d] rounded hover:bg-gray-600">
                     <input
                       type="checkbox"
                       id={`set-${set.value}`}
@@ -584,8 +602,7 @@ export default function BillPrediction() {
                     />
                     <label
                       htmlFor={`set-${set.value}`}
-                      className="cursor-pointer flex-1"
-                    >
+                      className="cursor-pointer flex-1">
                       {set.label}
                     </label>
                   </div>
@@ -594,15 +611,13 @@ export default function BillPrediction() {
               <div className="mt-6 flex justify-end space-x-3">
                 <button
                   onClick={closeModal}
-                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded"
-                >
+                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded">
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmSelection}
                   className="py-2 px-4 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded"
-                  disabled={!tempSelectedSets.length}
-                >
+                  disabled={!tempSelectedSets.length}>
                   Confirm Selection
                 </button>
               </div>
@@ -612,6 +627,38 @@ export default function BillPrediction() {
           )}
         </div>
       </Modal>
+
+      {/* Confirmation Modal */}
+      {saveModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg w-full max-w-md mx-4">
+            {/*<div className="px-6 py-4 border-b border-gray-700">
+              <h3 className="text-lg font-medium text-white">Confirmation</h3>
+            </div>*/}
+            <div className="p-6">
+              <p className="text-white mb-6">
+                {existingPrediction
+                  ? `You already have a saved prediction for ${formatMonthYear(
+                      month,
+                    )}. This will overwrite the existing prediction. Do you want to continue?`
+                  : `Are you sure you want to save this prediction?`}
+              </p>
+              <div className="flex justify-end space-x-4">
+                <button
+                  onClick={() => setSaveModal(false)}
+                  className="px-4 py-1 text-sm font-medium text-white bg-transparent border border-gray-500 rounded-md hover:bg-gray-700 focus:outline-none">
+                  Cancel
+                </button>
+                <button
+                  onClick={handleSaveResult}
+                  className="px-4 py-1 text-sm font-medium text-black bg-cta-bluegreen rounded-md hover:bg-cta-bluegreen/70 focus:outline-none">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <section className="h-20"></section>
     </>
   );

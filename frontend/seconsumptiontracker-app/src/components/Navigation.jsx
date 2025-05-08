@@ -208,18 +208,7 @@ function Navigation() {
                         Profile
                       </button>
                     </Link>
-                    <button
-                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600 cursor-pointer"
-                      onClick={() => navigate("/dashboard")}
-                    >
-                      Dashboard
-                    </button>
-                    <button
-                      className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600 cursor-pointer"
-                      onClick={() => alert("Go to History")}
-                    >
-                      History
-                    </button>
+                    
                     <button
                       className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-600 cursor-pointer"
                       onClick={() => handleLogout()}
@@ -402,11 +391,11 @@ function Navigation() {
             {mobileFeatureOpen && (
               <div className="w-full flex flex-col items-start mt-3 pl-5 gap-4 list-disc">
                 <Link
-                  to="/bill-calculator"
+                  to="/bill-prediction"
                   className="text-xl hover:underline transition duration-500"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Bill Calculator
+                  Bill Prediction
                 </Link>
                 <Link
                   to="/consumption-calculator"
@@ -416,7 +405,7 @@ function Navigation() {
                   Energy Consumption Calculator
                 </Link>
                 <Link
-                  to="#"
+                  to="/energy-recommendation"
                   className="text-xl hover:underline transition duration-500"
                   onClick={() => setMobileMenuOpen(false)}
                 >
