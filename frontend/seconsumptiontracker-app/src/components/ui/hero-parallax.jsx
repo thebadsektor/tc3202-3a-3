@@ -88,7 +88,7 @@ export const HeroParallax = ({ products }) => {
 export const Header = () => {
   return (
     <div className="max-w-7xl container relative mx-auto py-20 md:py-40 px-4 w-full left-0 top-0">
-      <p className="text-blue-300 text-center md:text-left text-base md:text-base">
+      <p className="text-cta-bluegreen text-center md:text-left text-base md:text-base">
         Smart Energy Consumption using AI.
       </p>
       <h1 className="text-center md:text-left text-5xl md:text-7xl font-bold text-white">
@@ -109,9 +109,9 @@ export const Header = () => {
       <div className="pt-10">
         <Button
           containerClassName="shadow-lg"
-          borderClassName="bg-blue-500"
+          borderClassName="bg-cyan-500"
           duration={3000}
-          className="hover:bg-sky-900 transition-all cursor-pointer text-xl z-10"
+          className="hover:bg-cyan-900 transition-all cursor-pointer text-xl z-10"
         >
           <a href="/consumption-calculator">Get Started</a>
         </Button>

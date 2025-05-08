@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { cn } from "../lib/utils";
+import wattifyLogo from "../assets/wattify.png";
 import { FcGoogle } from "react-icons/fc";
 import "../App.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -48,7 +49,7 @@ export default function LoginFormDemo() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id_token: idToken }),
-        },
+        }
       );
 
       const data = await response.json();
@@ -130,7 +131,7 @@ export default function LoginFormDemo() {
       const userCredential = await signInWithEmailAndPassword(
         auth,
         email,
-        password,
+        password
       );
       const idToken = await userCredential.user.getIdToken();
 
@@ -140,7 +141,7 @@ export default function LoginFormDemo() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id_token: idToken }),
-        },
+        }
       );
 
       const data = await response.json();
@@ -177,13 +178,14 @@ export default function LoginFormDemo() {
 
   return (
     <div className="h-screen flex items-center justify-center">
-      <div className="mx-auto w-full max-w-md rounded-none bg-black/60 p-4 md:rounded-2xl md:p-8 dark:bg-black shadow-[0px_0px_15px_5px_rgba(0,115,255,0.1)]">
+      <div className="mx-auto w-full max-w-md rounded-none bg-black/60 p-4 md:rounded-2xl md:p-8 dark:bg-black shadow-[0px_0px_15px_5px_rgba(0,183,235,0.1)]">
+        <div className="w-full flex justify-center">
+          <img src={wattifyLogo} alt="Wattify" className="w-20" />
+        </div>
         <h2 className="text-3xl text-center font-bold text-white dark:text-neutral-200 mt-5">
           Welcome Back
         </h2>
-        <p className="mt-5 max-w-sm text-sm text-white/80 dark:text-neutral-300">
-          Login to wattify
-        </p>
+
         <form className="my-8" onSubmit={handleSubmit}>
           <LabelInputContainer className="mb-4">
             <Label htmlFor="email">Email Address</Label>
@@ -217,15 +219,16 @@ export default function LoginFormDemo() {
           )}
 
           <p className="text-blue-400">
-            <Link to="/forgot-password-form" className="text-blue-400">
+            <Link to="/forgot-password-form" className="text-cta-bluegreen">
               Forgot password?
             </Link>
           </p>
 
           <button
-            className="cursor-pointer group/btn mt-5 relative block h-10 w-full rounded-md bg-gray-900 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
+            className="cursor-pointer group/btn mt-5 relative block h-10 w-full rounded-md bg-[#0e1a1c] font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
             type="submit"
-            disabled={loading}>
+            disabled={loading}
+          >
             {loading ? (
               <span className="flex items-center justify-center">
                 <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
@@ -241,7 +244,7 @@ export default function LoginFormDemo() {
 
           <p className="text-white mt-4 text-center cursor-pointer">
             Don't have an account yet?{" "}
-            <Link to="/signup-form" className="text-blue-400">
+            <Link to="/signup-form" className="text-cta-bluegreen">
               Sign up Here
             </Link>
           </p>
@@ -258,7 +261,8 @@ export default function LoginFormDemo() {
             <button
               type="button"
               onClick={handleGoogleLogin}
-              className="cursor-pointer group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-gray-900 px-4 font-medium text-black dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_#262626]">
+              className="cursor-pointer group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-[#0e1a1c] px-4 font-medium text-black dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_#262626]"
+            >
               <FcGoogle className="text-2xl text-gray-400" />
               <span className="text-sm text-white dark:text-neutral-300">
                 Continue with Google
