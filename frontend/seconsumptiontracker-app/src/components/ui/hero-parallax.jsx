@@ -95,7 +95,7 @@ export const Header = () => {
         Optimize energy,
         <br />
         Maximize{" "}
-        <span className="bg-gradient-to-r from-cta-blue to-[#c124ff] bg-clip-text text-transparent">
+        <span className="bg-gradient-to-r from-cta-bluegreen to-cta-blue bg-clip-text text-transparent">
           savings.
         </span>
       </h1>
