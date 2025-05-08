@@ -251,7 +251,7 @@ export default function SignupFormDemo() {
               </span>
             ) : (
               <>
-                Register &rarr;
+                Register
                 <BottomGradient />
               </>
             )}

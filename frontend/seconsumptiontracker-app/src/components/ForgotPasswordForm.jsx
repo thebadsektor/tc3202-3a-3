@@ -277,7 +277,7 @@ export default function ForgotPasswordForm() {
                 `Resend OTP in ${timer}s`
               ) : (
                 <>
-                  Send OTP &rarr;
+                  Send OTP
                   <BottomGradient />
                 </>
               )}

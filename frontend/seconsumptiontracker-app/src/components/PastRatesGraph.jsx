@@ -100,10 +100,10 @@ const HistoricalRatesGraph = () => {
       year,
       averageRate: parseFloat(average.toFixed(4)),
       minRate: parseFloat(
-        Math.min(...yearData.map((item) => item.rate)).toFixed(4),
+        Math.min(...yearData.map((item) => item.rate)).toFixed(4)
       ),
       maxRate: parseFloat(
-        Math.max(...yearData.map((item) => item.rate)).toFixed(4),
+        Math.max(...yearData.map((item) => item.rate)).toFixed(4)
       ),
     };
   });
@@ -126,7 +126,7 @@ const HistoricalRatesGraph = () => {
         if (data.rate === null) return null;
 
         return (
-          <div className="bg-gray-800 p-3 border border-gray-600 rounded-md shadow-lg">
+          <div className="bg-[#212121] p-3 border border-gray-600 rounded-md shadow-lg">
             <p className="font-medium text-cta-bluegreen">{`${data.month} ${selectedYear}`}</p>
             <p className="text-white">{`Rate: ₱${data.rate.toFixed(4)}`}</p>
           </div>
@@ -135,7 +135,7 @@ const HistoricalRatesGraph = () => {
         const data = payload[0].payload;
 
         return (
-          <div className="bg-gray-800 p-3 border border-gray-600 rounded-md shadow-lg">
+          <div className="bg-[#212121] p-3 border border-gray-600 rounded-md shadow-lg">
             <p className="font-medium text-cta-bluegreen">{`Year: ${data.year}`}</p>
             <p className="text-white">{`Average Rate: ₱${data.averageRate}`}</p>
             <p className="text-white">{`Min Rate: ₱${data.minRate}`}</p>
@@ -149,7 +149,7 @@ const HistoricalRatesGraph = () => {
 
   if (loading) {
     return (
-      <div className="bg-gray-800 text-slate-200 p-6 rounded-lg shadow mt-10">
+      <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
         <h2 className="text-2xl font-bold mb-4">
           Historical Electricity Rates
         </h2>
@@ -160,7 +160,7 @@ const HistoricalRatesGraph = () => {
 
   if (error) {
     return (
-      <div className="bg-gray-800 text-slate-200 p-6 rounded-lg shadow mt-10">
+      <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
         <h2 className="text-2xl font-bold mb-4">
           Historical Electricity Rates
         </h2>
@@ -170,7 +170,7 @@ const HistoricalRatesGraph = () => {
   }
 
   return (
-    <div className="bg-gray-800 text-slate-200 p-6 rounded-lg shadow mt-10">
+    <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Historical Electricity Rates</h2>
         <div className="flex items-center gap-4">
@@ -182,7 +182,8 @@ const HistoricalRatesGraph = () => {
               id="displayMode"
               value={displayMode}
               onChange={(e) => setDisplayMode(e.target.value)}
-              className="bg-gray-700 text-white p-2 rounded border border-gray-600">
+              className="bg-[#383c3d] text-white p-2 rounded border border-gray-600"
+            >
               <option value="rate">Monthly Rates</option>
               <option value="yearly">Yearly Trends</option>
             </select>
@@ -197,7 +198,8 @@ const HistoricalRatesGraph = () => {
                 id="yearSelect"
                 value={selectedYear}
                 onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-                className="bg-gray-700 text-white p-2 rounded border border-gray-600">
+                className="bg-[#383c3d] text-white p-2 rounded border border-gray-600"
+              >
                 {availableYears.map((year) => (
                   <option key={year} value={year}>
                     {year}
@@ -221,7 +223,8 @@ const HistoricalRatesGraph = () => {
             {displayMode === "rate" ? (
               <LineChart
                 data={chartData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#444" />
                 <XAxis dataKey="month" stroke="#ccc" tick={{ fill: "#ccc" }} />
                 <YAxis
@@ -249,7 +252,8 @@ const HistoricalRatesGraph = () => {
             ) : (
               <ComposedChart
                 data={yearlyAverages}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#444" />
                 <XAxis dataKey="year" stroke="#ccc" tick={{ fill: "#ccc" }} />
                 <YAxis
@@ -302,7 +306,7 @@ const HistoricalRatesGraph = () => {
       {displayMode === "rate" && (
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           {filteredData.map((data, index) => (
-            <div key={index} className="bg-gray-700 p-4 rounded-lg">
+            <div key={index} className="bg-[#383c3d] p-4 rounded-lg">
               <h3 className="text-lg font-medium text-cta-bluegreen">{`${data.month} ${data.year}`}</h3>
               <div className="mt-2">
                 <p className="flex justify-between">

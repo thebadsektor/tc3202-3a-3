@@ -241,33 +241,32 @@ function Navigation() {
 
           {/* Desktop Menu */}
           <ul className="items-center justify-center hidden md:flex text-white">
-            {!localStorage.getItem("idToken") ? (
-              <div className="items-center justify-center hidden md:flex text-white">
-                <li>
-                  <Link
-                    to="/"
-                    onClick={(e) => {
-                      if (window.location.pathname === "/") {
-                        e.preventDefault();
-                        window.location.href = window.location.href; // Reloads the page
-                      }
-                    }}
-                    className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
-                  >
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/about"
-                    className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
-                  >
-                    About
-                  </Link>
-                </li>
-              </div>
-            ) : (
-              <div className="flex items-center gap-2"></div>
+            {/* Home is always shown */}
+            <li>
+              <Link
+                to="/"
+                onClick={(e) => {
+                  if (window.location.pathname === "/") {
+                    e.preventDefault();
+                    window.location.href = window.location.href; // Reloads the page
+                  }
+                }}
+                className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
+              >
+                Home
+              </Link>
+            </li>
+
+            {/* About is only shown when not logged in */}
+            {!localStorage.getItem("idToken") && (
+              <li>
+                <Link
+                  to="/about"
+                  className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
+                >
+                  About
+                </Link>
+              </li>
             )}
 
             {/* Features with Dropdown */}
@@ -309,14 +308,6 @@ function Navigation() {
               </ul>
             </li>
             <li>
-              <Link
-                to=""
-                className="py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200 mr-5"
-              >
-                Contact
-              </Link>
-            </li>
-            <li>
               {localStorage.getItem("idToken") ? (
                 <div className="relative">
                   {/* Avatar Clickable */}
@@ -346,19 +337,6 @@ function Navigation() {
                           Profile
                         </button>
                       </Link>
-                      {/*
-                      <button
-                        className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600 cursor-pointer"
-                        onClick={() => navigate("/dashboard")}
-                      >
-                        Dashboard
-                      </button>
-                      <button
-                        className="w-full text-left px-4 py-2 text-gray-300 hover:bg-gray-600 cursor-pointer"
-                        onClick={() => alert("Go to History")}
-                      >
-                        History
-                      </button>*/}
                       <button
                         className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-600 cursor-pointer"
                         onClick={() => handleLogout()}
@@ -386,29 +364,24 @@ function Navigation() {
             mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
-          {!localStorage.getItem("idToken") ? (
-            <div
-              className={`fixed top-[8vh] right-0 pl-10 w-full h-auto bg-[#13171C] text-white flex flex-col items-start justify-start py-10 gap-6 transition-transform duration-300 z-40 ${
-                mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-              }`}
+          {/* Home is always shown */}
+          <Link
+            to="/"
+            className="text-2xl hover:underline transition duration-500"
+            onClick={() => setMobileMenuOpen(false)}
+          >
+            Home
+          </Link>
+
+          {/* About only shown when not logged in */}
+          {!localStorage.getItem("idToken") && (
+            <Link
+              to="/about"
+              className="text-2xl hover:underline transition duration-500"
+              onClick={() => setMobileMenuOpen(false)}
             >
-              <Link
-                to="/"
-                className="text-2xl hover:underline transition duration-500"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              <Link
-                to="/about"
-                className="text-2xl hover:underline transition duration-500"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                About
-              </Link>
-            </div>
-          ) : (
-            <div></div>
+              About
+            </Link>
           )}
 
           {/* Features with dropdown on mobile - Simplified */}
@@ -452,14 +425,6 @@ function Navigation() {
               </div>
             )}
           </div>
-
-          <Link
-            to=""
-            className="text-2xl hover:underline transition duration-500"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            Contact
-          </Link>
 
           {/* Only show login button if not logged in and in mobile view */}
           {!localStorage.getItem("idToken") && (

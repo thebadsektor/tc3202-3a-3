@@ -306,7 +306,7 @@ const Appliance = () => {
 
   return (
     <>
-      <div className="bg-gray-800 text-slate-200 p-6 rounded-lg shadow mt-10">
+      <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
         <h2 className="text-2xl font-bold mb-4">Appliance</h2>
         <p>Manage your appliances and devices here.</p>
         <button
@@ -320,7 +320,7 @@ const Appliance = () => {
           <div className="mt-6">
             <ol className="list-decimal ml-6">
               {applianceSets.map((set, index) => (
-                <li key={index} className="py-2 border-b border-gray-200">
+                <li key={index} className="py-2 border-b border-[#383c3d]">
                   <div className="flex justify-between items-center">
                     <a
                       href="#"
@@ -331,21 +331,11 @@ const Appliance = () => {
                       }}
                     >
                       {set}
-                      <span
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          e.preventDefault();
-                          handleEdit(index);
-                        }}
-                        className="text-cta-bluegreen font-semibold text-base"
-                      >
-                        &nbsp;&nbsp;&nbsp;(rename)
-                      </span>
                     </a>
                     <div className="flex gap-5">
                       <button
                         onClick={() => handleViewItems(index)}
-                        className="text-green-500 hover:text-green-700  cursor-pointer"
+                        className="text-[#dce9ec] hover:text-[#838282] cursor-pointer"
                         title="View Details"
                       >
                         <FaEye size={25} />
@@ -355,14 +345,14 @@ const Appliance = () => {
                           e.stopPropagation();
                           handleEdit(index);
                         }}
-                        className="text-cta-bluegreen hover:text-blue-700  cursor-pointer"
+                        className="text-[#dce9ec] hover:text-[#838282] cursor-pointer"
                         title="Edit"
                       >
                         <FaPencilAlt size={23} />
                       </button>
                       <button
                         onClick={() => handleDeleteConfirmation(index)}
-                        className="text-red-500 hover:text-red-700  cursor-pointer"
+                        className="text-red-400 hover:text-red-500  cursor-pointer"
                         title="Delete"
                       >
                         <FaTrash size={23} />

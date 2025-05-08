@@ -39,7 +39,7 @@ const Dashboard = () => {
         console.error("Error fetching user data:", error);
         setError("Failed to load user data");
         setLoading(false);
-      },
+      }
     );
 
     return () => unsubscribe();
@@ -75,15 +75,15 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="bg-gray-800 text-slate-200 p-6 rounded-lg shadow mt-10">
+      <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
         <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
         <p className="mb-2">
           Welcome to your dashboard! Here you can view your electricity
           consumption and bill predictions.
         </p>
         <p className="mb-4">
-          Use the Electricity Rate Graph below to track your electricity
-          rates and bills change over time.
+          Use the Electricity Rate Graph below to track your electricity rates
+          and bills change over time.
         </p>
 
         {loading ? (
@@ -93,19 +93,19 @@ const Dashboard = () => {
         ) : (
           <>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-gray-700 p-4 rounded-lg text-center">
-                <h3 className="text-lg font-medium text-blue-400">
+              <div className="bg-[#383c3d] p-4 rounded-lg text-center">
+                <h3 className="text-lg font-medium text-cta-bluegreen">
                   Appliance Sets
                 </h3>
                 <p className="text-2xl font-bold mt-2">{applianceSetsCount}</p>
               </div>
-              <div className="bg-gray-700 p-4 rounded-lg text-center">
-                <h3 className="text-lg font-medium text-green-400">
+              <div className="bg-[#383c3d] p-4 rounded-lg text-center">
+                <h3 className="text-lg font-medium text-cta-bluegreen">
                   Saved Calculations
                 </h3>
                 <p className="text-2xl font-bold mt-2">{calculationsCount}</p>
               </div>
-              <div className="bg-gray-700 p-4 rounded-lg text-center">
+              <div className="bg-[#383c3d] p-4 rounded-lg text-center">
                 <h3 className="text-lg font-medium text-cta-bluegreen">
                   Bill Predictions
                 </h3>
@@ -114,24 +114,24 @@ const Dashboard = () => {
             </div>
 
             {latestPrediction && (
-              <div className="bg-gray-700 p-5 rounded-lg mb-6">
-                <h3 className="text-xl font-medium text-cta-bluegreen mb-3">
+              <div className="bg-[#2c2f30] p-5 rounded-lg mb-6">
+                <h3 className="text-xl font-semibold text-white mb-3">
                   Latest Bill Prediction
                 </h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-gray-800 p-3 rounded-lg">
+                  <div className="bg-[#383c3d] p-3 rounded-lg">
                     <p className="text-white/60">Month</p>
                     <p className="font-medium text-lg">
                       {latestPrediction.month}
                     </p>
                   </div>
-                  <div className="bg-gray-800 p-3 rounded-lg">
+                  <div className="bg-[#383c3d]  p-3 rounded-lg">
                     <p className="text-white/60">Rate</p>
                     <p className="font-medium text-lg">
                       ₱{latestPrediction.predictedRate}
                     </p>
                   </div>
-                  <div className="bg-gray-800 p-3 rounded-lg">
+                  <div className="bg-[#383c3d]  p-3 rounded-lg">
                     <p className="text-white/60">Total kWh</p>
                     <p className="font-medium text-lg">
                       {latestPrediction.totalKWh}
@@ -139,12 +139,12 @@ const Dashboard = () => {
                   </div>
 
                   {latestPrediction.estimatedBill && (
-                    <div className="bg-gray-800 p-3 rounded-lg">
+                    <div className="bg-[#383c3d] p-3 rounded-lg">
                       <p className="text-white/60">Estimated Bill (Avg)</p>
                       <p className="font-medium text-lg">
                         ₱
                         {parseFloat(
-                          latestPrediction.estimatedBill.average,
+                          latestPrediction.estimatedBill.average
                         ).toFixed(2)}
                       </p>
                     </div>
@@ -152,7 +152,7 @@ const Dashboard = () => {
                 </div>
 
                 {latestPrediction.estimatedBill && (
-                  <div className="mt-4 bg-gray-800 p-3 rounded-lg">
+                  <div className="mt-4 bg-[#383c3d] p-3 rounded-lg">
                     <p className="text-white/60 mb-2">Bill Range</p>
                     <div className="flex justify-between items-center">
                       <div>
@@ -160,7 +160,7 @@ const Dashboard = () => {
                         <span className="font-medium text-green-400 ml-2">
                           ₱
                           {parseFloat(
-                            latestPrediction.estimatedBill.min,
+                            latestPrediction.estimatedBill.min
                           ).toFixed(2)}
                         </span>
                       </div>
@@ -169,7 +169,7 @@ const Dashboard = () => {
                         <span className="font-medium text-blue-400 ml-2">
                           ₱
                           {parseFloat(
-                            latestPrediction.estimatedBill.average,
+                            latestPrediction.estimatedBill.average
                           ).toFixed(2)}
                         </span>
                       </div>
@@ -178,7 +178,7 @@ const Dashboard = () => {
                         <span className="font-medium text-red-400 ml-2">
                           ₱
                           {parseFloat(
-                            latestPrediction.estimatedBill.max,
+                            latestPrediction.estimatedBill.max
                           ).toFixed(2)}
                         </span>
                       </div>
@@ -190,7 +190,7 @@ const Dashboard = () => {
           </>
         )}
       </div>
-      
+
       {/* Include the Past Rates Graph component */}
       <PastRatesGraph />
       {/* Include the Electricity Rate Graph component */}

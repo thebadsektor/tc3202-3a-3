@@ -208,11 +208,11 @@ const History = () => {
           calculations.map((calculation, index) => (
             <div
               key={calculation.id}
-              className="mb-6 bg-gray-800 p-6 rounded-lg shadow"
+              className="mb-3 bg-[#212121] p-3 px-5 rounded-lg shadow"
             >
               <div className="flex justify-between items-center">
                 <div>
-                  <h2 className="text-xl font-semibold text-white">
+                  <h2 className="text-lg font-semibold text-white">
                     {getCalculationDisplayName(
                       calculation,
                       index,
@@ -229,9 +229,9 @@ const History = () => {
                     className="text-cta-bluegreen px-3 py-1 rounded transition cursor-pointer"
                   >
                     {expandedCalculation === index ? (
-                      <FaChevronUp size={23} />
+                      <FaChevronUp size={20} />
                     ) : (
-                      <FaChevronDown size={23} />
+                      <FaChevronDown size={20} />
                     )}
                   </button>
                   <button
@@ -241,32 +241,32 @@ const History = () => {
                     disabled={deleting}
                     className="text-red-500 px-3 py-1 rounded transition cursor-pointer disabled:bg-red-300 disabled:cursor-not-allowed"
                   >
-                    <FaTrash size={23} />
+                    <FaTrash size={20} />
                   </button>
                 </div>
               </div>
 
               {expandedCalculation === index && (
                 <div className="mt-4 text-white">
-                  <h3 className="text-blue-400 font-medium mb-2">
+                  <h3 className="text-cta-bluegreen font-medium mb-2">
                     Appliances:
                   </h3>
                   <div className="mb-5">
                     {calculation.appliances.map((appliance, appIndex) => (
                       <div
                         key={appIndex}
-                        className="mb-4 bg-gray-700 p-4 rounded-lg"
+                        className="mb-4 bg-[#383c3d] p-4 rounded-lg"
                       >
                         <div className="flex justify-between items-center">
                           <div className="font-medium">
-                            <span className="text-blue-400">
+                            <span className="text-cta-bluegreen">
                               {appliance.name}
                             </span>{" "}
                             ({appliance.quantity || 1} unit
                             {appliance.quantity > 1 ? "s" : ""})
                           </div>
                         </div>
-                        <div className="mt-4 pl-4 border-l-2 border-blue-400">
+                        <div className="mt-4 pl-4 border-l-2 border-cta-bluegreen">
                           <div className="mb-2">
                             <span className="text-gray-400">
                               Specifications:
@@ -309,27 +309,27 @@ const History = () => {
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
-                    <div className="bg-blue-100 p-6 rounded-lg text-center">
-                      <p className="text-gray-600">Total cost per hour</p>
-                      <p className="text-xl font-bold text-blue-900">
+                    <div className="bg-[#586669] p-6 rounded-lg text-center">
+                      <p className="text-white">Total cost per hour</p>
+                      <p className="text-xl font-bold text-gray-300">
                         ₱{calculation.totalCostPerHour?.toFixed(2)}
                       </p>
                     </div>
-                    <div className="bg-blue-100 p-6 rounded-lg text-center">
-                      <p className="text-gray-600">Total cost per day</p>
-                      <p className="text-xl font-bold text-blue-900">
+                    <div className="bg-[#586669] p-6 rounded-lg text-center">
+                      <p className="text-white">Total cost per day</p>
+                      <p className="text-xl font-bold text-gray-300">
                         ₱{calculation.totalCostPerDay?.toFixed(2)}
                       </p>
                     </div>
-                    <div className="bg-blue-100 p-6 rounded-lg text-center">
-                      <p className="text-gray-600">Total cost per week</p>
-                      <p className="text-xl font-bold text-blue-900">
+                    <div className="bg-[#586669] p-6 rounded-lg text-center">
+                      <p className="text-white">Total cost per week</p>
+                      <p className="text-xl font-bold text-gray-300">
                         ₱{calculation.totalCostPerWeek?.toFixed(2)}
                       </p>
                     </div>
-                    <div className="bg-blue-100 p-6 rounded-lg text-center">
-                      <p className="text-gray-600">Total cost per month</p>
-                      <p className="text-xl font-bold text-blue-900">
+                    <div className="bg-[#586669] p-6 rounded-lg text-center">
+                      <p className="text-white">Total cost per month</p>
+                      <p className="text-xl font-bold text-gray-300">
                         ₱{calculation.totalCost?.toFixed(2)}
                       </p>
                     </div>

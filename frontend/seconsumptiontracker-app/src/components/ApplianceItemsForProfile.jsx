@@ -33,32 +33,15 @@ const ApplianceItems = ({
     { id: 1, name: "", isEditing: false, completed: false },
   ]);
 
-  // State for appliance usage data
   const [applianceData, setApplianceData] = useState({});
-
-  // State for currently selected appliance
   const [selectedAppliance, setSelectedAppliance] = useState(null);
-
-  // State for days selection
   const daysOfWeek = ["SU", "M", "T", "W", "TH", "F", "S"];
   const [selectedDays, setSelectedDays] = useState([]);
-
-  // State for weeks selection
   const [weeks, setWeeks] = useState("1 Week");
-
-  // State for loading when fetching wattage
   const [isLoading, setIsLoading] = useState(false);
-
-  // Modal for usage details
   const [opened, { open, close }] = useDisclosure(false);
-
-  // Modal for gadgets selection
   const [gadgetsModalOpened, gadgetsModalHandlers] = useDisclosure(false);
-
-  // Modal for lighting selection
   const [lightingsModalOpened, lightingsModalHandlers] = useDisclosure(false);
-
-  // Predefined gadget and lighting options
   const gadgetOptions = [
     "Smartphone",
     "Tablet/iPad",
@@ -490,7 +473,7 @@ const ApplianceItems = ({
 
   return (
     <div className="w-full mt-10">
-      <div className="max-w-lg mx-auto p-5 text-white bg-gray-800 rounded-lg shadow-lg">
+      <div className="max-w-lg mx-auto p-5 text-white bg-[#212121] rounded-lg shadow-lg">
         <div className="flex items-center mb-4">
           <button
             onClick={onBack}
@@ -499,12 +482,6 @@ const ApplianceItems = ({
             <FaArrowLeft size={20} />
           </button>
           <h2 className="text-3xl font-bold flex-1">{setName}</h2>
-          <button
-            onClick={handleSaveAll}
-            className="bg-green-400 hover:bg-green-600 text-black py-2 px-4 rounded flex items-center !font-semibold"
-          >
-            <FaSave className="mr-2" /> Save Set
-          </button>
         </div>
 
         <p className="mb-5 text-white/60">
@@ -523,7 +500,7 @@ const ApplianceItems = ({
                 type="text"
                 value={appliance.name}
                 onChange={(e) => updateAppliance(appliance.id, e.target.value)}
-                className="flex-1 p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none"
+                className="flex-1 p-2 bg-[#383c3d] border border-gray-600 rounded focus:outline-none"
                 placeholder="Appliance name"
               />
 
@@ -585,7 +562,7 @@ const ApplianceItems = ({
           <div className="flex gap-3 mt-3">
             <button
               onClick={gadgetsModalHandlers.open}
-              className="flex items-center justify-center bg-cta-bluegreen text-black !font-semibold border-gray-500 px-2 py-2 cursor-pointer rounded transition"
+              className="flex items-center justify-center bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black !font-semibold border-gray-500 px-2 py-2 cursor-pointer rounded transition"
             >
               <FaMobile className="mr-2 text-black" />
               Gadgets
@@ -593,11 +570,17 @@ const ApplianceItems = ({
 
             <button
               onClick={lightingsModalHandlers.open}
-              className="flex items-center justify-center bg-cta-bluegreen text-black !font-semibold border-gray-500 px-2 py-2 cursor-pointer rounded transition"
+              className="flex items-center justify-center bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black !font-semibold border-gray-500 px-2 py-2 cursor-pointer rounded transition"
             >
               <FaLightbulb className="mr-2" /> Lightings
             </button>
           </div>
+          <button
+            onClick={handleSaveAll}
+            className="bg-[#39e75f] hover:bg-[#39e75f]/80 text-black py-2 px-4 mt-10 rounded w-full flex items-center justify-center !font-semibold cursor-pointer"
+          >
+            Save Set
+          </button>
         </div>
       </div>
 

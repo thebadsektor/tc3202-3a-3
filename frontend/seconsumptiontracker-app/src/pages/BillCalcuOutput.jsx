@@ -225,14 +225,12 @@ function BillCalcuOutput() {
                   {appliances.map((appliance, index) => (
                     <div
                       key={index}
-                      className="mb-4 bg-gray-800 p-4 rounded-lg"
+                      className="mb-4 bg-[#212121] p-4 rounded-lg"
                     >
                       <div className="flex justify-between items-center">
                         <div className="font-medium">
-                          <span className="text-blue-400">
-                            {appliance.name}
-                          </span>{" "}
-                          ({appliance.quantity || 1} unit
+                          <span className="text-white">{appliance.name}</span> (
+                          {appliance.quantity || 1} unit
                           {appliance.quantity > 1 ? "s" : ""})
                         </div>
                         <button
@@ -246,7 +244,7 @@ function BillCalcuOutput() {
                       </div>
 
                       {expandedAppliance === index && (
-                        <div className="mt-4 pl-4 border-l-2 border-blue-400">
+                        <div className="mt-4 pl-4 border-l-2 border-cta-bluegreen">
                           <div className="mb-2">
                             <span className="text-gray-400">
                               Specifications:
@@ -296,27 +294,27 @@ function BillCalcuOutput() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-10">
-            <div className="bg-blue-100 p-6 rounded-lg text-center">
-              <p className="text-gray-600">Total cost per hour</p>
-              <p className="text-xl font-bold text-blue-900">
+            <div className="bg-[#a4e5f3] p-6 rounded-lg text-center">
+              <p className="text-black/80">Total cost per hour</p>
+              <p className="text-xl font-bold text-gray-900">
                 ₱{totalCostPerHour.toFixed(2)}
               </p>
             </div>
-            <div className="bg-blue-100 p-6 rounded-lg text-center">
-              <p className="text-gray-600">Total cost per day</p>
-              <p className="text-xl font-bold text-blue-900">
+            <div className="bg-[#a4e5f3] p-6 rounded-lg text-center">
+              <p className="text-black/80">Total cost per day</p>
+              <p className="text-xl font-bold text-gray-900">
                 ₱{totalCostPerDay.toFixed(2)}
               </p>
             </div>
-            <div className="bg-blue-100 p-6 rounded-lg text-center">
-              <p className="text-gray-600">Total cost per week</p>
-              <p className="text-xl font-bold text-blue-900">
+            <div className="bg-[#a4e5f3] p-6 rounded-lg text-center">
+              <p className="text-black/80">Total cost per week</p>
+              <p className="text-xl font-bold text-gray-900">
                 ₱{totalCostPerWeek.toFixed(2)}
               </p>
             </div>
-            <div className="bg-blue-100 p-6 rounded-lg text-center">
-              <p className="text-gray-600">Total cost per month</p>
-              <p className="text-xl font-bold text-blue-900">
+            <div className="bg-[#a4e5f3] p-6 rounded-lg text-center">
+              <p className="text-black/80">Total cost per month</p>
+              <p className="text-xl font-bold text-gray-900">
                 ₱{totalCost.toFixed(2)}
               </p>
             </div>
@@ -326,10 +324,10 @@ function BillCalcuOutput() {
             <button
               onClick={openSaveModal}
               disabled={isSaved}
-              className={`w-50 text-white py-3 px-4 mt-5 leading-tight cursor-pointer font-semibold rounded transition ${
+              className={`w-50 text-white py-3 px-4 mt-5 leading-tight font-semibold rounded transition ${
                 isSaved
                   ? "bg-gray-400 cursor-not-allowed"
-                  : "bg-green-500 hover:bg-green-600"
+                  : "bg-[#39e75f] hover:bg-[#39e75f]/80 text-black cursor-pointer "
               }`}
             >
               {isSaved ? "Saved" : "Save Result"}

@@ -62,9 +62,9 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
 
   return (
     <div
-      className={`h-screen bg-slate-800 text-white flex flex-col transition-all duration-300 ${
+      className={`h-screen bg-[#212121] text-white flex flex-col transition-all duration-300 ${
         isExpanded ? "w-64" : "w-20"
-      } fixed left-0 top-16 z-10`}
+      } fixed left-0 top-0 z-10 pt-16`}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >

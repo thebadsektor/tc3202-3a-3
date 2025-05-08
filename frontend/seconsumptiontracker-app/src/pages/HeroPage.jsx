@@ -173,7 +173,7 @@ function HeroPage() {
                   {
                     title: "1",
                     content: (
-                      <div className="text-white rounded-lg p-6 shadow-md">
+                      <div className="text-white rounded-lg p-6 shadow-2xl">
                         <h4 className="text-2xl font-bold mb-3 dark:text-white">
                           Create Your Account
                         </h4>
@@ -208,7 +208,7 @@ function HeroPage() {
                   {
                     title: "2",
                     content: (
-                      <div className="text-white rounded-lg p-6 shadow-md">
+                      <div className="text-white rounded-lg p-6 shadow-2xl">
                         <h4 className="text-2xl font-bold mb-2 dark:text-white">
                           Choose Your Features
                         </h4>
@@ -273,7 +273,7 @@ function HeroPage() {
                   {
                     title: "3",
                     content: (
-                      <div className="text-white  rounded-lg p-6 shadow-md">
+                      <div className="text-white  rounded-lg p-6 shadow-2xl">
                         <h4 className="text-2xl font-bold mb-2 dark:text-white">
                           Get Insights & Optimize
                         </h4>
@@ -307,7 +307,7 @@ function HeroPage() {
                   {
                     title: "4",
                     content: (
-                      <div className="text-white rounded-lg p-6 shadow-md">
+                      <div className="text-white rounded-lg p-6 shadow-2xl">
                         <h4 className="text-2xl font-bold mb-2 dark:text-white">
                           Track Progress & Adjust
                         </h4>

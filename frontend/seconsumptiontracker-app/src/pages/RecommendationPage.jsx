@@ -17,10 +17,10 @@ export default function RecommendationPage() {
   const [tempSelectedCalculations, setTempSelectedCalculations] = useState([]);
   const [expandedSets, setExpandedSets] = useState({});
 
- // Recommendation state
- const [recommendation, setRecommendation] = useState("");
- const [recLoading, setRecLoading] = useState(false);
- const [recError, setRecError] = useState("");
+  // Recommendation state
+  const [recommendation, setRecommendation] = useState("");
+  const [recLoading, setRecLoading] = useState(false);
+  const [recError, setRecError] = useState("");
 
   // to handle the prediction result
   const [isSaved, setIsSaved] = useState(false);
@@ -47,9 +47,9 @@ export default function RecommendationPage() {
         let daysNum = 7;
         if (Array.isArray(appl.days)) {
           daysNum = appl.days.length;
-        } else if (typeof appl.days === 'number') {
+        } else if (typeof appl.days === "number") {
           daysNum = appl.days;
-        } else if (typeof appl.days === 'string') {
+        } else if (typeof appl.days === "string") {
           const parsed = parseInt(appl.days, 10);
           if (!isNaN(parsed)) daysNum = parsed;
         }
@@ -317,7 +317,7 @@ export default function RecommendationPage() {
   return (
     <>
       <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
-        <div className="w-2xl mx-auto p-5 text-white rounded-lg shadow-lg">
+        <div className="w-2xl mx-auto p-5 text-white rounded-lg shadow-2xl">
           <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
             <IoMdHome /> Home / Bill Prediction
           </span>
@@ -357,7 +357,7 @@ export default function RecommendationPage() {
                 const appliances = calcData.appliances || [];
 
                 return (
-                  <div key={calcKey} className="p-4 bg-gray-800 rounded mt-6">
+                  <div key={calcKey} className="p-4 bg-[#212121] rounded mt-6">
                     <h3 className="text-xl font-semibold mb-3">
                       Selected Calculation:{" "}
                       <span className="text-cta-bluegreen">
@@ -383,10 +383,10 @@ export default function RecommendationPage() {
                           appliances.map((appliance, index) => (
                             <li
                               key={index}
-                              className="bg-gray-700 rounded overflow-hidden"
+                              className="bg-[#383c3d] rounded overflow-hidden"
                             >
                               <div
-                                className="flex items-center justify-between p-2 cursor-pointer hover:bg-gray-600 transition"
+                                className="flex items-center justify-between p-2 cursor-pointer transition"
                                 onClick={() => toggleItemExpand(calcKey, index)}
                               >
                                 <span>
@@ -404,7 +404,7 @@ export default function RecommendationPage() {
                               </div>
 
                               {expandedItems[`${calcKey}-${index}`] && (
-                                <div className="p-3 bg-gray-800 border-t border-gray-600 space-y-2">
+                                <div className="p-3 bg-[#212121] border-t border-gray-600 space-y-2">
                                   <div className="flex justify-between">
                                     <span className="text-gray-400">
                                       Wattage:
@@ -437,7 +437,7 @@ export default function RecommendationPage() {
                                     </span>
                                     <span>{appliance.weeks}</span>
                                   </div>
-                                  <div className="mt-4 pl-4 border-l-2 border-blue-400">
+                                  <div className="mt-4 pl-4 border-l-2 border-cta-bluegreen">
                                     <ul className="list-disc pl-4 text-white/70">
                                       <li>
                                         Cost per Hour:{" "}
@@ -487,25 +487,25 @@ export default function RecommendationPage() {
 
                     {/* Summary for this calculation */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
-                      <div className="bg-gray-700 p-4 rounded-lg text-center">
+                      <div className="bg-[#383c3d] p-4 rounded-lg text-center">
                         <p className="text-gray-400">Total cost per hour</p>
                         <p className="text-lg font-bold text-white">
                           ₱{calcData.totalCostPerHour?.toFixed(2)}
                         </p>
                       </div>
-                      <div className="bg-gray-700 p-4 rounded-lg text-center">
+                      <div className="bg-[#383c3d] p-4 rounded-lg text-center">
                         <p className="text-gray-400">Total cost per day</p>
                         <p className="text-lg font-bold text-white">
                           ₱{calcData.totalCostPerDay?.toFixed(2)}
                         </p>
                       </div>
-                      <div className="bg-gray-700 p-4 rounded-lg text-center">
+                      <div className="bg-[#383c3d] p-4 rounded-lg text-center">
                         <p className="text-gray-400">Total cost per week</p>
                         <p className="text-lg font-bold text-white">
                           ₱{calcData.totalCostPerWeek?.toFixed(2)}
                         </p>
                       </div>
-                      <div className="bg-gray-700 p-4 rounded-lg text-center">
+                      <div className="bg-[#383c3d] p-4 rounded-lg text-center">
                         <p className="text-gray-400">Total cost per month</p>
                         <p className="text-lg font-bold text-white">
                           ₱{calcData.totalCost?.toFixed(2)}
@@ -529,17 +529,53 @@ export default function RecommendationPage() {
 
               {/* Button to calculate prediction */}
               {/* Recommendation Section */}
-              <div className="mt-6">
-                <button
-                  onClick={handleGetRecommendation}
-                  disabled={!user || recLoading}
-                  className="w-full py-3 px-5 bg-green-400 hover:bg-green-400/80 text-black rounded"
-                >
-                  {recLoading ? "Fetching Recommendation..." : "Get Recommendation"}
-                </button>
+              <div className="flex flex-col items-center">
+                {!recLoading ? (
+                  <button
+                    onClick={handleGetRecommendation}
+                    disabled={!user}
+                    className="w-full py-3 px-5 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded cursor-pointer"
+                  >
+                    Get Recommendation
+                  </button>
+                ) : (
+                  <div className="flex justify-center items-center my-5">
+                    <div className="flex space-x-2 items-center">
+                      <span className="text-white mr-2">
+                        Loading Recommendation
+                      </span>
+                      <div className="flex space-x-1">
+                        <div
+                          className="h-3 w-3 bg-cta-bluegreen rounded-full animate-bounce"
+                          style={{
+                            animationDelay: "0ms",
+                            animationDuration: "1s",
+                            animationName: "customBounce",
+                          }}
+                        ></div>
+                        <div
+                          className="h-3 w-3 bg-cta-bluegreen rounded-full animate-bounce"
+                          style={{
+                            animationDelay: "150ms",
+                            animationDuration: "1s",
+                            animationName: "customBounce",
+                          }}
+                        ></div>
+                        <div
+                          className="h-3 w-3 bg-cta-bluegreen rounded-full animate-bounce"
+                          style={{
+                            animationDelay: "300ms",
+                            animationDuration: "1s",
+                            animationName: "customBounce",
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {recommendation && (
-                  <div className="mt-4 p-4 bg-gray-800 text-white rounded whitespace-pre-wrap">
+                  <div className="mt-4 p-6 bg-[#212121] text-white rounded whitespace-pre-wrap">
                     {recommendation}
                   </div>
                 )}
@@ -554,15 +590,25 @@ export default function RecommendationPage() {
           )}
         </div>
       </div>
-
+      <style jsx>{`
+        @keyframes customBounce {
+          0%,
+          100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-7px);
+          }
+        }
+      `}</style>
       <Modal
         opened={modalOpened}
         onClose={closeModal}
         title="Select Calculations from History"
         styles={{
           title: { color: "white", fontWeight: "bold" },
-          header: { backgroundColor: "#2C2E33" },
-          content: { backgroundColor: "#2C2E33", color: "white" },
+          header: { backgroundColor: "#212121" },
+          content: { backgroundColor: "#212121", color: "white" },
           close: { color: "white" },
         }}
       >
@@ -576,7 +622,7 @@ export default function RecommendationPage() {
                 {calculations.map((calc) => (
                   <div
                     key={calc.value}
-                    className="flex items-center p-2 bg-gray-700 rounded hover:bg-gray-600"
+                    className="flex items-center p-2 bg-[#383c3d] rounded hover:bg-[#383c3d]/50"
                   >
                     <input
                       type="checkbox"

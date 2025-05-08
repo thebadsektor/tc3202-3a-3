@@ -9,8 +9,14 @@ import { getDatabase, ref, onValue, get, set } from "firebase/database";
 export default function BillPrediction() {
   // Current month with ability to predict 2 months ahead
   const currentDate = new Date();
-  const [month, setMonth] = useState(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1));
-  const maxDate = new Date(currentDate.getFullYear(), currentDate.getMonth() + 2, 1);
+  const [month, setMonth] = useState(
+    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+  );
+  const maxDate = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 2,
+    1
+  );
 
   const [modalOpened, setModalOpened] = useState(false);
   const [applianceSets, setApplianceSets] = useState([]);
@@ -234,9 +240,12 @@ export default function BillPrediction() {
     const selectedYear = month.getFullYear();
 
     try {
-      const res = await fetch(`http://localhost:8000/api/predict/?month=${selectedMonth}&year=${selectedYear}`, {
-        method: "GET",
-      });
+      const res = await fetch(
+        `http://localhost:8000/api/predict/?month=${selectedMonth}&year=${selectedYear}`,
+        {
+          method: "GET",
+        }
+      );
 
       const data = await res.json();
       const predictedRate = parseFloat(data.prediction);
@@ -293,7 +302,9 @@ export default function BillPrediction() {
   const handleSavePrediction = async () => {
     if (!user || !predictionResult) return;
 
-    const formattedMonth = `${month.getFullYear()}-${String(month.getMonth() + 1).padStart(2, '0')}`;
+    const formattedMonth = `${month.getFullYear()}-${String(
+      month.getMonth() + 1
+    ).padStart(2, "0")}`;
 
     const predictionData = {
       month: formattedMonth,
@@ -331,13 +342,13 @@ export default function BillPrediction() {
 
   // Month name formatter
   const formatMonthYear = (date) => {
-    return date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+    return date.toLocaleDateString("en-US", { month: "long", year: "numeric" });
   };
 
   return (
     <>
       <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
-        <div className="w-2xl mx-auto p-5 text-white rounded-lg shadow-lg">
+        <div className="w-2xl mx-auto p-5 text-white rounded-lg shadow-2xl">
           <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
             <IoMdHome /> Home / Bill Prediction
           </span>
@@ -364,11 +375,13 @@ export default function BillPrediction() {
               placeholder="Select Month"
               value={month}
               onChange={handleMonthChange}
-              minDate={new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)}
+              minDate={
+                new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+              }
               maxDate={maxDate}
               classNames={{
                 input:
-                  "!bg-gray-800 !text-white !border-gray-600 !w-auto !py-2 mt-2",
+                  "!bg-[#383c3d] !text-white !border-gray-600 !w-auto !py-2 mt-2",
                 label: "text-white",
                 dropdown: "!bg-gray-900 !text-white !border-gray-700",
               }}
@@ -389,7 +402,7 @@ export default function BillPrediction() {
                 const appliances = setData.appliances || {};
 
                 return (
-                  <div key={setKey} className="p-4 bg-gray-800 rounded">
+                  <div key={setKey} className="p-4 bg-[#212121] rounded">
                     <h3 className="text-xl font-semibold mb-3">
                       Selected Set:{" "}
                       <span className="text-cta-bluegreen">
@@ -412,10 +425,10 @@ export default function BillPrediction() {
                           Object.entries(appliances).map(([key, appliance]) => (
                             <li
                               key={key}
-                              className="bg-gray-700 rounded overflow-hidden"
+                              className="bg-[#383c3d] rounded overflow-hidden"
                             >
                               <div
-                                className="flex items-center justify-between p-2 cursor-pointer hover:bg-gray-600 transition"
+                                className="flex items-center justify-between p-2 cursor-pointer transition"
                                 onClick={() =>
                                   toggleApplianceExpand(setKey, key)
                                 }
@@ -431,7 +444,7 @@ export default function BillPrediction() {
                               </div>
 
                               {expandedAppliances[`${setKey}-${key}`] && (
-                                <div className="p-3 bg-gray-800 border-t border-gray-600 space-y-2">
+                                <div className="p-3 bg-[#212121] border-t border-gray-600 space-y-2">
                                   <div className="flex justify-between">
                                     <span className="text-gray-400">
                                       Wattage:
@@ -482,13 +495,13 @@ export default function BillPrediction() {
               {/* Button to calculate prediction */}
               <button
                 onClick={handlePrediction}
-                className="w-full mt-2 py-2 px-5 bg-green-400 hover:bg-green-400/80 text-black cursor-pointer rounded transition"
+                className="w-full mt-2 py-2 px-5 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black cursor-pointer rounded transition"
                 disabled={!user || loading}
               >
                 Calculate
               </button>
               {predictionResult && (
-                <div className="mt-5 p-4 bg-gray-800 rounded shadow text-white space-y-3 border border-gray-700">
+                <div className="mt-5 p-4 bg-[#212121] rounded shadow text-white space-y-3 border border-gray-900">
                   <h3 className="text-xl font-bold">
                     Predicted Electricity Bill Summary
                   </h3>
@@ -545,8 +558,8 @@ export default function BillPrediction() {
         title="Select Appliance Sets"
         styles={{
           title: { color: "white", fontWeight: "bold" },
-          header: { backgroundColor: "#2C2E33" },
-          content: { backgroundColor: "#2C2E33", color: "white" },
+          header: { backgroundColor: "#212121" },
+          content: { backgroundColor: "#212121", color: "white" },
           close: { color: "white" },
         }}
       >
@@ -560,7 +573,7 @@ export default function BillPrediction() {
                 {applianceSets.map((set) => (
                   <div
                     key={set.value}
-                    className="flex items-center p-2 bg-gray-700 rounded hover:bg-gray-600"
+                    className="flex items-center p-2 bg-[#383c3d] rounded hover:bg-gray-600"
                   >
                     <input
                       type="checkbox"

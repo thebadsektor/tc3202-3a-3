@@ -96,7 +96,7 @@ const ElectricityRateGraph = () => {
         console.error("Error fetching bill predictions:", error);
         setError("Failed to load bill predictions");
         setLoading(false);
-      },
+      }
     );
 
     return () => unsubscribe();
@@ -138,16 +138,16 @@ const ElectricityRateGraph = () => {
             <>
               <p className="text-white font-medium">{`Estimated Bill:`}</p>
               <p className="text-white pl-2">{`Avg: ₱${data.billAvg.toFixed(
-                2,
+                2
               )}`}</p>
               {data.billMin && (
                 <p className="text-white pl-2">{`Min: ₱${data.billMin.toFixed(
-                  2,
+                  2
                 )}`}</p>
               )}
               {data.billMax && (
                 <p className="text-white pl-2">{`Max: ₱${data.billMax.toFixed(
-                  2,
+                  2
                 )}`}</p>
               )}
             </>
@@ -163,8 +163,10 @@ const ElectricityRateGraph = () => {
 
   if (loading) {
     return (
-      <div className="bg-gray-800 text-slate-200 p-6 rounded-lg shadow mt-10">
-        <h2 className="text-2xl font-bold mb-4">Electricity Rate Predictions</h2>
+      <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
+        <h2 className="text-2xl font-bold mb-4">
+          Electricity Rate Predictions
+        </h2>
         <div className="text-white/60">Loading data...</div>
       </div>
     );
@@ -172,15 +174,17 @@ const ElectricityRateGraph = () => {
 
   if (error) {
     return (
-      <div className="bg-gray-800 text-slate-200 p-6 rounded-lg shadow mt-10">
-        <h2 className="text-2xl font-bold mb-4">Electricity Rate Predictions</h2>
+      <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
+        <h2 className="text-2xl font-bold mb-4">
+          Electricity Rate Predictions
+        </h2>
         <div className="text-red-400">{error}</div>
       </div>
     );
   }
 
   return (
-    <div className="bg-gray-800 text-slate-200 p-6 rounded-lg shadow mt-10">
+    <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Electricity Rate Predictions</h2>
         <div className="flex items-center gap-4">
@@ -192,7 +196,8 @@ const ElectricityRateGraph = () => {
               id="displayMode"
               value={displayMode}
               onChange={(e) => setDisplayMode(e.target.value)}
-              className="bg-gray-700 text-white p-2 rounded border border-gray-600">
+              className="bg-[#383c3d] text-white p-2 rounded border border-gray-600"
+            >
               <option value="rate">Rate</option>
               <option value="bill">Bill Estimates</option>
             </select>
@@ -205,7 +210,8 @@ const ElectricityRateGraph = () => {
               id="yearSelect"
               value={selectedYear}
               onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-              className="bg-gray-700 text-white p-2 rounded border border-gray-600">
+              className="bg-[#383c3d] text-white p-2 rounded border border-gray-600"
+            >
               {availableYears.length > 0 ? (
                 availableYears.map((year) => (
                   <option key={year} value={year}>
@@ -225,7 +231,7 @@ const ElectricityRateGraph = () => {
       </div>
 
       {billData.length === 0 ? (
-        <div className="text-center p-10 bg-gray-700 rounded-lg">
+        <div className="text-center p-10 bg-[#383c3d] rounded-lg">
           <p className="text-white/60">
             No electricity rate data available for {selectedYear}
           </p>
@@ -236,7 +242,8 @@ const ElectricityRateGraph = () => {
             {displayMode === "rate" ? (
               <LineChart
                 data={chartData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#444" />
                 <XAxis dataKey="month" stroke="#ccc" tick={{ fill: "#ccc" }} />
                 <YAxis
@@ -265,7 +272,8 @@ const ElectricityRateGraph = () => {
             ) : (
               <ComposedChart
                 data={chartData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+              >
                 <CartesianGrid strokeDasharray="3 3" stroke="#444" />
                 <XAxis dataKey="month" stroke="#ccc" tick={{ fill: "#ccc" }} />
                 <YAxis
@@ -318,7 +326,7 @@ const ElectricityRateGraph = () => {
 
       <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
         {filteredData.map((data) => (
-          <div key={data.id} className="bg-gray-700 p-4 rounded-lg">
+          <div key={data.id} className="bg-[#383c3d] p-4 rounded-lg">
             <h3 className="text-lg font-medium text-cta-bluegreen">{`${data.month} ${data.year}`}</h3>
             <div className="mt-2">
               <p className="flex justify-between">

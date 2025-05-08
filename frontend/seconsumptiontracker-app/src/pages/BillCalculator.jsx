@@ -426,15 +426,6 @@ export default function DynamicTextFields() {
   };
 
   const calculate = () => {
-    const hasIncompleteFields = fields.some((field) => !field.completed);
-
-    if (hasIncompleteFields) {
-      alert(
-        "Please complete all appliances before calculating. Look for fields marked with a red X."
-      );
-      return;
-    }
-
     if (fields.some((field) => !field.completed)) return;
 
     const applianceResults = Object.entries(applianceData).map(
@@ -608,7 +599,7 @@ export default function DynamicTextFields() {
   return (
     <>
       <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
-        <div className="max-w-lg mx-auto p-5 text-white rounded-lg shadow-lg ">
+        <div className="max-w-lg mx-auto p-5 text-white rounded-lg shadow-xl ">
           <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
             <IoMdHome /> Home / Energy consumption calculator
           </span>
@@ -655,16 +646,6 @@ export default function DynamicTextFields() {
                 Small Business
               </button>
             </div>
-
-            {/*Commented out muna para hindi secret muna sa user*/}
-            {/* <div className="text-center mt-2">
-              <p>
-                Selected rate:{" "}
-                <span className="font-bold">
-                  ₱{electricityRate.toFixed(5)}/kWh
-                </span>
-              </p>
-            </div> */}
           </div>
           <div className="flex justify-between">
             <p className="">Appliances</p>
@@ -688,17 +669,14 @@ export default function DynamicTextFields() {
                       )
                     );
                   }}
-                  className="flex-1 !text-xl p-2 bg-gray-700 border border-gray-600 rounded focus:outline-none"
-                  placeholder="Appliance name"
+                  className="flex-1 p-2 bg-[#383c3d] border border-gray-600 rounded focus:outline-none"
+                  placeholder="Ex: TCL Smart TV 55'"
                 />
 
                 {field.completed ? (
-                  <FaCheck
-                    className="text-green-400 cursor-pointer"
-                    size={18}
-                  />
+                  <FaCheck className="text-green-400" size={18} />
                 ) : (
-                  <FaTimes className="text-red-400 cursor-pointer" size={18} />
+                  <FaTimes className="text-red-400" size={18} />
                 )}
 
                 <FaEdit
@@ -775,10 +753,10 @@ export default function DynamicTextFields() {
 
           <button
             onClick={calculate}
-            className={`w-full mt-12 py-2 rounded transition cursor-pointer ${
+            className={`w-full mt-12 py-2 rounded transition text-black ${
               fields.some((field) => !field.completed)
-                ? "bg-green-800/50 cursor-not-allowed"
-                : "bg-green-500 hover:bg-green-600"
+                ? "bg-[#008631] cursor-not-allowed"
+                : "bg-[#39e75f] hover:bg-[#39e75f]/80  cursor-pointer"
             }`}
           >
             Calculate
@@ -790,8 +768,8 @@ export default function DynamicTextFields() {
         opened={opened}
         onClose={close}
         styles={{
-          header: { backgroundColor: "#13171C", padding: "16px" },
-          content: { backgroundColor: "#13171C" },
+          header: { backgroundColor: "#212121", padding: "16px" },
+          content: { backgroundColor: "#212121" },
         }}
       >
         <div className="text-white">
@@ -826,6 +804,17 @@ export default function DynamicTextFields() {
                   },
                 }));
               }}
+              // Add styles prop to customize the input background
+              styles={{
+                input: {
+                  backgroundColor: "#383c3d", // Your desired background color
+                  borderColor: "#383c3d", // Optional: matching border color
+                  color: "#FFFFFF", // Optional: text color
+                  "&:focus": {
+                    borderColor: "#fff", // Optional: focus border color
+                  },
+                },
+              }}
             />
             <NumberInput
               label="Wattage"
@@ -849,9 +838,20 @@ export default function DynamicTextFields() {
                   },
                 }));
               }}
+              // Add styles prop to customize the input background
+              styles={{
+                input: {
+                  backgroundColor: "#383c3d", // Your desired background color
+                  borderColor: "#383c3d", // Optional: matching border color
+                  color: "#FFFFFF", // Optional: text color
+                  "&:focus": {
+                    borderColor: "#fff", // Optional: focus border color
+                  },
+                },
+              }}
             />
           </div>
-          <div className="bg-white/20 p-5 rounded mt-3">
+          <div className="bg-[#383c3d] p-5 rounded mt-3">
             <h4 className="text-base font-semibold mb-1">
               Don't know your appliance wattage?{" "}
             </h4>
@@ -899,6 +899,17 @@ export default function DynamicTextFields() {
                 },
               }));
             }}
+            // Add styles prop to customize the input background
+            styles={{
+              input: {
+                backgroundColor: "#383c3d", // Your desired background color
+                borderColor: "#383c3d", // Optional: matching border color
+                color: "#FFFFFF", // Optional: text color
+                "&:focus": {
+                  borderColor: "#fff", // Optional: focus border color
+                },
+              },
+            }}
           />
 
           <p className="mb-3 mt-5">
@@ -936,9 +947,20 @@ export default function DynamicTextFields() {
               }));
             }}
             data={["1 Week", "2 Weeks", "3 Weeks", "4 Weeks"]}
+            // Add styles prop to customize the input background
+            styles={{
+              input: {
+                backgroundColor: "#383c3d", // Your desired background color
+                borderColor: "#383c3d", // Optional: matching border color
+                color: "#FFFFFF", // Optional: text color
+                "&:focus": {
+                  borderColor: "#fff", // Optional: focus border color
+                },
+              },
+            }}
           />
           <button
-            className="w-full py-2 bg-green-500 hover:bg-green-600 rounded transition mt-15 cursor-pointer"
+            className="w-full py-2 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded transition mt-15 cursor-pointer"
             onClick={handleSave}
           >
             Save
@@ -952,11 +974,11 @@ export default function DynamicTextFields() {
         title="Import Appliance Set"
         styles={{
           header: {
-            backgroundColor: "#13171C",
+            backgroundColor: "#212121",
             padding: "16px",
             color: "white",
           },
-          content: { backgroundColor: "#13171C" },
+          content: { backgroundColor: "#212121" },
         }}
       >
         <div className="text-white">
@@ -977,10 +999,22 @@ export default function DynamicTextFields() {
             onChange={(event) => setSelectedSetId(event.currentTarget.value)}
             placeholder="Select an appliance set"
             className="mb-4"
+            // Add styles prop to customize the input background
+            styles={{
+              input: {
+                backgroundColor: "#383c3d", // Your desired background color
+                borderColor: "#383c3d", // Optional: matching border color
+                color: "#FFFFFF", // Optional: text color
+                fontSize: "16px",
+                "&:focus": {
+                  borderColor: "#fff", // Optional: focus border color
+                },
+              },
+            }}
           />
 
           <button
-            className="w-full py-2 bg-green-500 hover:bg-green-600 rounded transition mt-4 cursor-pointer"
+            className="w-full py-1 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded transition mt-4 cursor-pointer"
             onClick={importApplianceSet}
           >
             Import

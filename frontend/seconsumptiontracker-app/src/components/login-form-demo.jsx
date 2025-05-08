@@ -236,7 +236,7 @@ export default function LoginFormDemo() {
               </span>
             ) : (
               <>
-                Login &rarr;
+                Login
                 <BottomGradient />
               </>
             )}

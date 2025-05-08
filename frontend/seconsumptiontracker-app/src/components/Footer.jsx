@@ -55,15 +55,6 @@ const Footer = () => {
                     About
                   </a>
                 </li>
-                <li>
-                  <a
-                    href="/contact"
-                    className="flex items-center hover:text-white transition duration-200"
-                  >
-                    <PhoneIcon className="h-4 w-4 mr-2" />
-                    Contact
-                  </a>
-                </li>
               </ul>
             </div>
 
@@ -185,15 +176,6 @@ const Footer = () => {
                   >
                     <InfoIcon className="h-4 w-4 mr-2" />
                     About
-                  </a>
-                </li>
-                <li>
-                  <a
-                    href="/contact"
-                    className="flex items-center justify-center md:justify-start text-gray-300 hover:text-white transition duration-200"
-                  >
-                    <PhoneIcon className="h-4 w-4 mr-2" />
-                    Contact
                   </a>
                 </li>
               </ul>
