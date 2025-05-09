@@ -11,7 +11,7 @@ warnings.filterwarnings("ignore")  # Optional: hide SARIMA warnings
 
 def forecast_feature(series, periods=1):
     try:
-        model = sm.tsa.SARIMAX(series, order=(1, 1, 1), seasonal_order=(0, 1, 1, 12), enforce_stationarity=False, enforce_invertibility=False)
+        model = sm.tsa.SARIMAX(series, order=(1, 0, 0), seasonal_order=(0, 1, 0, 12), enforce_stationarity=False, enforce_invertibility=False)
         model_fit = model.fit(disp=False)
         forecast = model_fit.forecast(steps=periods)
         result = forecast.iloc[-1]

@@ -89,10 +89,10 @@ def predict_total_bill(request):
         
         if is_may:
             # May is the hottest month, apply stronger adjustment
-            seasonal_factor = 1.06  # 10% increase for May
+            seasonal_factor = 1.04  # 4% increase for May
         else:
             # More conservative adjustment for other months
-            seasonal_factor = 1.03  # 3% adjustment
+            seasonal_factor = 1.01  # 1% adjustment
         
         # Final prediction with both calibration and seasonal adjustment
         final_prediction = calibrated_prediction * seasonal_factor
