@@ -39,7 +39,7 @@ const Dashboard = () => {
         console.error("Error fetching user data:", error);
         setError("Failed to load user data");
         setLoading(false);
-      }
+      },
     );
 
     return () => unsubscribe();
@@ -75,13 +75,15 @@ const Dashboard = () => {
 
   return (
     <>
-      <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
-        <h2 className="text-2xl font-bold mb-4">Dashboard</h2>
-        <p className="mb-2">
+      <div className="bg-[#212121] text-slate-200 p-4 md:p-6 rounded-lg shadow mt-6 md:mt-10">
+        <h2 className="text-xl md:text-2xl font-bold mb-3 md:mb-4">
+          Dashboard
+        </h2>
+        <p className="mb-2 text-sm md:text-base">
           Welcome to your dashboard! Here you can view your electricity
           consumption and bill predictions.
         </p>
-        <p className="mb-4">
+        <p className="mb-4 text-sm md:text-base">
           Use the Electricity Rate Graph below to track your electricity rates
           and bills change over time.
         </p>
@@ -92,59 +94,67 @@ const Dashboard = () => {
           <p className="text-red-400">{error}</p>
         ) : (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-              <div className="bg-[#383c3d] p-4 rounded-lg text-center">
-                <h3 className="text-lg font-medium text-cta-bluegreen">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 mb-4 md:mb-6">
+              <div className="bg-[#383c3d] p-3 md:p-4 rounded-lg text-center">
+                <h3 className="text-base md:text-lg font-medium text-cta-bluegreen">
                   Appliance Sets
                 </h3>
-                <p className="text-2xl font-bold mt-2">{applianceSetsCount}</p>
+                <p className="text-xl md:text-2xl font-bold mt-1 md:mt-2">
+                  {applianceSetsCount}
+                </p>
               </div>
-              <div className="bg-[#383c3d] p-4 rounded-lg text-center">
-                <h3 className="text-lg font-medium text-cta-bluegreen">
+              <div className="bg-[#383c3d] p-3 md:p-4 rounded-lg text-center">
+                <h3 className="text-base md:text-lg font-medium text-cta-bluegreen">
                   Saved Calculations
                 </h3>
-                <p className="text-2xl font-bold mt-2">{calculationsCount}</p>
+                <p className="text-xl md:text-2xl font-bold mt-1 md:mt-2">
+                  {calculationsCount}
+                </p>
               </div>
-              <div className="bg-[#383c3d] p-4 rounded-lg text-center">
-                <h3 className="text-lg font-medium text-cta-bluegreen">
+              <div className="bg-[#383c3d] p-3 md:p-4 rounded-lg text-center sm:col-span-2 md:col-span-1">
+                <h3 className="text-base md:text-lg font-medium text-cta-bluegreen">
                   Bill Predictions
                 </h3>
-                <p className="text-2xl font-bold mt-2">{predictionsCount}</p>
+                <p className="text-xl md:text-2xl font-bold mt-1 md:mt-2">
+                  {predictionsCount}
+                </p>
               </div>
             </div>
 
             {latestPrediction && (
-              <div className="bg-[#2c2f30] p-5 rounded-lg mb-6">
-                <h3 className="text-xl font-semibold text-white mb-3">
+              <div className="bg-[#2c2f30] p-3 md:p-5 rounded-lg mb-4 md:mb-6">
+                <h3 className="text-lg md:text-xl font-semibold text-white mb-2 md:mb-3">
                   Latest Bill Prediction
                 </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                  <div className="bg-[#383c3d] p-3 rounded-lg">
-                    <p className="text-white/60">Month</p>
-                    <p className="font-medium text-lg">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-4">
+                  <div className="bg-[#383c3d] p-2 md:p-3 rounded-lg">
+                    <p className="text-white/60 text-sm">Month</p>
+                    <p className="font-medium text-base md:text-lg truncate">
                       {latestPrediction.month}
                     </p>
                   </div>
-                  <div className="bg-[#383c3d]  p-3 rounded-lg">
-                    <p className="text-white/60">Rate</p>
-                    <p className="font-medium text-lg">
+                  <div className="bg-[#383c3d] p-2 md:p-3 rounded-lg">
+                    <p className="text-white/60 text-sm">Rate</p>
+                    <p className="font-medium text-base md:text-lg">
                       ₱{latestPrediction.predictedRate}
                     </p>
                   </div>
-                  <div className="bg-[#383c3d]  p-3 rounded-lg">
-                    <p className="text-white/60">Total kWh</p>
-                    <p className="font-medium text-lg">
+                  <div className="bg-[#383c3d] p-2 md:p-3 rounded-lg">
+                    <p className="text-white/60 text-sm">Total kWh</p>
+                    <p className="font-medium text-base md:text-lg">
                       {latestPrediction.totalKWh}
                     </p>
                   </div>
 
                   {latestPrediction.estimatedBill && (
-                    <div className="bg-[#383c3d] p-3 rounded-lg">
-                      <p className="text-white/60">Estimated Bill (Avg)</p>
-                      <p className="font-medium text-lg">
+                    <div className="bg-[#383c3d] p-2 md:p-3 rounded-lg">
+                      <p className="text-white/60 text-sm">
+                        Estimated Bill (Avg)
+                      </p>
+                      <p className="font-medium text-base md:text-lg">
                         ₱
                         {parseFloat(
-                          latestPrediction.estimatedBill.average
+                          latestPrediction.estimatedBill.average,
                         ).toFixed(2)}
                       </p>
                     </div>
@@ -152,33 +162,41 @@ const Dashboard = () => {
                 </div>
 
                 {latestPrediction.estimatedBill && (
-                  <div className="mt-4 bg-[#383c3d] p-3 rounded-lg">
-                    <p className="text-white/60 mb-2">Bill Range</p>
-                    <div className="flex justify-between items-center">
+                  <div className="mt-3 md:mt-4 bg-[#383c3d] p-2 md:p-3 rounded-lg">
+                    <p className="text-white/60 mb-1 md:mb-2 text-sm md:text-base">
+                      Bill Range
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
                       <div>
-                        <span className="text-white/80">Min:</span>
-                        <span className="font-medium text-green-400 ml-2">
+                        <span className="text-white/80 text-sm md:text-base">
+                          Min:
+                        </span>
+                        <span className="font-medium text-green-400 ml-2 text-sm md:text-base">
                           ₱
                           {parseFloat(
-                            latestPrediction.estimatedBill.min
+                            latestPrediction.estimatedBill.min,
                           ).toFixed(2)}
                         </span>
                       </div>
                       <div>
-                        <span className="text-white/80">Average:</span>
-                        <span className="font-medium text-blue-400 ml-2">
+                        <span className="text-white/80 text-sm md:text-base">
+                          Average:
+                        </span>
+                        <span className="font-medium text-blue-400 ml-2 text-sm md:text-base">
                           ₱
                           {parseFloat(
-                            latestPrediction.estimatedBill.average
+                            latestPrediction.estimatedBill.average,
                           ).toFixed(2)}
                         </span>
                       </div>
                       <div>
-                        <span className="text-white/80">Max:</span>
-                        <span className="font-medium text-red-400 ml-2">
+                        <span className="text-white/80 text-sm md:text-base">
+                          Max:
+                        </span>
+                        <span className="font-medium text-red-400 ml-2 text-sm md:text-base">
                           ₱
                           {parseFloat(
-                            latestPrediction.estimatedBill.max
+                            latestPrediction.estimatedBill.max,
                           ).toFixed(2)}
                         </span>
                       </div>

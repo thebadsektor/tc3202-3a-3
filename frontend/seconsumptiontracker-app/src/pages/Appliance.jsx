@@ -65,7 +65,7 @@ const Appliance = () => {
       },
       (error) => {
         console.error("Error fetching data:", error);
-      }
+      },
     );
 
     // Cleanup subscription on unmount
@@ -117,7 +117,7 @@ const Appliance = () => {
               // Update the name in the database
               const setRef = ref(
                 db,
-                "users/" + user + "/applianceSets/" + setKey
+                "users/" + user + "/applianceSets/" + setKey,
               );
 
               // Keep all data the same, just update the name
@@ -149,13 +149,13 @@ const Appliance = () => {
                 .catch((error) => {
                   console.error("Error renaming appliance set:", error);
                   setErrorMessage(
-                    "Failed to rename appliance set. Please try again."
+                    "Failed to rename appliance set. Please try again.",
                   );
                 });
             }
           }
         },
-        { onlyOnce: true }
+        { onlyOnce: true },
       );
     } else {
       // We're adding a new set
@@ -230,13 +230,13 @@ const Appliance = () => {
         if (data) {
           const keys = Object.keys(data);
           const setKey = keys.find(
-            (key) => data[key].name === setToDelete.name
+            (key) => data[key].name === setToDelete.name,
           );
 
           if (setKey) {
             const setRef = ref(
               db,
-              "users/" + user + "/applianceSets/" + setKey
+              "users/" + user + "/applianceSets/" + setKey,
             );
 
             remove(setRef)
@@ -244,7 +244,7 @@ const Appliance = () => {
                 console.log("Appliance set deleted successfully");
 
                 const updatedSets = applianceSets.filter(
-                  (_, i) => i !== setToDelete.index
+                  (_, i) => i !== setToDelete.index,
                 );
                 setApplianceSets(updatedSets);
 
@@ -266,7 +266,7 @@ const Appliance = () => {
           }
         }
       },
-      { onlyOnce: true }
+      { onlyOnce: true },
     );
   };
 
@@ -306,39 +306,40 @@ const Appliance = () => {
 
   return (
     <>
-      <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
-        <h2 className="text-2xl font-bold mb-4">Appliance</h2>
-        <p>Manage your appliances and devices here.</p>
+      <div className="bg-[#212121] text-slate-200 p-4 sm:p-6 rounded-lg shadow mt-6 sm:mt-10 mx-2 sm:mx-0">
+        <h2 className="text-xl sm:text-2xl font-bold mb-2 sm:mb-4">
+          Appliance
+        </h2>
+        <p className="text-sm sm:text-base">
+          Manage your appliances and devices here.
+        </p>
         <button
           onClick={handleAddNew}
-          className="bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black py-2 px-4 rounded mt-5 cursor-pointer !font-semibold"
-        >
+          className="bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black py-2 px-3 sm:px-4 rounded mt-4 sm:mt-5 cursor-pointer !font-semibold text-sm sm:text-base w-full sm:w-auto">
           Add appliance set
         </button>
 
         {applianceSets.length > 0 && (
-          <div className="mt-6">
-            <ol className="list-decimal ml-6">
+          <div className="mt-4 sm:mt-6">
+            <ol className="list-decimal ml-4 sm:ml-6">
               {applianceSets.map((set, index) => (
                 <li key={index} className="py-2 border-b border-[#383c3d]">
-                  <div className="flex justify-between items-center">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
                     <a
                       href="#"
-                      className="text-slate-200 font-bold text-xl p-3"
+                      className="text-slate-200 font-bold text-lg sm:text-xl p-1 sm:p-3 break-words w-full sm:w-auto"
                       onClick={(e) => {
                         e.preventDefault();
                         handleViewItems(index);
-                      }}
-                    >
+                      }}>
                       {set}
                     </a>
-                    <div className="flex gap-5">
+                    <div className="flex gap-3 sm:gap-5 mt-2 sm:mt-0 justify-end">
                       <button
                         onClick={() => handleViewItems(index)}
                         className="text-[#dce9ec] hover:text-[#838282] cursor-pointer"
-                        title="View Details"
-                      >
-                        <FaEye size={25} />
+                        title="View Details">
+                        <FaEye size={20} className="sm:w-6 sm:h-6" />
                       </button>
                       <button
                         onClick={(e) => {
@@ -346,22 +347,20 @@ const Appliance = () => {
                           handleEdit(index);
                         }}
                         className="text-[#dce9ec] hover:text-[#838282] cursor-pointer"
-                        title="Edit"
-                      >
-                        <FaPencilAlt size={23} />
+                        title="Edit">
+                        <FaPencilAlt size={18} className="sm:w-5 sm:h-5" />
                       </button>
                       <button
                         onClick={() => handleDeleteConfirmation(index)}
-                        className="text-red-400 hover:text-red-500  cursor-pointer"
-                        title="Delete"
-                      >
-                        <FaTrash size={23} />
+                        className="text-red-400 hover:text-red-500 cursor-pointer"
+                        title="Delete">
+                        <FaTrash size={18} className="sm:w-5 sm:h-5" />
                       </button>
                     </div>
                   </div>
 
                   {appliancesData[set] && appliancesData[set].length > 0 && (
-                    <div className="ml-4 text-slate-400 text-sm">
+                    <div className="ml-2 sm:ml-4 text-slate-400 text-xs sm:text-sm">
                       {appliancesData[set].length} appliance
                       {appliancesData[set].length !== 1 ? "s" : ""}
                     </div>
@@ -376,30 +375,32 @@ const Appliance = () => {
       <Modal
         opened={opened}
         onClose={close}
+        size="sm"
+        fullScreen={window.innerWidth < 640}
         styles={{
           header: { backgroundColor: "#13171C", padding: "16px" },
           content: { backgroundColor: "#13171C" },
-        }}
-      >
-        <div className="text-white">
-          <h4 className="text-xl">
+        }}>
+        <div className="text-white px-2 sm:px-4">
+          <h4 className="text-lg sm:text-xl">
             {editIndex !== null ? "Edit Appliance Set" : "Appliance Set Name"}
           </h4>
           <input
             type="text"
             placeholder="Kitchen Appliances"
-            className="flex-1 p-2 !text-xl bg-gray-700 border border-gray-600 rounded focus:outline-none w-full mt-3"
+            className="flex-1 p-2 !text-base sm:!text-xl bg-gray-700 border border-gray-600 rounded focus:outline-none w-full mt-3"
             value={applianceName}
             onChange={(e) => setApplianceName(e.target.value)}
           />
           {errorMessage && (
-            <p className="text-red-400 mt-2 text-sm">{errorMessage}</p>
+            <p className="text-red-400 mt-2 text-xs sm:text-sm">
+              {errorMessage}
+            </p>
           )}
         </div>
         <button
-          className="text-black bg-cta-bluegreen w-full !text-xl py-2 rounded mt-6"
-          onClick={handleAddOrUpdate}
-        >
+          className="text-black bg-cta-bluegreen w-full !text-base sm:!text-xl py-2 rounded mt-4 sm:mt-6"
+          onClick={handleAddOrUpdate}>
           {editIndex !== null ? "Rename" : "Add"}
         </button>
       </Modal>
@@ -409,6 +410,8 @@ const Appliance = () => {
         opened={deleteModalOpened}
         onClose={closeDeleteModal}
         centered
+        size="xs"
+        fullScreen={window.innerWidth < 480}
         title="Confirm Deletion"
         styles={{
           header: {
@@ -419,19 +422,28 @@ const Appliance = () => {
           content: {
             backgroundColor: "#13171C",
           },
-        }}
-      >
+        }}>
         <div className="text-white p-2">
-          <p className="mb-4">
+          <p className="mb-4 text-sm sm:text-base">
             Are you sure you want to delete "
-            <span className="text-cta-bluegreen">{setToDelete?.name}"</span> and
+            <span className="text-cta-bluegreen">{setToDelete?.name}</span>" and
             all its appliances?
           </p>
           <div className="flex justify-end space-x-4">
-            <Button variant="outline" onClick={closeDeleteModal} color="gray">
+            <Button
+              variant="outline"
+              onClick={closeDeleteModal}
+              color="gray"
+              size="sm"
+              className="text-xs sm:text-sm">
               Cancel
             </Button>
-            <Button variant="filled" color="red" onClick={confirmDelete}>
+            <Button
+              variant="filled"
+              color="red"
+              onClick={confirmDelete}
+              size="sm"
+              className="text-xs sm:text-sm">
               Delete
             </Button>
           </div>

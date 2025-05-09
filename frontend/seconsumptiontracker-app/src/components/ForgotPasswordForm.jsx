@@ -177,8 +177,8 @@ export default function ForgotPasswordForm() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center">
-      <div className="mx-auto w-full max-w-md rounded-none bg-black/60 p-4 md:rounded-2xl md:p-8 dark:bg-black shadow-[0px_0px_15px_5px_rgba(0,183,235,0.1)]">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8">
+      <div className="mx-auto w-full max-w-md rounded-lg bg-black/60 p-4 md:rounded-2xl md:p-8 dark:bg-black shadow-[0px_0px_15px_5px_rgba(0,183,235,0.1)]">
         <h2 className="text-3xl text-center font-bold text-white dark:text-neutral-200 mt-5">
           Forgot Password
         </h2>
@@ -266,8 +266,7 @@ export default function ForgotPasswordForm() {
               type="button"
               className="cursor-pointer group/btn mt-5 relative block h-10 w-full rounded-md bg-[#0e1a1c] font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
               onClick={handleSendOtp}
-              disabled={timer > 0 || loading}
-            >
+              disabled={timer > 0 || loading}>
               {loading ? (
                 <span className="flex items-center justify-center">
                   <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
@@ -287,8 +286,7 @@ export default function ForgotPasswordForm() {
               type="button"
               className="cursor-pointer group/btn mt-5 relative block h-10 w-full rounded-md bg-gray-900 font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
               onClick={handleResetPassword}
-              disabled={loading}
-            >
+              disabled={loading}>
               {loading ? (
                 <span className="flex items-center justify-center">
                   <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>

@@ -428,28 +428,27 @@ export default function BillPrediction() {
 
   return (
     <>
-      <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
-        <div className="w-2xl mx-auto p-5 text-white rounded-lg shadow-2xl">
-          <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
+      <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh] px-4 sm:px-6">
+        <div className="w-full max-w-2xl mx-auto p-3 sm:p-5 text-white rounded-lg shadow-2xl">
+          <span className="text-white/40 text-xs sm:text-[14px] inline-flex items-center gap-1">
             <IoMdHome /> Home / Bill Prediction
           </span>
-          <h2 className="text-4xl font-bold mb-3">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-3">
             Electricity Bill Prediction
           </h2>
 
-          <p className="mb-5 text-white/60">
+          <p className="mb-3 sm:mb-5 text-sm sm:text-base text-white/60">
             The system retrieves the calculated energy consumption data and
             processes it through an (SARIMAX/XGBoost) machine learning model
             trained on historical electricity rate data, providing users with an
             estimated electricity bill.
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-2 sm:gap-4">
             <button
               onClick={openModal}
-              className="mt-2 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition"
-              disabled={!user || loading}
-            >
+              className="mt-2 py-2 px-4 sm:px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition text-sm sm:text-base"
+              disabled={!user || loading}>
               Import
             </button>
             <MonthPickerInput
@@ -462,7 +461,7 @@ export default function BillPrediction() {
               maxDate={maxDate}
               classNames={{
                 input:
-                  "!bg-[#383c3d] !text-white !border-gray-600 !w-auto !py-2 mt-2",
+                  "!bg-[#383c3d] !text-white !border-gray-600 !w-auto !py-2 mt-2 !text-sm sm:!text-base",
                 label: "text-white",
                 dropdown: "!bg-gray-900 !text-white !border-gray-700",
               }}
@@ -470,21 +469,21 @@ export default function BillPrediction() {
           </div>
 
           {!user && authInitialized && (
-            <div className="mt-4 p-4 bg-red-800/50 rounded">
+            <div className="mt-4 p-3 sm:p-4 bg-red-800/50 rounded text-sm sm:text-base">
               <p>You need to be logged in to access your appliance sets.</p>
             </div>
           )}
 
           {/* Display selected appliance sets */}
           {selectedApplianceSets.length > 0 && (
-            <div className="mt-15 space-y-4">
+            <div className="mt-8 sm:mt-15 space-y-3 sm:space-y-4">
               {selectedApplianceSets.map((setKey) => {
                 const setData = selectedSetsData[setKey] || {};
                 const appliances = setData.appliances || {};
 
                 return (
-                  <div key={setKey} className="p-4 bg-[#212121] rounded">
-                    <h3 className="text-xl font-semibold mb-3">
+                  <div key={setKey} className="p-3 sm:p-4 bg-[#212121] rounded">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3 break-words">
                       Selected Set:{" "}
                       <span className="text-cta-bluegreen">
                         {setData.label || setKey}
@@ -493,11 +492,12 @@ export default function BillPrediction() {
 
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <h4 className="text-lg font-medium">Appliances:</h4>
+                        <h4 className="text-base sm:text-lg font-medium">
+                          Appliances:
+                        </h4>
                         <button
                           onClick={() => toggleViewAllAppliances(setKey)}
-                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline"
-                        >
+                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-xs sm:text-sm underline">
                           {expandedSets[setKey] ? "Collapse All" : "View All"}
                         </button>
                       </div>
@@ -506,16 +506,16 @@ export default function BillPrediction() {
                           Object.entries(appliances).map(([key, appliance]) => (
                             <li
                               key={key}
-                              className="bg-[#383c3d] rounded overflow-hidden"
-                            >
+                              className="bg-[#383c3d] rounded overflow-hidden">
                               <div
-                                className="flex items-center justify-between p-2 cursor-pointer transition"
+                                className="flex items-center justify-between p-2 cursor-pointer transition text-sm sm:text-base"
                                 onClick={() =>
                                   toggleApplianceExpand(setKey, key)
-                                }
-                              >
-                                <span>{appliance.name}</span>
-                                <span className="flex items-center">
+                                }>
+                                <span className="break-words pr-2">
+                                  {appliance.name}
+                                </span>
+                                <span className="flex items-center flex-shrink-0">
                                   {expandedAppliances[`${setKey}-${key}`] ? (
                                     <FiChevronDown />
                                   ) : (
@@ -525,7 +525,7 @@ export default function BillPrediction() {
                               </div>
 
                               {expandedAppliances[`${setKey}-${key}`] && (
-                                <div className="p-3 bg-[#212121] border-t border-gray-600 space-y-2">
+                                <div className="p-2 sm:p-3 bg-[#212121] border-t border-gray-600 space-y-1 sm:space-y-2 text-xs sm:text-sm">
                                   <div className="flex justify-between">
                                     <span className="text-gray-400">
                                       Wattage:
@@ -546,7 +546,7 @@ export default function BillPrediction() {
                                   </div>
                                   <div className="flex justify-between">
                                     <span className="text-gray-400">Days:</span>
-                                    <span>
+                                    <span className="break-words text-right">
                                       {Array.isArray(appliance.days)
                                         ? appliance.days.join(", ")
                                         : appliance.days || "N/A"}
@@ -563,7 +563,7 @@ export default function BillPrediction() {
                             </li>
                           ))
                         ) : (
-                          <li className="text-gray-400">
+                          <li className="text-gray-400 text-sm">
                             No appliances found in this set.
                           </li>
                         )}
@@ -576,28 +576,27 @@ export default function BillPrediction() {
               {/* Button to calculate prediction */}
               <button
                 onClick={handlePrediction}
-                className="w-full mt-2 py-2 px-5 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black cursor-pointer rounded transition"
-                disabled={!user || loading}
-              >
+                className="w-full mt-2 py-2 px-5 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black cursor-pointer rounded transition text-sm sm:text-base"
+                disabled={!user || loading}>
                 Calculate
               </button>
               {predictionResult && (
-                <div className="mt-5 p-4 bg-[#212121] rounded shadow text-white space-y-3 border border-gray-900">
-                  <h3 className="text-xl font-bold">
+                <div className="mt-4 sm:mt-5 p-3 sm:p-4 bg-[#212121] rounded shadow text-white space-y-2 sm:space-y-3 border border-gray-900">
+                  <h3 className="text-lg sm:text-xl font-bold">
                     Predicted Electricity Bill Summary
                   </h3>
-                  <p className="text-sm text-gray-400">
+                  <p className="text-xs sm:text-sm text-gray-400">
                     Forecast for {formatMonthYear(month)}
                   </p>
 
-                  <div className="flex justify-between border-b border-gray-700 pb-2 mt-10">
+                  <div className="flex justify-between border-b border-gray-700 pb-2 mt-6 sm:mt-10 text-sm sm:text-base">
                     <span>Monthly Consumption:</span>
                     <span className="font-semibold">
                       {predictionResult.totalKWh} kWh
                     </span>
                   </div>
 
-                  <div className="flex justify-between border-b border-gray-700 pb-2">
+                  <div className="flex justify-between border-b border-gray-700 pb-2 text-sm sm:text-base">
                     <span>Predicted Rate:</span>
                     <span className="font-semibold">
                       ₱{predictionResult.predictedRate} / kWh
@@ -605,21 +604,29 @@ export default function BillPrediction() {
                   </div>
 
                   {rateComparison && (
-                    <div className="flex justify-between border-b border-gray-700 pb-2">
+                    <div className="flex flex-col sm:flex-row sm:justify-between border-b border-gray-700 pb-2 text-xs sm:text-base">
                       <span>Rate Comparison:</span>
-                      <span className={`font-semibold flex items-center ${rateComparison.isHigher ? 'text-red-400' : 'text-green-400'}`}>
+                      <span
+                        className={`font-semibold flex items-center ${
+                          rateComparison.isHigher
+                            ? "text-red-400"
+                            : "text-green-400"
+                        } mt-1 sm:mt-0`}>
                         {rateComparison.isHigher ? (
-                          <FiTrendingUp className="mr-1" />
+                          <FiTrendingUp className="mr-1 flex-shrink-0" />
                         ) : (
-                          <FiTrendingDown className="mr-1" />
+                          <FiTrendingDown className="mr-1 flex-shrink-0" />
                         )}
-                        {rateComparison.isHigher ? 'Higher' : 'Lower'} by {rateComparison.difference}% 
-                        <span className="ml-1 text-gray-400 text-sm">(₱{rateComparison.latest})</span>
+                        {rateComparison.isHigher ? "Higher" : "Lower"} by{" "}
+                        {rateComparison.difference}%
+                        <span className="ml-1 text-gray-400 text-xs">
+                          (₱{rateComparison.latest})
+                        </span>
                       </span>
                     </div>
                   )}
 
-                  <div className="flex justify-between border-b border-gray-700 pb-4">
+                  <div className="flex justify-between border-b border-gray-700 pb-4 text-sm sm:text-base">
                     <span>Estimated Bill Range:</span>
                     <span className="font-semibold text-green-400">
                       ₱{predictionResult.estimatedBill.min} – ₱
@@ -629,14 +636,18 @@ export default function BillPrediction() {
 
                   {/* Comparison with saved calculations */}
                   {savedCalculations.length > 0 && (
-                    <div className="mt-4 pt-4 border-t border-gray-700">
-                      <h4 className="font-medium mb-2">Compare with a saved calculation:</h4>
-                      <div className="flex gap-2">
+                    <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-gray-700">
+                      <h4 className="font-medium mb-2 text-sm sm:text-base">
+                        Compare with a saved calculation:
+                      </h4>
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <Select
                           placeholder="Select calculation"
-                          data={savedCalculations.map(calc => ({
+                          data={savedCalculations.map((calc) => ({
                             value: calc.id,
-                            label: calc.name || `Calculation (${calc.id.substring(0, 8)})`
+                            label:
+                              calc.name ||
+                              `Calculation (${calc.id.substring(0, 8)})`,
                           }))}
                           value={selectedCalculation}
                           onChange={setSelectedCalculation}
@@ -645,31 +656,43 @@ export default function BillPrediction() {
                             input: {
                               backgroundColor: "#383c3d",
                               borderColor: "#383c3d",
-                              color: "white"
-                            }
+                              color: "white",
+                              fontSize: "14px",
+                            },
                           }}
                         />
                         <button
                           onClick={handleCompare}
                           disabled={!selectedCalculation}
-                          className="bg-cta-bluegreen text-black px-3 py-1 rounded hover:bg-cta-bluegreen/80 transition cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed"
-                        >
+                          className="bg-cta-bluegreen text-black px-3 py-1 rounded hover:bg-cta-bluegreen/80 transition cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed text-sm sm:text-base">
                           Compare
                         </button>
                       </div>
-                      
+
                       {comparisonResult && (
-                        <div className="mt-3 p-3 bg-[#1a1a1a] rounded">
-                          <p className="text-sm text-gray-400 mb-2">Comparing with: {comparisonResult.savedName}</p>
-                          <div className="flex justify-between items-center">
-                            <span>Saved Calculation: ₱{comparisonResult.savedBill}</span>
-                            <span className={`flex items-center ${comparisonResult.isHigher ? 'text-red-400' : 'text-green-400'}`}>
+                        <div className="mt-3 p-2 sm:p-3 bg-[#1a1a1a] rounded">
+                          <p className="text-xs sm:text-sm text-gray-400 mb-2">
+                            Comparing with: {comparisonResult.savedName}
+                          </p>
+                          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                            <span className="text-sm sm:text-base">
+                              Saved Calculation: ₱{comparisonResult.savedBill}
+                            </span>
+                            <span
+                              className={`flex items-center text-xs sm:text-sm mt-1 sm:mt-0 ${
+                                comparisonResult.isHigher
+                                  ? "text-red-400"
+                                  : "text-green-400"
+                              }`}>
                               {comparisonResult.isHigher ? (
-                                <FiTrendingUp className="mr-1" />
+                                <FiTrendingUp className="mr-1 flex-shrink-0" />
                               ) : (
-                                <FiTrendingDown className="mr-1" />
+                                <FiTrendingDown className="mr-1 flex-shrink-0" />
                               )}
-                              Prediction is {comparisonResult.isHigher ? 'higher' : 'lower'} by ₱{comparisonResult.difference} ({comparisonResult.percentDifference}%)
+                              Prediction is{" "}
+                              {comparisonResult.isHigher ? "higher" : "lower"}{" "}
+                              by ₱{comparisonResult.difference} (
+                              {comparisonResult.percentDifference}%)
                             </span>
                           </div>
                         </div>
@@ -681,12 +704,11 @@ export default function BillPrediction() {
                     {!isSaved ? (
                       <button
                         onClick={handleSavePrediction}
-                        className="mt-4 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer"
-                      >
+                        className="mt-4 py-1.5 sm:py-2 px-4 sm:px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer text-sm sm:text-base">
                         Save Prediction
                       </button>
                     ) : (
-                      <div className="mt-4 inline-flex items-center gap-2 text-green-400 font-medium">
+                      <div className="mt-4 inline-flex items-center gap-2 text-green-400 font-medium text-sm sm:text-base">
                         Prediction saved
                       </div>
                     )}
@@ -708,19 +730,20 @@ export default function BillPrediction() {
           content: { backgroundColor: "#212121", color: "white" },
           close: { color: "white" },
         }}
-      >
+        size="sm">
         <div className="py-4">
           {loading ? (
             <p>Loading appliance sets...</p>
           ) : applianceSets.length > 0 ? (
             <>
-              <h3 className="mb-2">Available Appliance Sets</h3>
+              <h3 className="mb-2 text-sm sm:text-base">
+                Available Appliance Sets
+              </h3>
               <div className="space-y-2 max-h-60 overflow-y-auto">
                 {applianceSets.map((set) => (
                   <div
                     key={set.value}
-                    className="flex items-center p-2 bg-[#383c3d] rounded hover:bg-gray-600"
-                  >
+                    className="flex items-center p-2 bg-[#383c3d] rounded hover:bg-gray-600">
                     <input
                       type="checkbox"
                       id={`set-${set.value}`}
@@ -730,8 +753,7 @@ export default function BillPrediction() {
                     />
                     <label
                       htmlFor={`set-${set.value}`}
-                      className="cursor-pointer flex-1"
-                    >
+                      className="cursor-pointer flex-1 text-sm sm:text-base break-words">
                       {set.label}
                     </label>
                   </div>
@@ -740,21 +762,21 @@ export default function BillPrediction() {
               <div className="mt-6 flex justify-end space-x-3">
                 <button
                   onClick={closeModal}
-                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded"
-                >
+                  className="py-1.5 sm:py-2 px-3 sm:px-4 bg-gray-600 hover:bg-gray-500 text-white rounded text-sm sm:text-base">
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmSelection}
-                  className="py-2 px-4 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded"
-                  disabled={!tempSelectedSets.length}
-                >
+                  className="py-1.5 sm:py-2 px-3 sm:px-4 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded text-sm sm:text-base"
+                  disabled={!tempSelectedSets.length}>
                   Confirm Selection
                 </button>
               </div>
             </>
           ) : (
-            <p>No appliance sets found. Please create one first.</p>
+            <p className="text-sm sm:text-base">
+              No appliance sets found. Please create one first.
+            </p>
           )}
         </div>
       </Modal>

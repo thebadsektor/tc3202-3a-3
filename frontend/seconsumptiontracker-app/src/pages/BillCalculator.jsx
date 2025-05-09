@@ -598,64 +598,64 @@ export default function DynamicTextFields() {
 
   return (
     <>
-      <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
-        <div className="max-w-lg mx-auto p-5 text-white rounded-lg shadow-xl ">
-          <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
+      <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh] px-4 sm:px-6">
+        <div className="w-full max-w-lg mx-auto p-3 sm:p-5 text-white rounded-lg shadow-xl">
+          <span className="text-white/40 text-xs sm:text-[14px] inline-flex items-center gap-1">
             <IoMdHome /> Home / Energy consumption calculator
           </span>
-          <h2 className="text-4xl font-bold mb-3">
+          <h2 className="text-2xl sm:text-4xl font-bold mb-2 sm:mb-3">
             Energy Consumption Calculator
           </h2>
 
-          <p className="mb-5 text-white/60">
+          <p className="mb-3 sm:mb-5 text-sm sm:text-base text-white/60">
             Know how much your appliances and gadgets consume so you can stay in
             control and manage your monthly budget better.
           </p>
 
-          <p className="font-bold mb-4">Start by filling out this form</p>
+          <p className="font-bold mb-3 sm:mb-4 text-sm sm:text-base">
+            Start by filling out this form
+          </p>
 
-          <div className="bg-blue-100 py-5 px-6 rounded-2xl text-black mb-5">
-            <h1 className="text-xl text-center font-bold">
+          <div className="bg-blue-100 py-3 sm:py-5 px-4 sm:px-6 rounded-2xl text-black mb-4 sm:mb-5">
+            <h1 className="text-lg sm:text-xl text-center font-bold">
               Select environment
             </h1>
-            <p className="text-center">
+            <p className="text-center text-sm sm:text-base">
               This will determine the rate per kWh to be applied.
             </p>
           </div>
-          <div className="flex flex-col items-center gap-4 mb-10">
-            <div className="flex justify-center gap-4 w-full max-w-md">
+          <div className="flex flex-col items-center gap-4 mb-6 sm:mb-10">
+            <div className="flex justify-center gap-2 sm:gap-4 w-full max-w-md">
               <button
-                className={`flex-1 py-3 px-6 rounded-lg border-1  cursor-pointer ${
+                className={`flex-1 py-2 sm:py-3 px-3 sm:px-6 rounded-lg border-1 text-sm sm:text-base cursor-pointer ${
                   selectedType === "residential"
                     ? "border-cta-bluegreen bg-cta-bluegreen text-black"
                     : "border-blue-200 text-white hover:bg-cta-bluegreen/10"
                 } font-medium transition-colors`}
-                onClick={() => handleTypeSelection("residential")}
-              >
+                onClick={() => handleTypeSelection("residential")}>
                 Residential
               </button>
 
               <button
-                className={`flex-1 py-3 px-6 rounded-lg border-1  cursor-pointer ${
+                className={`flex-1 py-2 sm:py-3 px-3 sm:px-6 rounded-lg border-1 text-sm sm:text-base cursor-pointer ${
                   selectedType === "business"
                     ? "border-cta-bluegreen bg-cta-bluegreen text-black"
                     : "border-gray-200 text-white hover:bg-cta-bluegreen/10"
                 } font-medium transition-colors`}
-                onClick={() => handleTypeSelection("business")}
-              >
+                onClick={() => handleTypeSelection("business")}>
                 Small Business
               </button>
             </div>
           </div>
-          <div className="flex justify-between">
-            <p className="">Appliances</p>
+          <div className="flex justify-between text-sm sm:text-base mb-1">
+            <p>Appliances</p>
             <p>Edit usage</p>
           </div>
 
           {/* fields */}
           {fields.map((field) => (
-            <div key={field.id} className="flex flex-col gap-1 mb-3">
-              <div className="flex items-center gap-3">
+            <div key={field.id} className="flex flex-col gap-1 mb-2 sm:mb-3">
+              <div className="flex items-center gap-2 sm:gap-3">
                 <input
                   type="text"
                   value={field.text}
@@ -665,27 +665,27 @@ export default function DynamicTextFields() {
                       prev.map((f) =>
                         f.id === field.id
                           ? { ...f, text: newText, error: "" }
-                          : f
-                      )
+                          : f,
+                      ),
                     );
                   }}
-                  className="flex-1 p-2 bg-[#383c3d] border border-gray-600 rounded focus:outline-none"
+                  className="flex-1 p-1.5 sm:p-2 text-sm sm:text-base bg-[#383c3d] border border-gray-600 rounded focus:outline-none"
                   placeholder="Ex: TCL Smart TV 55'"
                 />
 
                 {field.completed ? (
-                  <FaCheck className="text-green-400" size={18} />
+                  <FaCheck className="text-green-400 flex-shrink-0" size={16} />
                 ) : (
-                  <FaTimes className="text-red-400" size={18} />
+                  <FaTimes className="text-red-400 flex-shrink-0" size={16} />
                 )}
 
                 <FaEdit
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer flex-shrink-0 ${
                     !field.text.trim()
                       ? "text-gray-500 cursor-not-allowed"
                       : "text-blue-400"
                   }`}
-                  size={18}
+                  size={16}
                   onClick={() => {
                     if (!field.text.trim()) {
                       alert("Please enter an appliance name before editing.");
@@ -715,12 +715,12 @@ export default function DynamicTextFields() {
                 />
 
                 <FaTrash
-                  className={`cursor-pointer ${
+                  className={`cursor-pointer flex-shrink-0 ${
                     fields.length === 1
                       ? "text-gray-500 cursor-not-allowed"
                       : "text-red-500"
                   }`}
-                  size={18}
+                  size={16}
                   onClick={() => {
                     if (fields.length > 1) {
                       handleDeleteConfirmation(field.id);
@@ -730,35 +730,32 @@ export default function DynamicTextFields() {
               </div>
 
               {field.error && (
-                <p className="text-red-500 text-sm">{field.error}</p>
+                <p className="text-red-500 text-xs sm:text-sm">{field.error}</p>
               )}
             </div>
           ))}
 
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row justify-between gap-2">
             <button
               onClick={addField}
-              className="flex items-center justify-center w-auto py-2 px-5 mt-2 bg-cta-bluegreen hover:bg-cta-bluegreen/80 cursor-pointer text-black rounded transition"
-            >
+              className="flex items-center justify-center py-1.5 sm:py-2 px-4 sm:px-5 mt-2 bg-cta-bluegreen hover:bg-cta-bluegreen/80 cursor-pointer text-black rounded transition text-sm sm:text-base">
               <FaPlus className="mr-2" /> Add Appliance
             </button>
 
             <button
               onClick={openImportModal}
-              className="mt-2 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition"
-            >
+              className="mt-2 py-1.5 sm:py-2 px-4 sm:px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition text-sm sm:text-base">
               Import
             </button>
           </div>
 
           <button
             onClick={calculate}
-            className={`w-full mt-12 py-2 rounded transition text-black ${
+            className={`w-full mt-8 sm:mt-12 py-2 rounded transition text-black text-sm sm:text-base ${
               fields.some((field) => !field.completed)
                 ? "bg-[#008631] cursor-not-allowed"
-                : "bg-[#39e75f] hover:bg-[#39e75f]/80  cursor-pointer"
-            }`}
-          >
+                : "bg-[#39e75f] hover:bg-[#39e75f]/80 cursor-pointer"
+            }`}>
             Calculate
           </button>
         </div>
@@ -771,9 +768,9 @@ export default function DynamicTextFields() {
           header: { backgroundColor: "#212121", padding: "16px" },
           content: { backgroundColor: "#212121" },
         }}
-      >
-        <div className="text-white">
-          <h1 className="text-2xl font-semibold">
+        size="xs">
+        <div className="text-white p-1 sm:p-2">
+          <h1 className="text-xl sm:text-2xl font-semibold break-words">
             Usage for{" "}
             <span className="text-cta-bluegreen">
               {selectedField ? selectedField.text : "Appliance"}
@@ -781,7 +778,7 @@ export default function DynamicTextFields() {
           </h1>
           <br />
 
-          <div className="flex gap-5">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-5">
             <NumberInput
               label="No. of Appliances"
               withAsterisk
@@ -804,15 +801,21 @@ export default function DynamicTextFields() {
                   },
                 }));
               }}
-              // Add styles prop to customize the input background
               styles={{
                 input: {
-                  backgroundColor: "#383c3d", // Your desired background color
-                  borderColor: "#383c3d", // Optional: matching border color
-                  color: "#FFFFFF", // Optional: text color
+                  backgroundColor: "#383c3d",
+                  borderColor: "#383c3d",
+                  color: "#FFFFFF",
+                  fontSize: "14px",
                   "&:focus": {
-                    borderColor: "#fff", // Optional: focus border color
+                    borderColor: "#fff",
                   },
+                },
+                description: {
+                  fontSize: "12px",
+                },
+                label: {
+                  fontSize: "14px",
                 },
               }}
             />
@@ -838,36 +841,41 @@ export default function DynamicTextFields() {
                   },
                 }));
               }}
-              // Add styles prop to customize the input background
               styles={{
                 input: {
-                  backgroundColor: "#383c3d", // Your desired background color
-                  borderColor: "#383c3d", // Optional: matching border color
-                  color: "#FFFFFF", // Optional: text color
+                  backgroundColor: "#383c3d",
+                  borderColor: "#383c3d",
+                  color: "#FFFFFF",
+                  fontSize: "14px",
                   "&:focus": {
-                    borderColor: "#fff", // Optional: focus border color
+                    borderColor: "#fff",
                   },
+                },
+                description: {
+                  fontSize: "12px",
+                },
+                label: {
+                  fontSize: "14px",
                 },
               }}
             />
           </div>
-          <div className="bg-[#383c3d] p-5 rounded mt-3">
-            <h4 className="text-base font-semibold mb-1">
+          <div className="bg-[#383c3d] p-3 sm:p-5 rounded mt-3">
+            <h4 className="text-sm sm:text-base font-semibold mb-1">
               Don't know your appliance wattage?{" "}
             </h4>
-            <p className="text-[14px] text-white/60 mb-2">
+            <p className="text-xs sm:text-[14px] text-white/60 mb-2">
               <span className="text-cta-bluegreen font-semibold">WattBot</span>{" "}
               will automatically analyze your appliance and get the average
               wattage for your appliance
             </p>
             <button
               onClick={getWattage}
-              className="bg-cta-bluegreen text-black px-3 py-1 rounded cursor-pointer !text-base flex items-center justify-center"
-              disabled={isLoading}
-            >
+              className="bg-cta-bluegreen text-black px-3 py-1 rounded cursor-pointer !text-sm sm:!text-base flex items-center justify-center"
+              disabled={isLoading}>
               {isLoading ? (
                 <>
-                  <span className="h-5 w-5 border-2 border-black border-t-transparent rounded-full animate-spin mr-2"></span>
+                  <span className="h-4 w-4 sm:h-5 sm:w-5 border-2 border-black border-t-transparent rounded-full animate-spin mr-2"></span>
                   Analyzing...
                 </>
               ) : (
@@ -899,33 +907,49 @@ export default function DynamicTextFields() {
                 },
               }));
             }}
-            // Add styles prop to customize the input background
             styles={{
               input: {
-                backgroundColor: "#383c3d", // Your desired background color
-                borderColor: "#383c3d", // Optional: matching border color
-                color: "#FFFFFF", // Optional: text color
+                backgroundColor: "#383c3d",
+                borderColor: "#383c3d",
+                color: "#FFFFFF",
+                fontSize: "14px",
                 "&:focus": {
-                  borderColor: "#fff", // Optional: focus border color
+                  borderColor: "#fff",
                 },
+              },
+              description: {
+                fontSize: "12px",
+              },
+              label: {
+                fontSize: "14px",
               },
             }}
           />
 
-          <p className="mb-3 mt-5">
+          <p className="mb-2 sm:mb-3 mt-4 sm:mt-5 text-sm sm:text-base">
             Days used per week<span className="text-red-400">*</span>
           </p>
           <Chip.Group multiple value={selectedDays} onChange={setSelectedDays}>
-            <div className="flex gap-2 flex-wrap mb-3">
+            <div className="flex gap-1 sm:gap-2 flex-wrap mb-3">
               {daysOfWeek.map((day) => (
-                <Chip key={day} value={day} size="lg" radius="xl">
+                <Chip
+                  key={day}
+                  value={day}
+                  size="md"
+                  radius="xl"
+                  styles={{
+                    label: {
+                      fontSize: "12px",
+                      padding: "0 8px",
+                    },
+                  }}>
                   {day}
                 </Chip>
               ))}
             </div>
           </Chip.Group>
 
-          <p className="mb-3 mt-6">
+          <p className="mb-2 sm:mb-3 mt-4 sm:mt-6 text-sm sm:text-base">
             Weeks used per month <span className="text-red-400">*</span>
           </p>
           <NativeSelect
@@ -947,22 +971,21 @@ export default function DynamicTextFields() {
               }));
             }}
             data={["1 Week", "2 Weeks", "3 Weeks", "4 Weeks"]}
-            // Add styles prop to customize the input background
             styles={{
               input: {
-                backgroundColor: "#383c3d", // Your desired background color
-                borderColor: "#383c3d", // Optional: matching border color
-                color: "#FFFFFF", // Optional: text color
+                backgroundColor: "#383c3d",
+                borderColor: "#383c3d",
+                color: "#FFFFFF",
+                fontSize: "14px",
                 "&:focus": {
-                  borderColor: "#fff", // Optional: focus border color
+                  borderColor: "#fff",
                 },
               },
             }}
           />
           <button
-            className="w-full py-2 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded transition mt-15 cursor-pointer"
-            onClick={handleSave}
-          >
+            className="w-full py-1.5 sm:py-2 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded transition mt-8 sm:mt-15 cursor-pointer text-sm sm:text-base"
+            onClick={handleSave}>
             Save
           </button>
         </div>
@@ -980,9 +1003,9 @@ export default function DynamicTextFields() {
           },
           content: { backgroundColor: "#212121" },
         }}
-      >
-        <div className="text-white">
-          <h1 className="text-xl font-semibold mb-4">
+        size="xs">
+        <div className="text-white p-1 sm:p-2">
+          <h1 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
             Select Appliance Set to Import
           </h1>
 
@@ -999,24 +1022,22 @@ export default function DynamicTextFields() {
             onChange={(event) => setSelectedSetId(event.currentTarget.value)}
             placeholder="Select an appliance set"
             className="mb-4"
-            // Add styles prop to customize the input background
             styles={{
               input: {
-                backgroundColor: "#383c3d", // Your desired background color
-                borderColor: "#383c3d", // Optional: matching border color
-                color: "#FFFFFF", // Optional: text color
-                fontSize: "16px",
+                backgroundColor: "#383c3d",
+                borderColor: "#383c3d",
+                color: "#FFFFFF",
+                fontSize: "14px",
                 "&:focus": {
-                  borderColor: "#fff", // Optional: focus border color
+                  borderColor: "#fff",
                 },
               },
             }}
           />
 
           <button
-            className="w-full py-1 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded transition mt-4 cursor-pointer"
-            onClick={importApplianceSet}
-          >
+            className="w-full py-1.5 sm:py-2 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded transition mt-2 sm:mt-4 cursor-pointer text-sm sm:text-base"
+            onClick={importApplianceSet}>
             Import
           </button>
         </div>
@@ -1035,28 +1056,26 @@ export default function DynamicTextFields() {
           content: { backgroundColor: "#13171C" },
         }}
         centered
-      >
+        size="xs">
         <div className="text-white p-2">
-          <p className="mb-4 pr-2">
+          <p className="mb-3 sm:mb-4 pr-2 text-sm sm:text-base">
             Are you sure you want to delete "
-            <span className="text-cta-bluegreen">
+            <span className="text-cta-bluegreen break-words">
               {fieldToDelete?.text || "this appliance"}"?
             </span>
           </p>
-          <div className="flex justify-end space-x-4">
+          <div className="flex justify-end space-x-3 sm:space-x-4">
             <Button
               variant="outline"
               onClick={() => setDeleteModal(false)}
               color="gray"
-              className="text-white border-gray-500 hover:bg-gray-700"
-            >
+              className="text-white border-gray-500 hover:bg-gray-700 text-xs sm:text-sm py-1 h-auto">
               Cancel
             </Button>
             <Button
               color="red"
               onClick={confirmDelete}
-              className="bg-red-500 hover:bg-red-600"
-            >
+              className="bg-red-500 hover:bg-red-600 text-xs sm:text-sm py-1 h-auto">
               Delete
             </Button>
           </div>
