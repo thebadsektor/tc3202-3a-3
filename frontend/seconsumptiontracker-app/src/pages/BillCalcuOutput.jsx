@@ -324,7 +324,7 @@ function BillCalcuOutput() {
             <button
               onClick={openSaveModal}
               disabled={isSaved}
-              className={`w-50 text-white py-3 px-4 mt-5 leading-tight font-semibold rounded transition ${
+              className={`w-50 text-black py-3 px-4 mt-5 leading-tight font-semibold rounded transition ${
                 isSaved
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-[#39e75f] hover:bg-[#39e75f]/80 text-black cursor-pointer "
@@ -345,7 +345,7 @@ function BillCalcuOutput() {
       {/* Save Modal */}
       {saveModal && (
         <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="bg-gray-800 rounded-lg w-full max-w-md mx-4">
+          <div className="bg-[#212121] rounded-lg w-full max-w-md mx-4">
             <div className="px-6 py-4 border-b border-gray-700">
               <h3 className="text-lg font-medium text-white">
                 Save Calculation
@@ -362,7 +362,7 @@ function BillCalcuOutput() {
                 <input
                   type="text"
                   id="calculationName"
-                  className="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-cta-bluegreen"
+                  className="w-full px-3 py-2 bg-[#383c3d] border border-gray-600 rounded-md text-white focus:outline-none"
                   value={calculationName}
                   onChange={(e) => setCalculationName(e.target.value)}
                   placeholder="Enter a name for this calculation"

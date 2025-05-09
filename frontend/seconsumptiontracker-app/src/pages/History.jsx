@@ -192,7 +192,7 @@ const History = () => {
         </p>
 
         {calculations.length === 0 ? (
-          <div className="bg-gray-800 p-8 rounded-lg">
+          <div className="bg-[#212121] p-8 rounded-lg">
             <p className="text-white/60">
               No calculation history found. Start by calculating your appliance
               energy consumption.

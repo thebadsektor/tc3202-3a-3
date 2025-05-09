@@ -21,10 +21,12 @@ function Navigation() {
   const [mobileFeatureOpen, setMobileFeatureOpen] = useState(false);
   const dropdownRef = useRef(null);
   const avatarRef = useRef(null);
+  const mobileAvatarRef = useRef(null);
+  const mobileDropdownRef = useRef(null);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      // Ensure dropdown closes only when clicking outside both avatar and dropdown
+      // For desktop dropdown
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target) &&
@@ -32,6 +34,16 @@ function Navigation() {
         !avatarRef.current.contains(event.target)
       ) {
         setIsAvatarOpen(false);
+      }
+
+      // For mobile dropdown
+      if (
+        mobileDropdownRef.current &&
+        !mobileDropdownRef.current.contains(event.target) &&
+        mobileAvatarRef.current &&
+        !mobileAvatarRef.current.contains(event.target)
+      ) {
+        setMobileAvatarOpen(false);
       }
     };
 
@@ -123,12 +135,18 @@ function Navigation() {
       localStorage.removeItem("authExpiration");
       localStorage.removeItem("lastVisitedPage");
 
+      // Close mobile menu after logout
+      setMobileMenuOpen(false);
+
       // Navigate only after successful signout
       navigate("/");
     } catch (error) {
       console.error("Error signing out:", error);
     }
   };
+
+  // Separate state for mobile avatar dropdown
+  const [mobileAvatarOpen, setMobileAvatarOpen] = useState(false);
 
   return (
     <>
@@ -178,13 +196,13 @@ function Navigation() {
             </Link>
           </div>
 
-          {/* Profile Avatar - Always visible on right side */}
+          {/* Mobile Profile Avatar - Always visible on right side */}
           <div className="md:hidden">
             {localStorage.getItem("idToken") ? (
               <div className="relative">
                 <Avatar
-                  ref={avatarRef}
-                  onClick={() => setIsAvatarOpen((prev) => !prev)}
+                  ref={mobileAvatarRef}
+                  onClick={() => setMobileAvatarOpen(!mobileAvatarOpen)}
                   className="cursor-pointer h-10 w-10"
                 >
                   <AvatarImage
@@ -197,21 +215,30 @@ function Navigation() {
                   <AvatarFallback />
                 </Avatar>
 
-                {/* Dropdown Menu */}
-                {isAvatarOpen && (
+                {/* Mobile Dropdown Menu - Fixed Positioning */}
+                {mobileAvatarOpen && (
                   <div
-                    ref={dropdownRef}
-                    className="absolute right-0 mt-2 w-50 bg-gray-800 shadow-lg rounded-lg p-2 z-50"
+                    ref={mobileDropdownRef}
+                    className="absolute right-0 mt-2 w-40 bg-[#212121] shadow-lg rounded-lg p-2 z-50"
                   >
-                    <Link to="profile">
-                      <button className="w-full text-gray-300 hover:bg-gray-600 text-left px-4 py-2 cursor-pointer mt-5">
+                    <Link
+                      to="/profile"
+                      onClick={() => {
+                        setMobileAvatarOpen(false);
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      <button className="w-full text-gray-300 hover:bg-gray-600 text-left px-4 py-2 cursor-pointer">
                         Profile
                       </button>
                     </Link>
-                    
+
                     <button
                       className="w-full text-left px-4 py-2 text-red-500 hover:bg-gray-600 cursor-pointer"
-                      onClick={() => handleLogout()}
+                      onClick={() => {
+                        handleLogout();
+                        setMobileAvatarOpen(false);
+                      }}
                     >
                       Logout
                     </button>
@@ -221,7 +248,7 @@ function Navigation() {
             ) : (
               <Link
                 to="/login-form"
-                className="text-gray-100 py-2 px-4 text-sm bg-cta-bluegreen rounded-lg font-semibold hover:bg-blue-400 transition-all duration-200"
+                className="text-black py-2 px-4 text-sm bg-cta-bluegreen rounded-lg font-semibold hover:bg-blue-400 transition-all duration-200"
               >
                 Login
               </Link>
@@ -269,7 +296,7 @@ function Navigation() {
               </Link>
 
               {/* Dropdown Menu */}
-              <ul className="absolute right-0 w-max mt-2 p-3 z-15 text-white bg-gray-800 shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 divide-y divide-gray-400 translate-y-2 group-hover:translate-y-0">
+              <ul className="absolute right-0 w-max mt-2 p-3 z-15 text-gray-200 bg-[#212121] shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 divide-y divide-gray-400 translate-y-2 group-hover:translate-y-0">
                 <li className="">
                   <Link
                     to="/bill-prediction"
@@ -319,9 +346,9 @@ function Navigation() {
                   {isAvatarOpen && (
                     <div
                       ref={dropdownRef}
-                      className="absolute right-0 mt-2 w-50 bg-gray-800 shadow-lg rounded-lg p-2 z-50"
+                      className="absolute right-0 mt-2 w-50 bg-[#212121] shadow-lg rounded-lg p-2 z-50"
                     >
-                      <Link to="profile">
+                      <Link to="/profile">
                         <button className="w-full text-gray-300 hover:bg-gray-600 text-left px-4 py-2 cursor-pointer ">
                           Profile
                         </button>
@@ -349,7 +376,7 @@ function Navigation() {
 
         {/* Mobile Menu */}
         <div
-          className={`fixed top-[8vh] right-0 pl-10 w-full h-auto bg-[#13171C] text-white flex flex-col items-start justify-start py-10 gap-6 transition-transform duration-300 z-40 ${
+          className={`fixed top-[8vh] right-0 pl-10 w-full h-auto bg-[#212121] text-white flex flex-col items-start justify-start py-10 gap-6 transition-transform duration-300 z-40 ${
             mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
           }`}
         >
@@ -374,7 +401,7 @@ function Navigation() {
           )}
 
           {/* Features with dropdown on mobile - Simplified */}
-          <div className="w-full flex flex-col items-start">
+          <div className="w-full flex flex-col items-start bg-[#212121]">
             <button
               className="flex items-center gap-2 !text-2xl hover:underline transition duration-500"
               onClick={() => setMobileFeatureOpen(!mobileFeatureOpen)}
@@ -389,24 +416,24 @@ function Navigation() {
 
             {/* Features dropdown content - Simplified */}
             {mobileFeatureOpen && (
-              <div className="w-full flex flex-col items-start mt-3 pl-5 gap-4 list-disc">
+              <div className="w-full flex flex-col items-start bg-[#212121] mt-3 pl-5 gap-4 list-disc">
                 <Link
                   to="/bill-prediction"
-                  className="text-xl hover:underline transition duration-500"
+                  className="text-xl hover:underline transition duration-500 border-l-1 pl-2 border-cta-bluegreen"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Bill Prediction
                 </Link>
                 <Link
                   to="/consumption-calculator"
-                  className="text-xl hover:underline transition duration-500"
+                  className="text-xl hover:underline transition duration-500 border-l-1 pl-2 border-cta-bluegreen"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Energy Consumption Calculator
                 </Link>
                 <Link
                   to="/energy-recommendation"
-                  className="text-xl hover:underline transition duration-500"
+                  className="text-xl hover:underline transition duration-500 border-l-1 pl-2 border-cta-bluegreen"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   Save Energy (Optimization Suggestions)
@@ -414,6 +441,25 @@ function Navigation() {
               </div>
             )}
           </div>
+
+          {/* Add Profile & Logout buttons to mobile menu when logged in */}
+          {localStorage.getItem("idToken") && (
+            <div className="flex flex-col gap-4 w-full">
+              <Link
+                to="/profile"
+                className="text-2xl hover:underline transition duration-500"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                Profile
+              </Link>
+              <button
+                className="text-2xl text-red-500 hover:underline transition duration-500 text-left"
+                onClick={() => handleLogout()}
+              >
+                Logout
+              </button>
+            </div>
+          )}
 
           {/* Only show login button if not logged in and in mobile view */}
           {!localStorage.getItem("idToken") && (

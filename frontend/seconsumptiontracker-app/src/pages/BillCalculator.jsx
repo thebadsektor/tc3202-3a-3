@@ -627,8 +627,8 @@ export default function DynamicTextFields() {
               <button
                 className={`flex-1 py-3 px-6 rounded-lg border-1  cursor-pointer ${
                   selectedType === "residential"
-                    ? "border-blue-500 bg-blue-500 text-white"
-                    : "border-blue-200 text-white hover:bg-blue-400"
+                    ? "border-cta-bluegreen bg-cta-bluegreen text-black"
+                    : "border-blue-200 text-white hover:bg-cta-bluegreen/10"
                 } font-medium transition-colors`}
                 onClick={() => handleTypeSelection("residential")}
               >
@@ -638,8 +638,8 @@ export default function DynamicTextFields() {
               <button
                 className={`flex-1 py-3 px-6 rounded-lg border-1  cursor-pointer ${
                   selectedType === "business"
-                    ? "border-gray-500 bg-blue-500 text-white"
-                    : "border-gray-200 text-white hover:bg-blue-400"
+                    ? "border-cta-bluegreen bg-cta-bluegreen text-black"
+                    : "border-gray-200 text-white hover:bg-cta-bluegreen/10"
                 } font-medium transition-colors`}
                 onClick={() => handleTypeSelection("business")}
               >
