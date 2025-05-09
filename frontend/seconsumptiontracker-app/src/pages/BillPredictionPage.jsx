@@ -1,23 +1,22 @@
 import { useState, useEffect } from "react";
 import { MonthPickerInput } from "@mantine/dates";
-import { Modal, Select } from "@mantine/core";
+import { Modal, Select, Divider } from "@mantine/core";
 import { IoMdHome } from "react-icons/io";
-import { FiChevronDown, FiChevronRight } from "react-icons/fi";
+import { FiChevronDown, FiChevronRight, FiTrendingUp, FiTrendingDown } from "react-icons/fi";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { getDatabase, ref, onValue, get, set } from "firebase/database";
 import pastRates from "../assets/datas/pastRates.json";
-import { FaArrowUp, FaArrowDown, FaExchangeAlt } from "react-icons/fa";
 
 export default function BillPrediction() {
   // Current month with ability to predict 2 months ahead
   const currentDate = new Date();
   const [month, setMonth] = useState(
-    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
+    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
   );
   const maxDate = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() + 2,
-    1,
+    1
   );
 
   const [modalOpened, setModalOpened] = useState(false);
@@ -34,11 +33,10 @@ export default function BillPrediction() {
   // to handle the prediction result
   const [predictionResult, setPredictionResult] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
-
-  // New states for comparison feature
+  
+  // Added for comparison features
   const [savedCalculations, setSavedCalculations] = useState([]);
-  const [compareModalOpened, setCompareModalOpened] = useState(false);
-  const [selectedCalculation, setSelectedCalculation] = useState(null);
+  const [selectedCalculation, setSelectedCalculation] = useState("");
   const [comparisonResult, setComparisonResult] = useState(null);
   const [latestRate, setLatestRate] = useState(null);
   const [rateComparison, setRateComparison] = useState(null);
@@ -60,61 +58,20 @@ export default function BillPrediction() {
     return () => unsubscribe();
   }, []);
 
-  // Fetch saved calculations when user is authenticated
-  useEffect(() => {
-    if (!user) return;
-    
-    const db = getDatabase();
-    const calculationsRef = ref(db, `users/${user.uid}/calculations`);
-    
-    const unsubscribe = onValue(calculationsRef, (snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val();
-        const calculationsArray = Object.entries(data).map(([key, value]) => ({
-          id: key,
-          name: value.name || `Calculation ${key.substring(0, 5)}`,
-          ...value
-        }));
-        
-        // Sort by timestamp (newest first)
-        calculationsArray.sort((a, b) => b.timestamp - a.timestamp);
-        setSavedCalculations(calculationsArray);
-      } else {
-        setSavedCalculations([]);
-      }
-    });
-    
-    return () => unsubscribe();
-  }, [user]);
-
-  // Get the latest rate from pastRates.json
+  // Find the latest rate from pastRates.json
   useEffect(() => {
     if (pastRates && pastRates.length > 0) {
-      // Sort by year and month to find the latest rate
+      // Sort the rates by year and month to find the latest
       const sortedRates = [...pastRates].sort((a, b) => {
-        if (a.Year === b.Year) {
-          return b.Month - a.Month;
+        if (a.Year !== b.Year) {
+          return b.Year - a.Year;
         }
-        return b.Year - a.Year;
+        return b.Month - a.Month;
       });
       
       setLatestRate(sortedRates[0]);
     }
   }, []);
-
-  // Compare predicted rate with latest rate when prediction is made
-  useEffect(() => {
-    if (predictionResult && latestRate) {
-      const predictedRate = parseFloat(predictionResult.predictedRate);
-      const lastRate = latestRate["Total Bill"];
-      
-      setRateComparison({
-        difference: (predictedRate - lastRate).toFixed(4),
-        percentage: (((predictedRate - lastRate) / lastRate) * 100).toFixed(2),
-        isHigher: predictedRate > lastRate
-      });
-    }
-  }, [predictionResult, latestRate]);
 
   // Then, fetch appliance sets once we have confirmed auth state
   useEffect(() => {
@@ -177,8 +134,27 @@ export default function BillPrediction() {
       (error) => {
         console.error("Error fetching appliance sets:", error);
         setLoading(false);
-      },
+      }
     );
+
+    // Fetch saved calculations
+    const calculationsRef = ref(db, `users/${user.uid}/calculations`);
+    onValue(calculationsRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const calculationsArray = Object.entries(data).map(([id, calc]) => ({
+          id,
+          label: calc.name || `Calculation (${id.substring(0, 8)})`,
+          ...calc
+        }));
+        
+        // Sort by timestamp (newest first)
+        calculationsArray.sort((a, b) => b.timestamp - a.timestamp);
+        setSavedCalculations(calculationsArray);
+      } else {
+        setSavedCalculations([]);
+      }
+    });
 
     // Cleanup function
     return () => unsubscribe();
@@ -189,37 +165,6 @@ export default function BillPrediction() {
     setModalOpened(true);
   };
   const closeModal = () => setModalOpened(false);
-
-  const openCompareModal = () => {
-    setCompareModalOpened(true);
-  };
-  
-  const closeCompareModal = () => {
-    setCompareModalOpened(false);
-  };
-
-  const compareWithCalculation = (calculationId) => {
-    const calculation = savedCalculations.find(calc => calc.id === calculationId);
-    
-    if (!calculation || !predictionResult) return;
-    
-    setSelectedCalculation(calculation);
-    
-    // Calculate the difference and percentage
-    const predictedAmount = parseFloat(predictionResult.estimatedBill.average);
-    const savedAmount = parseFloat(calculation.totalCost);
-    
-    const difference = predictedAmount - savedAmount;
-    const percentageDiff = ((difference / savedAmount) * 100).toFixed(2);
-    
-    setComparisonResult({
-      difference: difference.toFixed(2),
-      percentage: percentageDiff,
-      isHigher: difference > 0
-    });
-    
-    closeCompareModal();
-  };
 
   const toggleApplianceExpand = (setKey, applianceKey) => {
     const combinedKey = `${setKey}-${applianceKey}`;
@@ -247,7 +192,7 @@ export default function BillPrediction() {
     // Process each selected appliance set
     tempSelectedSets.forEach((applianceSetKey) => {
       const selectedSet = applianceSets.find(
-        (set) => set.value === applianceSetKey,
+        (set) => set.value === applianceSetKey
       );
 
       if (selectedSet) {
@@ -266,7 +211,7 @@ export default function BillPrediction() {
             const db = getDatabase();
             const applianceSetRef = ref(
               db,
-              `users/${user.uid}/applianceSets/${applianceSetKey}/appliances`,
+              `users/${user.uid}/applianceSets/${applianceSetKey}/appliances`
             );
 
             get(applianceSetRef)
@@ -302,7 +247,7 @@ export default function BillPrediction() {
 
     // Get all appliance keys for this set
     const applianceKeys = Object.keys(
-      selectedSetsData[setKey]?.appliances || {},
+      selectedSetsData[setKey]?.appliances || {}
     );
 
     // Create a new expandedAppliances state
@@ -342,7 +287,7 @@ export default function BillPrediction() {
         `http://localhost:8000/api/predict/?month=${selectedMonth}&year=${selectedYear}`,
         {
           method: "GET",
-        },
+        }
       );
 
       const data = await res.json();
@@ -391,21 +336,55 @@ export default function BillPrediction() {
         },
       });
       
-      // Reset comparison when making a new prediction
+      // Compare with latest rate
+      if (latestRate) {
+        const latestBillRate = parseFloat(latestRate["Total Bill"]);
+        const difference = ((predictedRate - latestBillRate) / latestBillRate * 100).toFixed(2);
+        const isHigher = predictedRate > latestBillRate;
+        
+        setRateComparison({
+          latest: latestBillRate.toFixed(4),
+          difference: Math.abs(difference),
+          isHigher
+        });
+      }
+      
+      // Clear any previous comparison
       setComparisonResult(null);
-      setSelectedCalculation(null);
+      setSelectedCalculation("");
     } catch (err) {
       console.error("Prediction failed:", err);
       alert("Error while predicting. Please try again.");
     }
   };
 
-  // Check for existing prediction and show modal if needed
+  const handleCompare = () => {
+    if (!selectedCalculation || !predictionResult) return;
+    
+    const calculation = savedCalculations.find(calc => calc.id === selectedCalculation);
+    if (!calculation) return;
+    
+    const predictionTotalBill = parseFloat(predictionResult.estimatedBill.average);
+    const calculationTotalBill = parseFloat(calculation.totalCost);
+    
+    const difference = predictionTotalBill - calculationTotalBill;
+    const percentDifference = ((difference / calculationTotalBill) * 100).toFixed(2);
+    
+    setComparisonResult({
+      savedName: calculation.name || "Saved Calculation",
+      savedBill: calculationTotalBill.toFixed(2),
+      difference: Math.abs(difference).toFixed(2),
+      percentDifference: Math.abs(percentDifference),
+      isHigher: predictionTotalBill > calculationTotalBill
+    });
+  };
+
+  // save the prediction into the realtime databse
   const handleSavePrediction = async () => {
     if (!user || !predictionResult) return;
 
     const formattedMonth = `${month.getFullYear()}-${String(
-      month.getMonth() + 1,
+      month.getMonth() + 1
     ).padStart(2, "0")}`;
 
     const predictionData = {
@@ -416,47 +395,26 @@ export default function BillPrediction() {
       timestamp: Date.now(),
     };
 
-    setPredictionData(predictionData);
-
-    // Check if prediction already exists
     const db = getDatabase();
     const predictionRef = ref(
       db,
-      `users/${user.uid}/billPredictions/${formattedMonth}`,
+      `users/${user.uid}/billPredictions/${formattedMonth}`
     );
 
     try {
       const snapshot = await get(predictionRef);
+
       if (snapshot.exists()) {
-        // Show confirmation modal if prediction already exists
-        setExistingPrediction(true);
-        setSaveModal(true);
-      } else {
-        // Save directly if no existing prediction
-        await set(predictionRef, predictionData);
-        setIsSaved(true);
+        const userConfirmed = window.confirm(
+          `You already have a saved prediction for ${formattedMonth}. This will overwrite the existing prediction. Do you want to continue?`
+        );
+
+        if (!userConfirmed) return;
       }
-    } catch (error) {
-      console.error("Error checking existing prediction:", error);
-      alert("Failed to save prediction. Please try again.");
-    }
-  };
 
-  // Function to handle confirmation and save
-  const handleSaveResult = async () => {
-    if (!user || !predictionData) return;
-
-    const db = getDatabase();
-    const formattedMonth = predictionData.month;
-    const predictionRef = ref(
-      db,
-      `users/${user.uid}/billPredictions/${formattedMonth}`,
-    );
-
-    try {
       await set(predictionRef, predictionData);
       setIsSaved(true);
-      setSaveModal(false);
+      alert("Prediction saved successfully!");
     } catch (error) {
       console.error("Error saving prediction:", error);
       alert("Failed to save prediction. Please try again.");
@@ -486,11 +444,12 @@ export default function BillPrediction() {
             estimated electricity bill.
           </p>
 
-          <div className="flex items-center gap-4 flex-wrap">
+          <div className="flex items-center gap-4">
             <button
               onClick={openModal}
               className="mt-2 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition"
-              disabled={!user || loading}>
+              disabled={!user || loading}
+            >
               Import
             </button>
             <MonthPickerInput
@@ -508,14 +467,6 @@ export default function BillPrediction() {
                 dropdown: "!bg-gray-900 !text-white !border-gray-700",
               }}
             />
-            {predictionResult && savedCalculations.length > 0 && (
-              <button
-                onClick={openCompareModal}
-                className="mt-2 py-2 px-5 bg-blue-500 hover:bg-blue-600 text-white cursor-pointer rounded transition flex items-center gap-2"
-              >
-                <FaExchangeAlt /> Compare
-              </button>
-            )}
           </div>
 
           {!user && authInitialized && (
@@ -545,7 +496,8 @@ export default function BillPrediction() {
                         <h4 className="text-lg font-medium">Appliances:</h4>
                         <button
                           onClick={() => toggleViewAllAppliances(setKey)}
-                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline">
+                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline"
+                        >
                           {expandedSets[setKey] ? "Collapse All" : "View All"}
                         </button>
                       </div>
@@ -554,12 +506,14 @@ export default function BillPrediction() {
                           Object.entries(appliances).map(([key, appliance]) => (
                             <li
                               key={key}
-                              className="bg-[#383c3d] rounded overflow-hidden">
+                              className="bg-[#383c3d] rounded overflow-hidden"
+                            >
                               <div
                                 className="flex items-center justify-between p-2 cursor-pointer transition"
                                 onClick={() =>
                                   toggleApplianceExpand(setKey, key)
-                                }>
+                                }
+                              >
                                 <span>{appliance.name}</span>
                                 <span className="flex items-center">
                                   {expandedAppliances[`${setKey}-${key}`] ? (
@@ -623,10 +577,10 @@ export default function BillPrediction() {
               <button
                 onClick={handlePrediction}
                 className="w-full mt-2 py-2 px-5 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black cursor-pointer rounded transition"
-                disabled={!user || loading}>
+                disabled={!user || loading}
+              >
                 Calculate
               </button>
-              
               {predictionResult && (
                 <div className="mt-5 p-4 bg-[#212121] rounded shadow text-white space-y-3 border border-gray-900">
                   <h3 className="text-xl font-bold">
@@ -635,54 +589,6 @@ export default function BillPrediction() {
                   <p className="text-sm text-gray-400">
                     Forecast for {formatMonthYear(month)}
                   </p>
-
-                  {/* Rate Comparison with Latest Data */}
-                  {rateComparison && (
-                    <div className="mt-2 p-3 bg-gray-800 rounded-lg">
-                      <h4 className="font-medium mb-2">Rate Comparison</h4>
-                      <div className="flex items-center gap-2">
-                        <span>Current prediction:</span>
-                        <span className="font-semibold">₱{predictionResult.predictedRate}/kWh</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span>Latest known rate:</span>
-                        <span className="font-semibold">₱{latestRate?.["Total Bill"].toFixed(4)}/kWh</span>
-                        <span className="text-xs text-gray-400">({latestRate?.Month}/{latestRate?.Year})</span>
-                      </div>
-                      <div className="flex items-center gap-2 mt-2">
-                        <span>Difference:</span>
-                        <span className={`flex items-center gap-1 font-medium ${rateComparison.isHigher ? 'text-red-400' : 'text-green-400'}`}>
-                          {rateComparison.isHigher ? <FaArrowUp /> : <FaArrowDown />}
-                          ₱{Math.abs(rateComparison.difference)} ({rateComparison.percentage}%)
-                        </span>
-                      </div>
-                    </div>
-                  )}
-
-                  {/* Comparison with Saved Calculation */}
-                  {comparisonResult && selectedCalculation && (
-                    <div className="mt-2 p-3 bg-gray-800 rounded-lg">
-                      <h4 className="font-medium mb-2">Comparison with Saved Calculation</h4>
-                      <p className="text-sm text-gray-400 mb-2">
-                        Comparing with: {selectedCalculation.name}
-                      </p>
-                      <div className="flex items-center gap-2">
-                        <span>Predicted bill:</span>
-                        <span className="font-semibold">₱{predictionResult.estimatedBill.average}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span>Saved calculation:</span>
-                        <span className="font-semibold">₱{selectedCalculation.totalCost.toFixed(2)}</span>
-                      </div>
-                      <div className="flex items-center gap-2 mt-2">
-                        <span>Difference:</span>
-                        <span className={`flex items-center gap-1 font-medium ${comparisonResult.isHigher ? 'text-red-400' : 'text-green-400'}`}>
-                          {comparisonResult.isHigher ? <FaArrowUp /> : <FaArrowDown />}
-                          ₱{Math.abs(comparisonResult.difference)} ({comparisonResult.percentage}%)
-                        </span>
-                      </div>
-                    </div>
-                  )}
 
                   <div className="flex justify-between border-b border-gray-700 pb-2 mt-10">
                     <span>Monthly Consumption:</span>
@@ -698,6 +604,21 @@ export default function BillPrediction() {
                     </span>
                   </div>
 
+                  {rateComparison && (
+                    <div className="flex justify-between border-b border-gray-700 pb-2">
+                      <span>Rate Comparison:</span>
+                      <span className={`font-semibold flex items-center ${rateComparison.isHigher ? 'text-red-400' : 'text-green-400'}`}>
+                        {rateComparison.isHigher ? (
+                          <FiTrendingUp className="mr-1" />
+                        ) : (
+                          <FiTrendingDown className="mr-1" />
+                        )}
+                        {rateComparison.isHigher ? 'Higher' : 'Lower'} by {rateComparison.difference}% 
+                        <span className="ml-1 text-gray-400 text-sm">(₱{rateComparison.latest})</span>
+                      </span>
+                    </div>
+                  )}
+
                   <div className="flex justify-between border-b border-gray-700 pb-4">
                     <span>Estimated Bill Range:</span>
                     <span className="font-semibold text-green-400">
@@ -706,11 +627,62 @@ export default function BillPrediction() {
                     </span>
                   </div>
 
+                  {/* Comparison with saved calculations */}
+                  {savedCalculations.length > 0 && (
+                    <div className="mt-4 pt-4 border-t border-gray-700">
+                      <h4 className="font-medium mb-2">Compare with a saved calculation:</h4>
+                      <div className="flex gap-2">
+                        <Select
+                          placeholder="Select calculation"
+                          data={savedCalculations.map(calc => ({
+                            value: calc.id,
+                            label: calc.name || `Calculation (${calc.id.substring(0, 8)})`
+                          }))}
+                          value={selectedCalculation}
+                          onChange={setSelectedCalculation}
+                          className="flex-1"
+                          styles={{
+                            input: {
+                              backgroundColor: "#383c3d",
+                              borderColor: "#383c3d",
+                              color: "white"
+                            }
+                          }}
+                        />
+                        <button
+                          onClick={handleCompare}
+                          disabled={!selectedCalculation}
+                          className="bg-cta-bluegreen text-black px-3 py-1 rounded hover:bg-cta-bluegreen/80 transition cursor-pointer disabled:bg-gray-500 disabled:cursor-not-allowed"
+                        >
+                          Compare
+                        </button>
+                      </div>
+                      
+                      {comparisonResult && (
+                        <div className="mt-3 p-3 bg-[#1a1a1a] rounded">
+                          <p className="text-sm text-gray-400 mb-2">Comparing with: {comparisonResult.savedName}</p>
+                          <div className="flex justify-between items-center">
+                            <span>Saved Calculation: ₱{comparisonResult.savedBill}</span>
+                            <span className={`flex items-center ${comparisonResult.isHigher ? 'text-red-400' : 'text-green-400'}`}>
+                              {comparisonResult.isHigher ? (
+                                <FiTrendingUp className="mr-1" />
+                              ) : (
+                                <FiTrendingDown className="mr-1" />
+                              )}
+                              Prediction is {comparisonResult.isHigher ? 'higher' : 'lower'} by ₱{comparisonResult.difference} ({comparisonResult.percentDifference}%)
+                            </span>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
                   <div className="flex justify-end">
                     {!isSaved ? (
                       <button
                         onClick={handleSavePrediction}
-                        className="mt-4 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer">
+                        className="mt-4 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded transition cursor-pointer"
+                      >
                         Save Prediction
                       </button>
                     ) : (
@@ -726,44 +698,6 @@ export default function BillPrediction() {
         </div>
       </div>
 
-      {/* Compare Modal */}
-      <Modal
-        opened={compareModalOpened}
-        onClose={closeCompareModal}
-        title="Compare With Saved Calculation"
-        styles={{
-          title: { color: "white", fontWeight: "bold" },
-          header: { backgroundColor: "#212121" },
-          content: { backgroundColor: "#212121", color: "white" },
-          close: { color: "white" },
-        }}
-      >
-        <div className="py-4">
-          {savedCalculations.length > 0 ? (
-            <>
-              <h3 className="mb-4">Select a saved calculation to compare with your prediction</h3>
-              <div className="space-y-3 max-h-60 overflow-y-auto">
-                {savedCalculations.map((calculation) => (
-                  <div
-                    key={calculation.id}
-                    className="flex flex-col p-3 bg-[#383c3d] rounded hover:bg-gray-600 cursor-pointer"
-                    onClick={() => compareWithCalculation(calculation.id)}
-                  >
-                    <span className="font-medium">{calculation.name}</span>
-                    <div className="flex justify-between mt-1 text-sm">
-                      <span className="text-gray-300">Total: ₱{calculation.totalCost.toFixed(2)}</span>
-                      <span className="text-gray-300">{new Date(calculation.timestamp).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </>
-          ) : (
-            <p>No saved calculations found. Save a calculation from the Energy Consumption Calculator first.</p>
-          )}
-        </div>
-      </Modal>
-
       <Modal
         opened={modalOpened}
         onClose={closeModal}
@@ -773,7 +707,8 @@ export default function BillPrediction() {
           header: { backgroundColor: "#212121" },
           content: { backgroundColor: "#212121", color: "white" },
           close: { color: "white" },
-        }}>
+        }}
+      >
         <div className="py-4">
           {loading ? (
             <p>Loading appliance sets...</p>
@@ -784,7 +719,8 @@ export default function BillPrediction() {
                 {applianceSets.map((set) => (
                   <div
                     key={set.value}
-                    className="flex items-center p-2 bg-[#383c3d] rounded hover:bg-gray-600">
+                    className="flex items-center p-2 bg-[#383c3d] rounded hover:bg-gray-600"
+                  >
                     <input
                       type="checkbox"
                       id={`set-${set.value}`}
@@ -794,7 +730,8 @@ export default function BillPrediction() {
                     />
                     <label
                       htmlFor={`set-${set.value}`}
-                      className="cursor-pointer flex-1">
+                      className="cursor-pointer flex-1"
+                    >
                       {set.label}
                     </label>
                   </div>
@@ -803,13 +740,15 @@ export default function BillPrediction() {
               <div className="mt-6 flex justify-end space-x-3">
                 <button
                   onClick={closeModal}
-                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded">
+                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded"
+                >
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmSelection}
                   className="py-2 px-4 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded"
-                  disabled={!tempSelectedSets.length}>
+                  disabled={!tempSelectedSets.length}
+                >
                   Confirm Selection
                 </button>
               </div>
@@ -819,38 +758,6 @@ export default function BillPrediction() {
           )}
         </div>
       </Modal>
-
-      {/* Confirmation Modal */}
-      {saveModal && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="bg-gray-800 rounded-lg w-full max-w-md mx-4">
-            {/*<div className="px-6 py-4 border-b border-gray-700">
-              <h3 className="text-lg font-medium text-white">Confirmation</h3>
-            </div>*/}
-            <div className="p-6">
-              <p className="text-white mb-6">
-                {existingPrediction
-                  ? `You already have a saved prediction for ${formatMonthYear(
-                      month,
-                    )}. This will overwrite the existing prediction. Do you want to continue?`
-                  : `Are you sure you want to save this prediction?`}
-              </p>
-              <div className="flex justify-end space-x-4">
-                <button
-                  onClick={() => setSaveModal(false)}
-                  className="px-4 py-1 text-sm font-medium text-white bg-transparent border border-gray-500 rounded-md hover:bg-gray-700 focus:outline-none">
-                  Cancel
-                </button>
-                <button
-                  onClick={handleSaveResult}
-                  className="px-4 py-1 text-sm font-medium text-black bg-cta-bluegreen rounded-md hover:bg-cta-bluegreen/70 focus:outline-none">
-                  Save
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
       <section className="h-20"></section>
     </>
   );
