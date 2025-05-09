@@ -146,14 +146,6 @@ Another Screenshot
 │  │  ├─ urls.py
 │  │  └─ views.py
 │  ├─ 📂 models
-│  │  ├─ ensemble_electricity_bill_modelC.pkl
-│  │  ├─ feature_scaler.pkl
-│  │  ├─ feature_scaler_adj2.pkl
-│  │  ├─ lgb_total_bill_model.pkl
-│  │  ├─ lgb_total_bill_model_adj.pkl
-│  │  ├─ xgb_total_bill_model.pkl
-│  │  ├─ xgb_total_bill_model_adj.pkl
-│  │  ├─ xgb_total_bill_model_tuned.pkl
 │  │  └─ xgb_total_bill_model_tuned_may.pkl
 │  └─ requirements.txt
 └─ 📂 frontend
