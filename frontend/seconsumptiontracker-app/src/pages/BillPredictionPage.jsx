@@ -11,12 +11,12 @@ export default function BillPrediction() {
   // Current month with ability to predict 2 months ahead
   const currentDate = new Date();
   const [month, setMonth] = useState(
-    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
+    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1),
   );
   const maxDate = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() + 2,
-    1
+    1,
   );
 
   const [modalOpened, setModalOpened] = useState(false);
@@ -33,13 +33,17 @@ export default function BillPrediction() {
   // to handle the prediction result
   const [predictionResult, setPredictionResult] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
-  
+
   // Added for comparison features
   const [savedCalculations, setSavedCalculations] = useState([]);
   const [selectedCalculation, setSelectedCalculation] = useState("");
   const [comparisonResult, setComparisonResult] = useState(null);
   const [latestRate, setLatestRate] = useState(null);
   const [rateComparison, setRateComparison] = useState(null);
+
+  // Added for confirmation modal
+  const [confirmModal, setConfirmModal] = useState(false);
+  const [pendingFormattedMonth, setPendingFormattedMonth] = useState(null);
 
   // First, set up an auth state listener to ensure we have auth before fetching data
   useEffect(() => {
@@ -68,7 +72,7 @@ export default function BillPrediction() {
         }
         return b.Month - a.Month;
       });
-      
+
       setLatestRate(sortedRates[0]);
     }
   }, []);
@@ -134,7 +138,7 @@ export default function BillPrediction() {
       (error) => {
         console.error("Error fetching appliance sets:", error);
         setLoading(false);
-      }
+      },
     );
 
     // Fetch saved calculations
@@ -145,9 +149,9 @@ export default function BillPrediction() {
         const calculationsArray = Object.entries(data).map(([id, calc]) => ({
           id,
           label: calc.name || `Calculation (${id.substring(0, 8)})`,
-          ...calc
+          ...calc,
         }));
-        
+
         // Sort by timestamp (newest first)
         calculationsArray.sort((a, b) => b.timestamp - a.timestamp);
         setSavedCalculations(calculationsArray);
@@ -192,7 +196,7 @@ export default function BillPrediction() {
     // Process each selected appliance set
     tempSelectedSets.forEach((applianceSetKey) => {
       const selectedSet = applianceSets.find(
-        (set) => set.value === applianceSetKey
+        (set) => set.value === applianceSetKey,
       );
 
       if (selectedSet) {
@@ -211,7 +215,7 @@ export default function BillPrediction() {
             const db = getDatabase();
             const applianceSetRef = ref(
               db,
-              `users/${user.uid}/applianceSets/${applianceSetKey}/appliances`
+              `users/${user.uid}/applianceSets/${applianceSetKey}/appliances`,
             );
 
             get(applianceSetRef)
@@ -247,7 +251,7 @@ export default function BillPrediction() {
 
     // Get all appliance keys for this set
     const applianceKeys = Object.keys(
-      selectedSetsData[setKey]?.appliances || {}
+      selectedSetsData[setKey]?.appliances || {},
     );
 
     // Create a new expandedAppliances state
@@ -287,7 +291,7 @@ export default function BillPrediction() {
         `http://localhost:8000/api/predict/?month=${selectedMonth}&year=${selectedYear}`,
         {
           method: "GET",
-        }
+        },
       );
 
       const data = await res.json();
@@ -335,20 +339,23 @@ export default function BillPrediction() {
           max: estimatedMaxBill.toFixed(2),
         },
       });
-      
+
       // Compare with latest rate
       if (latestRate) {
         const latestBillRate = parseFloat(latestRate["Total Bill"]);
-        const difference = ((predictedRate - latestBillRate) / latestBillRate * 100).toFixed(2);
+        const difference = (
+          ((predictedRate - latestBillRate) / latestBillRate) *
+          100
+        ).toFixed(2);
         const isHigher = predictedRate > latestBillRate;
-        
+
         setRateComparison({
           latest: latestBillRate.toFixed(4),
           difference: Math.abs(difference),
-          isHigher
+          isHigher,
         });
       }
-      
+
       // Clear any previous comparison
       setComparisonResult(null);
       setSelectedCalculation("");
@@ -360,31 +367,38 @@ export default function BillPrediction() {
 
   const handleCompare = () => {
     if (!selectedCalculation || !predictionResult) return;
-    
-    const calculation = savedCalculations.find(calc => calc.id === selectedCalculation);
+
+    const calculation = savedCalculations.find(
+      (calc) => calc.id === selectedCalculation,
+    );
     if (!calculation) return;
-    
-    const predictionTotalBill = parseFloat(predictionResult.estimatedBill.average);
+
+    const predictionTotalBill = parseFloat(
+      predictionResult.estimatedBill.average,
+    );
     const calculationTotalBill = parseFloat(calculation.totalCost);
-    
+
     const difference = predictionTotalBill - calculationTotalBill;
-    const percentDifference = ((difference / calculationTotalBill) * 100).toFixed(2);
-    
+    const percentDifference = (
+      (difference / calculationTotalBill) *
+      100
+    ).toFixed(2);
+
     setComparisonResult({
       savedName: calculation.name || "Saved Calculation",
       savedBill: calculationTotalBill.toFixed(2),
       difference: Math.abs(difference).toFixed(2),
       percentDifference: Math.abs(percentDifference),
-      isHigher: predictionTotalBill > calculationTotalBill
+      isHigher: predictionTotalBill > calculationTotalBill,
     });
   };
 
-  // save the prediction into the realtime databse
+  // save the prediction into the realtime database
   const handleSavePrediction = async () => {
     if (!user || !predictionResult) return;
 
     const formattedMonth = `${month.getFullYear()}-${String(
-      month.getMonth() + 1
+      month.getMonth() + 1,
     ).padStart(2, "0")}`;
 
     const predictionData = {
@@ -398,23 +412,53 @@ export default function BillPrediction() {
     const db = getDatabase();
     const predictionRef = ref(
       db,
-      `users/${user.uid}/billPredictions/${formattedMonth}`
+      `users/${user.uid}/billPredictions/${formattedMonth}`,
     );
 
     try {
       const snapshot = await get(predictionRef);
 
       if (snapshot.exists()) {
-        const userConfirmed = window.confirm(
-          `You already have a saved prediction for ${formattedMonth}. This will overwrite the existing prediction. Do you want to continue?`
-        );
-
-        if (!userConfirmed) return;
+        // Show custom modal instead of window.confirm
+        setPendingFormattedMonth(formattedMonth);
+        setConfirmModal(true);
+        return;
       }
 
+      // If no existing prediction, save directly
       await set(predictionRef, predictionData);
       setIsSaved(true);
-      alert("Prediction saved successfully!");
+      //alert("Prediction saved successfully!");
+    } catch (error) {
+      console.error("Error saving prediction:", error);
+      alert("Failed to save prediction. Please try again.");
+    }
+  };
+
+  // Add a function to handle confirmation from custom modal
+  const handleConfirmSave = async () => {
+    if (!pendingFormattedMonth) return;
+
+    const predictionData = {
+      month: pendingFormattedMonth,
+      totalKWh: predictionResult.totalKWh,
+      predictedRate: predictionResult.predictedRate,
+      estimatedBill: predictionResult.estimatedBill,
+      timestamp: Date.now(),
+    };
+
+    const db = getDatabase();
+    const predictionRef = ref(
+      db,
+      `users/${user.uid}/billPredictions/${pendingFormattedMonth}`,
+    );
+
+    try {
+      await set(predictionRef, predictionData);
+      setIsSaved(true);
+      setConfirmModal(false);
+      setPendingFormattedMonth(null);
+      //alert("Prediction saved successfully!");
     } catch (error) {
       console.error("Error saving prediction:", error);
       alert("Failed to save prediction. Please try again.");
@@ -780,6 +824,36 @@ export default function BillPrediction() {
           )}
         </div>
       </Modal>
+
+      {/* Confirmation Modal */}
+      {confirmModal && (
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 px-4">
+          <div className="bg-[#212121] rounded-lg w-full max-w-md">
+            <div className="p-4 sm:p-6">
+              <p className="text-white mb-6">
+                You already have a saved prediction for {pendingFormattedMonth}.
+                This will overwrite the existing prediction. Do you want to
+                continue?
+              </p>
+              <div className="flex justify-end space-x-3 sm:space-x-4">
+                <button
+                  onClick={() => {
+                    setConfirmModal(false);
+                    setPendingFormattedMonth(null);
+                  }}
+                  className="px-3 sm:px-4 py-1 text-sm font-medium text-white bg-transparent border border-gray-500 rounded-md hover:bg-gray-700 focus:outline-none">
+                  Cancel
+                </button>
+                <button
+                  onClick={handleConfirmSave}
+                  className="px-3 sm:px-4 py-1 text-sm font-medium text-black bg-cta-bluegreen rounded-md hover:bg-cta-bluegreen/70 focus:outline-none">
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       <section className="h-20"></section>
     </>
   );
