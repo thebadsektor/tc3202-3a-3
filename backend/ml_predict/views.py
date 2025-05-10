@@ -81,18 +81,60 @@ def predict_total_bill(request):
         # Apply calibration to align with expected value first
         calibrated_prediction = raw_prediction * calibration_factor
         
-        # Then apply additional seasonal adjustment based on month
-        april_value = 14.1945  # The April known value
-        
-        # Check if we're predicting for May
-        is_may = input_data.get('Month') == 5
-        
-        if is_may:
-            # May is the hottest month, apply stronger adjustment
-            seasonal_factor = 1.04  # 4% increase for May
-        else:
-            # More conservative adjustment for other months
-            seasonal_factor = 1.01  # 1% adjustment
+        # Load historical rates from pastRates.json to get dynamic seasonal adjustment
+        rates_file_path = os.path.join("frontend", "seconsumptiontracker-app", "src", "assets", "datas", "pastRates.json")
+        try:
+            with open(rates_file_path, 'r') as f:
+                historical_rates = json.load(f)
+                
+            # Convert to DataFrame for easier analysis
+            rates_df = pd.DataFrame(historical_rates)
+            
+            # Check if we're predicting for a specific month
+            target_month_to_use = input_data.get('Month')
+            
+            # Get the most recent known value for the target month
+            # Find entries for the target month across all years
+            month_data = rates_df[rates_df['Month'] == target_month_to_use]
+            
+            if not month_data.empty:
+                # Get the most recent year's data for this month
+                latest_year_for_month = month_data['Year'].max()
+                latest_month_value = month_data[month_data['Year'] == latest_year_for_month]['Total Bill'].values[0]
+                print(f"Latest known value for month {target_month_to_use}: {latest_month_value} (Year: {latest_year_for_month})")
+                
+                # Calculate monthly averages to determine seasonal patterns
+                monthly_averages = rates_df.groupby('Month')['Total Bill'].mean()
+                overall_average = rates_df['Total Bill'].mean()
+                
+                # Calculate how much this month typically varies from the overall average
+                month_avg = monthly_averages[target_month_to_use]
+                seasonal_variation = month_avg / overall_average
+                
+                # Calculate a dynamic seasonal factor based on historical data
+                # Adjust slightly more than the historical average to account for recent trends
+                seasonal_factor = 1.0 + ((seasonal_variation - 1.0) * 1.5)
+                
+                # Ensure the seasonal factor is within reasonable bounds
+                seasonal_factor = max(0.95, min(1.1, seasonal_factor))
+                
+                print(f"Dynamic seasonal factor for month {target_month_to_use}: {seasonal_factor:.4f}")
+            else:
+                # Fallback if no data exists for this month
+                print(f"No historical data found for month {target_month_to_use}, using default seasonal factor")
+                seasonal_factor = 1.01
+        except Exception as e:
+            print(f"Error loading historical rates: {e}")
+            # Fallback to original static seasonal factors if file can't be loaded
+            is_may = input_data.get('Month') == 5
+            is_april = input_data.get('Month') == 4
+            
+            if is_may:
+                seasonal_factor = 1.04  # 4% increase for May
+            elif is_april:
+                seasonal_factor = 1.03  # 3% adjustment
+            else:
+                seasonal_factor = 1.01  # 1% adjustment
         
         # Final prediction with both calibration and seasonal adjustment
         final_prediction = calibrated_prediction * seasonal_factor
@@ -105,16 +147,24 @@ def predict_total_bill(request):
         print(f"Final prediction: {final_prediction:.4f}")
         
         # Include detailed information in the response
-        return JsonResponse({
+        response_data = {
             "prediction": round(float(final_prediction), 4),  # Fully adjusted prediction
             "raw_prediction": round(float(raw_prediction), 4),  # Raw model output
             "calibrated_prediction": round(float(calibrated_prediction), 4),  # After calibration factor
             "calibration_factor": round(float(calibration_factor), 4),
             "seasonal_factor": round(float(seasonal_factor), 4),
             "month": input_data.get('Month', 'unknown'),
-            "april_reference": april_value,
             "input_used": {k: float(v) if isinstance(v, (np.float32, np.float64)) else int(v) if isinstance(v, (np.int32, np.int64)) else v for k, v in input_data.items()}
-        })
+        }
+        
+        # Add reference value information if available
+        try:
+            response_data["reference_month_value"] = float(latest_month_value)
+            response_data["reference_year"] = int(latest_year_for_month)
+        except:
+            pass
+            
+        return JsonResponse(response_data)
 
     except Exception as e:
         print("PREDICTION ERROR:", e)
