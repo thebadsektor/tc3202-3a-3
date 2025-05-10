@@ -9,7 +9,6 @@ import {
   Tooltip,
   ResponsiveContainer,
   Legend,
-  ReferenceLine,
   Area,
   ComposedChart,
 } from "recharts";
@@ -96,7 +95,7 @@ const ElectricityRateGraph = () => {
         console.error("Error fetching bill predictions:", error);
         setError("Failed to load bill predictions");
         setLoading(false);
-      }
+      },
     );
 
     return () => unsubscribe();
@@ -131,23 +130,23 @@ const ElectricityRateGraph = () => {
     ) {
       const data = payload[0].payload;
       return (
-        <div className="bg-gray-800 p-3 border border-gray-600 rounded-md shadow-lg">
+        <div className="bg-gray-800 p-3 border border-gray-600 rounded-md shadow-lg text-sm">
           <p className="font-medium text-cta-bluegreen">{`${data.month} ${selectedYear}`}</p>
           <p className="text-white">{`Rate: ₱${data.rate}`}</p>
           {data.billAvg && (
             <>
               <p className="text-white font-medium">{`Estimated Bill:`}</p>
               <p className="text-white pl-2">{`Avg: ₱${data.billAvg.toFixed(
-                2
+                2,
               )}`}</p>
               {data.billMin && (
                 <p className="text-white pl-2">{`Min: ₱${data.billMin.toFixed(
-                  2
+                  2,
                 )}`}</p>
               )}
               {data.billMax && (
                 <p className="text-white pl-2">{`Max: ₱${data.billMax.toFixed(
-                  2
+                  2,
                 )}`}</p>
               )}
             </>
@@ -163,8 +162,8 @@ const ElectricityRateGraph = () => {
 
   if (loading) {
     return (
-      <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
-        <h2 className="text-2xl font-bold mb-4">
+      <div className="bg-[#212121] text-slate-200 p-4 sm:p-6 rounded-lg shadow mt-6 sm:mt-10">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4">
           Electricity Rate Predictions
         </h2>
         <div className="text-white/60">Loading data...</div>
@@ -174,8 +173,8 @@ const ElectricityRateGraph = () => {
 
   if (error) {
     return (
-      <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
-        <h2 className="text-2xl font-bold mb-4">
+      <div className="bg-[#212121] text-slate-200 p-4 sm:p-6 rounded-lg shadow mt-6 sm:mt-10">
+        <h2 className="text-xl sm:text-2xl font-bold mb-4">
           Electricity Rate Predictions
         </h2>
         <div className="text-red-400">{error}</div>
@@ -184,34 +183,38 @@ const ElectricityRateGraph = () => {
   }
 
   return (
-    <div className="bg-[#212121] text-slate-200 p-6 rounded-lg shadow mt-10">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Electricity Rate Predictions</h2>
-        <div className="flex items-center gap-4">
-          <div className="flex items-center">
-            <label htmlFor="displayMode" className="mr-2">
+    <div className="bg-[#212121] text-slate-200 p-4 sm:p-6 rounded-lg shadow mt-6 sm:mt-10">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 sm:mb-6 gap-3">
+        <h2 className="text-xl sm:text-2xl font-bold">
+          Electricity Rate Predictions
+        </h2>
+        <div className="flex flex-col xs:flex-row items-start xs:items-center gap-3 sm:gap-4 w-full sm:w-auto">
+          <div className="flex items-center w-full xs:w-auto">
+            <label
+              htmlFor="displayMode"
+              className="mr-2 text-sm sm:text-base whitespace-nowrap">
               Display:
             </label>
             <select
               id="displayMode"
               value={displayMode}
               onChange={(e) => setDisplayMode(e.target.value)}
-              className="bg-[#383c3d] text-white p-2 rounded border border-gray-600"
-            >
+              className="bg-[#383c3d] text-white p-1 sm:p-2 rounded border border-gray-600 text-sm sm:text-base w-full">
               <option value="rate">Rate</option>
               <option value="bill">Bill Estimates</option>
             </select>
           </div>
-          <div className="flex items-center">
-            <label htmlFor="yearSelect" className="mr-2">
+          <div className="flex items-center w-full xs:w-auto">
+            <label
+              htmlFor="yearSelect"
+              className="mr-2 text-sm sm:text-base whitespace-nowrap">
               Year:
             </label>
             <select
               id="yearSelect"
               value={selectedYear}
               onChange={(e) => setSelectedYear(parseInt(e.target.value))}
-              className="bg-[#383c3d] text-white p-2 rounded border border-gray-600"
-            >
+              className="bg-[#383c3d] text-white p-1 sm:p-2 rounded border border-gray-600 text-sm sm:text-base w-full">
               {availableYears.length > 0 ? (
                 availableYears.map((year) => (
                   <option key={year} value={year}>
@@ -231,64 +234,62 @@ const ElectricityRateGraph = () => {
       </div>
 
       {billData.length === 0 ? (
-        <div className="text-center p-10 bg-[#383c3d] rounded-lg">
+        <div className="text-center p-6 sm:p-10 bg-[#383c3d] rounded-lg">
           <p className="text-white/60">
             No electricity rate data available for {selectedYear}
           </p>
         </div>
       ) : (
-        <div className="h-80">
+        <div className="h-64 sm:h-80">
           <ResponsiveContainer width="100%" height="100%">
             {displayMode === "rate" ? (
               <LineChart
                 data={chartData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
+                margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                <XAxis dataKey="month" stroke="#ccc" tick={{ fill: "#ccc" }} />
+                <XAxis
+                  dataKey="month"
+                  stroke="#ccc"
+                  tick={{ fill: "#ccc", fontSize: "0.75rem" }}
+                  interval="preserveStartEnd"
+                />
                 <YAxis
                   stroke="#ccc"
-                  tick={{ fill: "#ccc" }}
+                  tick={{ fill: "#ccc", fontSize: "0.75rem" }}
                   domain={[0, "auto"]}
-                  label={{
-                    //value: "Rate (₱)",
-                    angle: -90,
-                    position: "insideLeft",
-                    style: { fill: "#ccc" },
-                  }}
+                  width={30}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: "0.75rem" }} />
                 <Line
                   type="monotone"
                   dataKey="rate"
                   name="Electricity Rate"
                   stroke="#4fd1c5"
                   strokeWidth={2}
-                  activeDot={{ r: 8, fill: "#4fd1c5", stroke: "#fff" }}
+                  activeDot={{ r: 6, fill: "#4fd1c5", stroke: "#fff" }}
                   connectNulls
                 />
               </LineChart>
             ) : (
               <ComposedChart
                 data={chartData}
-                margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-              >
+                margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#444" />
-                <XAxis dataKey="month" stroke="#ccc" tick={{ fill: "#ccc" }} />
+                <XAxis
+                  dataKey="month"
+                  stroke="#ccc"
+                  tick={{ fill: "#ccc", fontSize: "0.75rem" }}
+                  interval="preserveStartEnd"
+                />
                 <YAxis
                   stroke="#ccc"
-                  tick={{ fill: "#ccc" }}
+                  tick={{ fill: "#ccc", fontSize: "0.75rem" }}
                   domain={[0, "auto"]}
-                  label={{
-                    //value: "Bill Amount (₱)",
-                    angle: -90,
-                    position: "insideLeft",
-                    style: { fill: "#ccc" },
-                  }}
+                  width={30}
                 />
                 <Tooltip content={<CustomTooltip />} />
-                <Legend />
+                <Legend wrapperStyle={{ fontSize: "0.75rem" }} />
                 <Area
                   type="monotone"
                   dataKey="billMin"
@@ -315,7 +316,7 @@ const ElectricityRateGraph = () => {
                   name="Average Bill"
                   stroke="#4fd1c5"
                   strokeWidth={2}
-                  activeDot={{ r: 8, fill: "#4fd1c5", stroke: "#fff" }}
+                  activeDot={{ r: 6, fill: "#4fd1c5", stroke: "#fff" }}
                   connectNulls
                 />
               </ComposedChart>
@@ -324,10 +325,12 @@ const ElectricityRateGraph = () => {
         </div>
       )}
 
-      <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="mt-4 sm:mt-6 grid grid-cols-1 xs:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
         {filteredData.map((data) => (
-          <div key={data.id} className="bg-[#383c3d] p-4 rounded-lg">
-            <h3 className="text-lg font-medium text-cta-bluegreen">{`${data.month} ${data.year}`}</h3>
+          <div
+            key={data.id}
+            className="bg-[#383c3d] p-3 sm:p-4 rounded-lg text-sm sm:text-base">
+            <h3 className="text-base sm:text-lg font-medium text-cta-bluegreen truncate">{`${data.month} ${data.year}`}</h3>
             <div className="mt-2">
               <p className="flex justify-between">
                 <span className="text-white/60">Rate:</span>
@@ -336,7 +339,7 @@ const ElectricityRateGraph = () => {
 
               {data.billAvg && (
                 <>
-                  <div className="my-2 border-t border-gray-600 pt-2">
+                  <div className="my-1 sm:my-2 border-t border-gray-600 pt-1 sm:pt-2">
                     <p className="text-white/80 font-medium">Estimated Bill:</p>
                   </div>
                   <p className="flex justify-between">
@@ -364,7 +367,7 @@ const ElectricityRateGraph = () => {
                 </>
               )}
 
-              <div className="mt-2 border-t border-gray-600 pt-2">
+              <div className="mt-1 sm:mt-2 border-t border-gray-600 pt-1 sm:pt-2">
                 <p className="flex justify-between">
                   <span className="text-white/60">Total kWh:</span>
                   <span className="font-medium">{data.totalKWh}</span>

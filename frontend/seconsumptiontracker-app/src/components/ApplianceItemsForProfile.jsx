@@ -472,75 +472,78 @@ const ApplianceItems = ({
   };
 
   return (
-    <div className="w-full mt-10">
-      <div className="max-w-lg mx-auto p-5 text-white bg-[#212121] rounded-lg shadow-lg">
+    <div className="w-full mt-5 md:mt-10 px-2 sm:px-0">
+      <div className="w-full max-w-lg mx-auto p-3 sm:p-5 text-white bg-[#212121] rounded-lg shadow-lg">
         <div className="flex items-center mb-4">
           <button
             onClick={onBack}
-            className="mr-4 text-white hover:text-blue-400"
-          >
-            <FaArrowLeft size={20} />
+            className="mr-2 sm:mr-4 text-white hover:text-blue-400">
+            <FaArrowLeft size={18} />
           </button>
-          <h2 className="text-3xl font-bold flex-1">{setName}</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold flex-1 truncate">
+            {setName}
+          </h2>
         </div>
 
-        <p className="mb-5 text-white/60">
+        <p className="mb-4 text-sm sm:text-base text-white/60">
           Add appliances to this set and specify their power usage details.
         </p>
 
         <div className="flex justify-between mb-2">
-          <p className="font-semibold">Appliances</p>
-          <p className="font-semibold">Edit usage</p>
+          <p className="font-semibold text-sm sm:text-base">Appliances</p>
+          <p className="font-semibold text-sm sm:text-base">Edit usage</p>
         </div>
 
         {applianceItems.map((appliance) => (
           <div key={appliance.id} className="flex flex-col gap-1 mb-3">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
               <input
                 type="text"
                 value={appliance.name}
                 onChange={(e) => updateAppliance(appliance.id, e.target.value)}
-                className="flex-1 p-2 bg-[#383c3d] border border-gray-600 rounded focus:outline-none"
+                className="flex-1 p-1 sm:p-2 text-sm sm:text-base bg-[#383c3d] border border-gray-600 rounded focus:outline-none"
                 placeholder="Appliance name"
               />
 
-              {appliance.completed ? (
-                <FaCheck className="text-green-400" size={18} />
-              ) : (
-                <FaTimes className="text-red-400" size={18} />
-              )}
+              <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                {appliance.completed ? (
+                  <FaCheck className="text-green-400" size={16} />
+                ) : (
+                  <FaTimes className="text-red-400" size={16} />
+                )}
 
-              <FaEdit
-                className={`cursor-pointer ${
-                  !appliance.name.trim()
-                    ? "text-gray-500 cursor-not-allowed"
-                    : "text-blue-400"
-                }`}
-                size={18}
-                onClick={() => {
-                  if (appliance.name.trim()) {
-                    handleEditUsage(appliance);
-                  } else {
-                    alert(
-                      "Please enter an appliance name before editing usage."
-                    );
-                  }
-                }}
-              />
+                <FaEdit
+                  className={`cursor-pointer ${
+                    !appliance.name.trim()
+                      ? "text-gray-500 cursor-not-allowed"
+                      : "text-blue-400"
+                  }`}
+                  size={16}
+                  onClick={() => {
+                    if (appliance.name.trim()) {
+                      handleEditUsage(appliance);
+                    } else {
+                      alert(
+                        "Please enter an appliance name before editing usage.",
+                      );
+                    }
+                  }}
+                />
 
-              <FaTrash
-                className={`cursor-pointer ${
-                  applianceItems.length === 1
-                    ? "text-gray-500 cursor-not-allowed"
-                    : "text-red-500"
-                }`}
-                size={18}
-                onClick={() => {
-                  if (applianceItems.length > 1) {
-                    handleDeleteConfirmation(appliance.id);
-                  }
-                }}
-              />
+                <FaTrash
+                  className={`cursor-pointer ${
+                    applianceItems.length === 1
+                      ? "text-gray-500 cursor-not-allowed"
+                      : "text-red-500"
+                  }`}
+                  size={16}
+                  onClick={() => {
+                    if (applianceItems.length > 1) {
+                      handleDeleteConfirmation(appliance.id);
+                    }
+                  }}
+                />
+              </div>
             </div>
           </div>
         ))}
@@ -548,37 +551,33 @@ const ApplianceItems = ({
         <div className="flex flex-wrap gap-2 mt-3">
           <button
             onClick={addApplianceItem}
-            className="flex items-center justify-center py-2 px-3 bg-cta-bluegreen !font-semibold text-black hover:bg-cta-bluegreen/80 cursor-pointer rounded transition"
-          >
-            <FaPlus className="mr-2" /> Add Appliance
+            className="flex items-center justify-center py-1 sm:py-2 px-2 sm:px-3 text-sm sm:text-base bg-cta-bluegreen !font-semibold text-black hover:bg-cta-bluegreen/80 cursor-pointer rounded transition">
+            <FaPlus className="mr-1 sm:mr-2" size={14} /> Add Appliance
           </button>
         </div>
 
-        <div className="mt-5 text-white/60">
-          <p>
+        <div className="mt-4 sm:mt-5 text-white/60">
+          <p className="text-sm sm:text-base">
             Use these quick-add buttons to select from pre-defined common
             electronics
           </p>
-          <div className="flex gap-3 mt-3">
+          <div className="flex flex-wrap gap-2 sm:gap-3 mt-2 sm:mt-3">
             <button
               onClick={gadgetsModalHandlers.open}
-              className="flex items-center justify-center bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black !font-semibold border-gray-500 px-2 py-2 cursor-pointer rounded transition"
-            >
-              <FaMobile className="mr-2 text-black" />
+              className="flex items-center justify-center bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black !font-semibold border-gray-500 px-2 py-1 sm:py-2 text-sm sm:text-base cursor-pointer rounded transition">
+              <FaMobile className="mr-1 sm:mr-2 text-black" size={14} />
               Gadgets
             </button>
 
             <button
               onClick={lightingsModalHandlers.open}
-              className="flex items-center justify-center bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black !font-semibold border-gray-500 px-2 py-2 cursor-pointer rounded transition"
-            >
-              <FaLightbulb className="mr-2" /> Lightings
+              className="flex items-center justify-center bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black !font-semibold border-gray-500 px-2 py-1 sm:py-2 text-sm sm:text-base cursor-pointer rounded transition">
+              <FaLightbulb className="mr-1 sm:mr-2" size={14} /> Lightings
             </button>
           </div>
           <button
             onClick={handleSaveAll}
-            className="bg-[#39e75f] hover:bg-[#39e75f]/80 text-black py-2 px-4 mt-10 rounded w-full flex items-center justify-center !font-semibold cursor-pointer"
-          >
+            className="bg-[#39e75f] hover:bg-[#39e75f]/80 text-black py-2 px-4 mt-6 sm:mt-10 rounded w-full flex items-center justify-center !font-semibold text-sm sm:text-base cursor-pointer">
             Save Set
           </button>
         </div>
@@ -592,9 +591,10 @@ const ApplianceItems = ({
           header: { backgroundColor: "#13171C", padding: "16px" },
           content: { backgroundColor: "#13171C" },
         }}
-      >
-        <div className="text-white">
-          <h1 className="text-2xl font-semibold">
+        size="md"
+        fullScreen={window.innerWidth < 640}>
+        <div className="text-white p-1 sm:p-2">
+          <h1 className="text-xl sm:text-2xl font-semibold">
             Usage for{" "}
             <span className="text-cta-bluegreen">
               {selectedAppliance ? selectedAppliance.name : "Appliance"}
@@ -602,14 +602,14 @@ const ApplianceItems = ({
           </h1>
           <br />
 
-          <div className="flex gap-5">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-5">
             <NumberInput
               label="No. of Appliances"
               withAsterisk
               description="Enter how many of this appliance you have"
               placeholder="Enter quantity"
               min={1}
-              className="mb-3"
+              className="mb-3 w-full"
               value={
                 selectedAppliance
                   ? applianceData[selectedAppliance.name]?.quant || ""
@@ -632,7 +632,7 @@ const ApplianceItems = ({
               description="Enter the wattage of the selected appliance"
               placeholder="Enter wattage"
               min={1}
-              className="mb-3"
+              className="mb-3 w-full"
               value={
                 selectedAppliance
                   ? applianceData[selectedAppliance.name]?.watt || ""
@@ -651,23 +651,22 @@ const ApplianceItems = ({
             />
           </div>
 
-          <div className="bg-white/20 p-5 rounded mt-3">
-            <h4 className="text-base font-semibold mb-1">
+          <div className="bg-white/20 p-3 sm:p-5 rounded mt-3">
+            <h4 className="text-sm sm:text-base font-semibold mb-1">
               Don't know your appliance wattage?{" "}
             </h4>
-            <p className="text-[14px] text-white/60 mb-2">
+            <p className="text-xs sm:text-sm text-white/60 mb-2">
               <span className="text-cta-bluegreen font-semibold">WattBot</span>{" "}
               will automatically analyze your appliance and get the average
               wattage for your appliance
             </p>
             <button
               onClick={getWattage}
-              className="bg-cta-bluegreen text-black px-3 py-1 rounded cursor-pointer !text-base flex items-center justify-center"
-              disabled={isLoading}
-            >
+              className="bg-cta-bluegreen text-black px-3 py-1 rounded cursor-pointer text-sm sm:text-base flex items-center justify-center"
+              disabled={isLoading}>
               {isLoading ? (
                 <>
-                  <span className="h-5 w-5 border-2 border-black border-t-transparent rounded-full animate-spin mr-2"></span>
+                  <span className="h-4 w-4 sm:h-5 sm:w-5 border-2 border-black border-t-transparent rounded-full animate-spin mr-2"></span>
                   Analyzing...
                 </>
               ) : (
@@ -701,20 +700,20 @@ const ApplianceItems = ({
             }}
           />
 
-          <p className="mb-3 mt-5">
+          <p className="mb-2 mt-4 text-sm sm:text-base">
             Days used per week<span className="text-red-400">*</span>
           </p>
           <Chip.Group multiple value={selectedDays} onChange={setSelectedDays}>
-            <div className="flex gap-2 flex-wrap mb-3">
+            <div className="flex gap-1 sm:gap-2 flex-wrap mb-3">
               {daysOfWeek.map((day) => (
-                <Chip key={day} value={day} size="lg" radius="xl">
+                <Chip key={day} value={day} size="sm" radius="xl">
                   {day}
                 </Chip>
               ))}
             </div>
           </Chip.Group>
 
-          <p className="mb-3 mt-6">
+          <p className="mb-2 mt-4 text-sm sm:text-base">
             Weeks used per month <span className="text-red-400">*</span>
           </p>
           <NativeSelect
@@ -736,12 +735,12 @@ const ApplianceItems = ({
               }));
             }}
             data={["1 Week", "2 Weeks", "3 Weeks", "4 Weeks"]}
+            className="w-full"
           />
 
           <button
-            className="w-full py-2 bg-green-500 hover:bg-green-600 rounded transition mt-6 cursor-pointer"
-            onClick={handleSaveUsage}
-          >
+            className="w-full py-2 bg-green-500 hover:bg-green-600 rounded transition mt-5 sm:mt-6 cursor-pointer text-sm sm:text-base"
+            onClick={handleSaveUsage}>
             Save
           </button>
         </div>
@@ -759,33 +758,33 @@ const ApplianceItems = ({
           },
           content: { backgroundColor: "#13171C" },
         }}
-        size="lg"
-      >
-        <div className="text-white p-4">
-          <p className="mb-4">
+        size="md"
+        fullScreen={window.innerWidth < 640}>
+        <div className="text-white p-2 sm:p-4">
+          <p className="mb-3 sm:mb-4 text-sm sm:text-base">
             Select the gadgets you want to add to your appliance list:
           </p>
 
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 sm:mb-6">
             {gadgetOptions.map((gadget) => (
               <div key={gadget} className="flex items-center">
                 <Checkbox
                   checked={selectedGadgets.includes(gadget)}
                   onChange={() => toggleGadgetSelection(gadget)}
                   label={gadget}
-                  size="md"
+                  size="sm"
                   color="cyan"
                 />
               </div>
             ))}
           </div>
 
-          <div className="flex justify-end space-x-4 mt-6">
+          <div className="flex justify-end space-x-3 sm:space-x-4 mt-4 sm:mt-6">
             <Button
               variant="outline"
               onClick={gadgetsModalHandlers.close}
               color="gray"
-            >
+              size="sm">
               Cancel
             </Button>
             <Button
@@ -793,7 +792,7 @@ const ApplianceItems = ({
               color="blue"
               onClick={addSelectedGadgets}
               disabled={selectedGadgets.length === 0}
-            >
+              size="sm">
               Add Selected Gadgets
             </Button>
           </div>
@@ -812,33 +811,33 @@ const ApplianceItems = ({
           },
           content: { backgroundColor: "#13171C" },
         }}
-        size="lg"
-      >
-        <div className="text-white p-4">
-          <p className="mb-4">
+        size="md"
+        fullScreen={window.innerWidth < 640}>
+        <div className="text-white p-2 sm:p-4">
+          <p className="mb-3 sm:mb-4 text-sm sm:text-base">
             Select the lighting options you want to add to your appliance list:
           </p>
 
-          <div className="grid grid-cols-2 gap-3 mb-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 sm:mb-6">
             {lightingOptions.map((lighting) => (
               <div key={lighting} className="flex items-center">
                 <Checkbox
                   checked={selectedLightings.includes(lighting)}
                   onChange={() => toggleLightingSelection(lighting)}
                   label={lighting}
-                  size="md"
+                  size="sm"
                   color="yellow"
                 />
               </div>
             ))}
           </div>
 
-          <div className="flex justify-end space-x-4 mt-6">
+          <div className="flex justify-end space-x-3 sm:space-x-4 mt-4 sm:mt-6">
             <Button
               variant="outline"
               onClick={lightingsModalHandlers.close}
               color="gray"
-            >
+              size="sm">
               Cancel
             </Button>
             <Button
@@ -846,7 +845,7 @@ const ApplianceItems = ({
               color="yellow"
               onClick={addSelectedLightings}
               disabled={selectedLightings.length === 0}
-            >
+              size="sm">
               Add Selected Lighting
             </Button>
           </div>
@@ -868,20 +867,28 @@ const ApplianceItems = ({
             backgroundColor: "#13171C",
           },
         }}
-      >
+        size="sm">
         <div className="text-white p-2">
-          <p className="mb-4">
+          <p className="mb-3 sm:mb-4 text-sm sm:text-base">
             Are you sure you want to delete "
             <span className="text-cta-bluegreen">
               {applianceToDelete?.name || "this appliance"}
             </span>
             "?
           </p>
-          <div className="flex justify-end space-x-4">
-            <Button variant="outline" onClick={closeDeleteModal} color="gray">
+          <div className="flex justify-end space-x-3 sm:space-x-4">
+            <Button
+              variant="outline"
+              onClick={closeDeleteModal}
+              color="gray"
+              size="sm">
               Cancel
             </Button>
-            <Button variant="filled" color="red" onClick={confirmDelete}>
+            <Button
+              variant="filled"
+              color="red"
+              onClick={confirmDelete}
+              size="sm">
               Delete
             </Button>
           </div>

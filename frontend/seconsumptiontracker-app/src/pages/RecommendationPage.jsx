@@ -316,33 +316,32 @@ export default function RecommendationPage() {
 
   return (
     <>
-      <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[15vh]">
-        <div className="w-2xl mx-auto p-5 text-white rounded-lg shadow-2xl">
-          <span className="text-white/40 text-[14px] inline-flex items-center gap-1">
+      <div className="w-full min-h-[90vh] h-auto flex items-start justify-center mt-[10vh] sm:mt-[15vh] px-4">
+        <div className="w-full max-w-2xl mx-auto p-3 sm:p-5 text-white rounded-lg shadow-2xl">
+          <span className="text-white/40 text-xs sm:text-[14px] inline-flex items-center gap-1">
             <IoMdHome /> Home / Energy Saving Recommendation
           </span>
-          <h2 className="text-4xl font-bold mb-3">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 sm:mb-3">
             Energy Saving Recommendation
           </h2>
 
-          <p className="mb-5 text-white/60">
+          <p className="mb-4 sm:mb-5 text-sm sm:text-base text-white/60">
             Select from your saved calculations, the system analyzes your energy
             usage patterns—such as wattage and usage duration—to generate smart
             recommendations that help you save energy and reduce costs.
           </p>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4">
             <button
               onClick={openModal}
-              className="mt-2 py-2 px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition"
-              disabled={!user || loading || recLoading}
-            >
+              className="mt-2 py-1.5 sm:py-2 px-3 sm:px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black text-sm sm:text-base cursor-pointer rounded transition"
+              disabled={!user || loading || recLoading}>
               Import From History
             </button>
           </div>
 
           {!user && authInitialized && (
-            <div className="mt-4 p-4 bg-red-800/50 rounded">
+            <div className="mt-3 sm:mt-4 p-3 sm:p-4 bg-red-800/50 rounded text-sm sm:text-base">
               <p>
                 You need to be logged in to access your calculation history.
               </p>
@@ -351,50 +350,53 @@ export default function RecommendationPage() {
 
           {/* Display selected calculations */}
           {selectedCalculations.length > 0 && (
-            <div className="mt-15 space-y-4">
+            <div className="mt-8 sm:mt-15 space-y-3 sm:space-y-4">
               {selectedCalculations.map((calcKey) => {
                 const calcData = selectedCalculationsData[calcKey] || {};
                 const appliances = calcData.appliances || [];
 
                 return (
-                  <div key={calcKey} className="p-4 bg-[#212121] rounded mt-6">
-                    <h3 className="text-xl font-semibold mb-3">
+                  <div
+                    key={calcKey}
+                    className="p-3 sm:p-4 bg-[#212121] rounded mt-4 sm:mt-6">
+                    <h3 className="text-lg sm:text-xl font-semibold mb-2 sm:mb-3">
                       Selected Calculation:{" "}
-                      <span className="text-cta-bluegreen">
+                      <span className="text-cta-bluegreen break-words">
                         {calcData.label || calcKey}
                       </span>
                     </h3>
-                    <p className="text-white/60 text-sm mb-4">
+                    <p className="text-white/60 text-xs sm:text-sm mb-3 sm:mb-4">
                       {calcData.timestamp ? formatDate(calcData.timestamp) : ""}
                     </p>
 
                     <div className="space-y-2">
                       <div className="flex justify-between items-center">
-                        <h4 className="text-lg font-medium">Appliances:</h4>
+                        <h4 className="text-base sm:text-lg font-medium">
+                          Appliances:
+                        </h4>
                         <button
                           onClick={() => toggleViewAllAppliances(calcKey)}
-                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-sm underline"
-                        >
+                          className="text-cta-bluegreen hover:text-cta-bluegreen/80 text-xs sm:text-sm underline">
                           {expandedSets[calcKey] ? "Collapse All" : "View All"}
                         </button>
                       </div>
-                      <ul className="space-y-2">
+                      <ul className="space-y-1.5 sm:space-y-2">
                         {appliances.length > 0 ? (
                           appliances.map((appliance, index) => (
                             <li
                               key={index}
-                              className="bg-[#383c3d] rounded overflow-hidden"
-                            >
+                              className="bg-[#383c3d] rounded overflow-hidden">
                               <div
-                                className="flex items-center justify-between p-2 cursor-pointer transition"
-                                onClick={() => toggleItemExpand(calcKey, index)}
-                              >
-                                <span>
+                                className="flex items-center justify-between p-2 cursor-pointer transition text-sm sm:text-base"
+                                onClick={() =>
+                                  toggleItemExpand(calcKey, index)
+                                }>
+                                <span className="truncate pr-2">
                                   {appliance.name} ({appliance.quantity || 1}{" "}
                                   unit
                                   {appliance.quantity > 1 ? "s" : ""})
                                 </span>
-                                <span className="flex items-center">
+                                <span className="flex-shrink-0">
                                   {expandedItems[`${calcKey}-${index}`] ? (
                                     <FiChevronDown />
                                   ) : (
@@ -404,7 +406,7 @@ export default function RecommendationPage() {
                               </div>
 
                               {expandedItems[`${calcKey}-${index}`] && (
-                                <div className="p-3 bg-[#212121] border-t border-gray-600 space-y-2">
+                                <div className="p-2 sm:p-3 bg-[#212121] border-t border-gray-600 space-y-1.5 sm:space-y-2 text-xs sm:text-sm">
                                   <div className="flex justify-between">
                                     <span className="text-gray-400">
                                       Wattage:
@@ -437,8 +439,8 @@ export default function RecommendationPage() {
                                     </span>
                                     <span>{appliance.weeks}</span>
                                   </div>
-                                  <div className="mt-4 pl-4 border-l-2 border-cta-bluegreen">
-                                    <ul className="list-disc pl-4 text-white/70">
+                                  <div className="mt-3 pl-2 sm:pl-4 border-l-2 border-cta-bluegreen">
+                                    <ul className="list-disc pl-3 sm:pl-4 text-white/70">
                                       <li>
                                         Cost per Hour:{" "}
                                         <b>
@@ -478,7 +480,7 @@ export default function RecommendationPage() {
                             </li>
                           ))
                         ) : (
-                          <li className="text-gray-400">
+                          <li className="text-gray-400 text-sm">
                             No appliances found in this calculation.
                           </li>
                         )}
@@ -486,35 +488,43 @@ export default function RecommendationPage() {
                     </div>
 
                     {/* Summary for this calculation */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
-                      <div className="bg-[#383c3d] p-4 rounded-lg text-center">
-                        <p className="text-gray-400">Total cost per hour</p>
-                        <p className="text-lg font-bold text-white">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 gap-2 sm:gap-5 mt-4 sm:mt-6">
+                      <div className="bg-[#383c3d] p-2 sm:p-4 rounded-lg text-center">
+                        <p className="text-gray-400 text-xs sm:text-sm">
+                          Total cost per hour
+                        </p>
+                        <p className="text-base sm:text-lg font-bold text-white">
                           ₱{calcData.totalCostPerHour?.toFixed(2)}
                         </p>
                       </div>
-                      <div className="bg-[#383c3d] p-4 rounded-lg text-center">
-                        <p className="text-gray-400">Total cost per day</p>
-                        <p className="text-lg font-bold text-white">
+                      <div className="bg-[#383c3d] p-2 sm:p-4 rounded-lg text-center">
+                        <p className="text-gray-400 text-xs sm:text-sm">
+                          Total cost per day
+                        </p>
+                        <p className="text-base sm:text-lg font-bold text-white">
                           ₱{calcData.totalCostPerDay?.toFixed(2)}
                         </p>
                       </div>
-                      <div className="bg-[#383c3d] p-4 rounded-lg text-center">
-                        <p className="text-gray-400">Total cost per week</p>
-                        <p className="text-lg font-bold text-white">
+                      <div className="bg-[#383c3d] p-2 sm:p-4 rounded-lg text-center">
+                        <p className="text-gray-400 text-xs sm:text-sm">
+                          Total cost per week
+                        </p>
+                        <p className="text-base sm:text-lg font-bold text-white">
                           ₱{calcData.totalCostPerWeek?.toFixed(2)}
                         </p>
                       </div>
-                      <div className="bg-[#383c3d] p-4 rounded-lg text-center">
-                        <p className="text-gray-400">Total cost per month</p>
-                        <p className="text-lg font-bold text-white">
+                      <div className="bg-[#383c3d] p-2 sm:p-4 rounded-lg text-center">
+                        <p className="text-gray-400 text-xs sm:text-sm">
+                          Total cost per month
+                        </p>
+                        <p className="text-base sm:text-lg font-bold text-white">
                           ₱{calcData.totalCost?.toFixed(2)}
                         </p>
                       </div>
                     </div>
 
                     {calcData.monthlyBill && (
-                      <div className="mt-4 bg-gray-600 p-4 rounded-lg">
+                      <div className="mt-3 sm:mt-4 bg-gray-600 p-3 sm:p-4 rounded-lg text-sm sm:text-base">
                         <p className="text-white">
                           Monthly Bill:{" "}
                           <span className="font-bold">
@@ -534,54 +544,50 @@ export default function RecommendationPage() {
                   <button
                     onClick={handleGetRecommendation}
                     disabled={!user}
-                    className="w-full py-3 px-5 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded cursor-pointer"
-                  >
+                    className="w-full py-2 sm:py-3 px-4 sm:px-5 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded cursor-pointer text-sm sm:text-base">
                     Get Recommendation
                   </button>
                 ) : (
-                  <div className="flex justify-center items-center my-5">
+                  <div className="flex justify-center items-center my-4 sm:my-5">
                     <div className="flex space-x-2 items-center">
-                      <span className="text-white mr-2">
+                      <span className="text-white mr-2 text-sm sm:text-base">
                         Loading Recommendation
                       </span>
                       <div className="flex space-x-1">
                         <div
-                          className="h-3 w-3 bg-cta-bluegreen rounded-full animate-bounce"
+                          className="h-2 w-2 sm:h-3 sm:w-3 bg-cta-bluegreen rounded-full animate-bounce"
                           style={{
                             animationDelay: "0ms",
                             animationDuration: "1s",
                             animationName: "customBounce",
-                          }}
-                        ></div>
+                          }}></div>
                         <div
-                          className="h-3 w-3 bg-cta-bluegreen rounded-full animate-bounce"
+                          className="h-2 w-2 sm:h-3 sm:w-3 bg-cta-bluegreen rounded-full animate-bounce"
                           style={{
                             animationDelay: "150ms",
                             animationDuration: "1s",
                             animationName: "customBounce",
-                          }}
-                        ></div>
+                          }}></div>
                         <div
-                          className="h-3 w-3 bg-cta-bluegreen rounded-full animate-bounce"
+                          className="h-2 w-2 sm:h-3 sm:w-3 bg-cta-bluegreen rounded-full animate-bounce"
                           style={{
                             animationDelay: "300ms",
                             animationDuration: "1s",
                             animationName: "customBounce",
-                          }}
-                        ></div>
+                          }}></div>
                       </div>
                     </div>
                   </div>
                 )}
 
                 {recommendation && (
-                  <div className="mt-4 p-6 bg-[#212121] text-white rounded whitespace-pre-wrap">
+                  <div className="mt-4 p-3 sm:p-6 bg-[#212121] text-white rounded whitespace-pre-wrap text-sm sm:text-base">
                     {recommendation}
                   </div>
                 )}
 
                 {recError && (
-                  <div className="mt-4 p-4 bg-red-800 text-white rounded">
+                  <div className="mt-4 p-3 sm:p-4 bg-red-800 text-white rounded text-sm sm:text-base">
                     Error: {recError}
                   </div>
                 )}
@@ -597,7 +603,18 @@ export default function RecommendationPage() {
             transform: translateY(0);
           }
           50% {
-            transform: translateY(-7px);
+            transform: translateY(-5px);
+          }
+        }
+        @media (min-width: 640px) {
+          @keyframes customBounce {
+            0%,
+            100% {
+              transform: translateY(0);
+            }
+            50% {
+              transform: translateY(-7px);
+            }
           }
         }
       `}</style>
@@ -611,65 +628,66 @@ export default function RecommendationPage() {
           content: { backgroundColor: "#212121", color: "white" },
           close: { color: "white" },
         }}
-      >
-        <div className="py-4">
+        size="sm"
+        fullScreen={window.innerWidth < 480}>
+        <div className="py-3 sm:py-4">
           {loading ? (
-            <p>Loading calculation history...</p>
+            <p className="text-sm sm:text-base">
+              Loading calculation history...
+            </p>
           ) : calculations.length > 0 ? (
             <>
-              <h3 className="mb-2">Available Calculations</h3>
-              <div className="space-y-2 max-h-60 overflow-y-auto">
+              <h3 className="mb-2 text-base sm:text-lg">
+                Available Calculations
+              </h3>
+              <div className="space-y-1.5 sm:space-y-2 max-h-60 overflow-y-auto">
                 {calculations.map((calc) => (
                   <div
                     key={calc.value}
-                    className="flex items-center p-2 bg-[#383c3d] rounded hover:bg-[#383c3d]/50"
-                  >
+                    className="flex items-center p-1.5 sm:p-2 bg-[#383c3d] rounded hover:bg-[#383c3d]/50">
                     <input
                       type="checkbox"
                       id={`calc-${calc.value}`}
                       checked={tempSelectedCalculations?.includes(calc.value)}
                       onChange={() => toggleCalculationSelection(calc.value)}
-                      className="mr-3"
+                      className="mr-2 sm:mr-3"
                     />
                     <div className="cursor-pointer flex-1">
                       <label
                         htmlFor={`calc-${calc.value}`}
-                        className="block font-medium"
-                      >
+                        className="block font-medium text-sm sm:text-base">
                         {calc.label}
                       </label>
-                      <div className="text-sm text-white/60">
+                      <div className="text-xs sm:text-sm text-white/60">
                         {formatDate(calc.timestamp)}
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="mt-6 flex justify-end space-x-3">
+              <div className="mt-4 sm:mt-6 flex justify-end space-x-2 sm:space-x-3">
                 <button
                   onClick={closeModal}
-                  className="py-2 px-4 bg-gray-600 hover:bg-gray-500 text-white rounded"
-                >
+                  className="py-1.5 sm:py-2 px-3 sm:px-4 bg-gray-600 hover:bg-gray-500 text-white rounded text-sm sm:text-base">
                   Cancel
                 </button>
                 <button
                   onClick={handleConfirmSelection}
-                  className="py-2 px-4 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded"
-                  disabled={!tempSelectedCalculations.length}
-                >
+                  className="py-1.5 sm:py-2 px-3 sm:px-4 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black rounded text-sm sm:text-base"
+                  disabled={!tempSelectedCalculations.length}>
                   Import Selected
                 </button>
               </div>
             </>
           ) : (
-            <p>
+            <p className="text-sm sm:text-base">
               No calculation history found. Please create some calculations
               first.
             </p>
           )}
         </div>
       </Modal>
-      <section className="h-20"></section>
+      <section className="h-16 sm:h-20"></section>
     </>
   );
 }

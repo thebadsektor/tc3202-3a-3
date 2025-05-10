@@ -181,26 +181,25 @@ const History = () => {
   }
 
   return (
-    <div className="mt-10">
-      {/* Secondary header with your specified styling */}
+    <div className="mt-6 px-3 sm:px-0 sm:mt-10">
+      {/* Secondary header with responsive text sizes */}
       <div className="w-full">
-        <h1 className="text-left text-cta-bluegreen text-3xl font-semibold mb-3">
+        <h1 className="text-left text-cta-bluegreen text-2xl sm:text-3xl font-semibold mb-2 sm:mb-3">
           Calculation History
         </h1>
-        <p className="text-white/80 mb-5">
+        <p className="text-white/80 mb-4 sm:mb-5 text-sm sm:text-base">
           View all your saved calculations below
         </p>
 
         {calculations.length === 0 ? (
-          <div className="bg-[#212121] p-8 rounded-lg">
-            <p className="text-white/60">
+          <div className="bg-[#212121] p-4 sm:p-8 rounded-lg text-center sm:text-left">
+            <p className="text-white/60 text-sm sm:text-base">
               No calculation history found. Start by calculating your appliance
               energy consumption.
             </p>
             <button
               onClick={() => navigate("/consumption-calculator")}
-              className="bg-cta-bluegreen text-black px-4 py-2 rounded mt-4 hover:bg-cta-bluegreen/70 transition"
-            >
+              className="bg-cta-bluegreen text-black px-3 py-2 rounded mt-3 sm:mt-4 hover:bg-cta-bluegreen/70 transition text-sm sm:text-base w-full sm:w-auto">
               Go to Calculator
             </button>
           </div>
@@ -208,30 +207,28 @@ const History = () => {
           calculations.map((calculation, index) => (
             <div
               key={calculation.id}
-              className="mb-3 bg-[#212121] p-3 px-5 rounded-lg shadow"
-            >
-              <div className="flex justify-between items-center">
-                <div>
-                  <h2 className="text-lg font-semibold text-white">
+              className="mb-3 bg-[#212121] p-3 sm:px-5 rounded-lg shadow">
+              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                <div className="mb-2 sm:mb-0">
+                  <h2 className="text-base sm:text-lg font-semibold text-white">
                     {getCalculationDisplayName(
                       calculation,
                       index,
-                      calculations.length
+                      calculations.length,
                     )}
                   </h2>
-                  <p className="text-white/60 text-sm">
+                  <p className="text-white/60 text-xs sm:text-sm">
                     {formatDate(calculation.timestamp)}
                   </p>
                 </div>
-                <div>
+                <div className="flex justify-end">
                   <button
                     onClick={() => toggleCalculation(index)}
-                    className="text-cta-bluegreen px-3 py-1 rounded transition cursor-pointer"
-                  >
+                    className="text-cta-bluegreen px-2 sm:px-3 py-1 rounded transition cursor-pointer">
                     {expandedCalculation === index ? (
-                      <FaChevronUp size={20} />
+                      <FaChevronUp size={18} />
                     ) : (
-                      <FaChevronDown size={20} />
+                      <FaChevronDown size={18} />
                     )}
                   </button>
                   <button
@@ -239,26 +236,24 @@ const History = () => {
                       handleDeleteConfirmation(calculation.id, calculation)
                     }
                     disabled={deleting}
-                    className="text-red-500 px-3 py-1 rounded transition cursor-pointer disabled:bg-red-300 disabled:cursor-not-allowed"
-                  >
-                    <FaTrash size={20} />
+                    className="text-red-500 px-2 sm:px-3 py-1 rounded transition cursor-pointer disabled:bg-red-300 disabled:cursor-not-allowed">
+                    <FaTrash size={18} />
                   </button>
                 </div>
               </div>
 
               {expandedCalculation === index && (
-                <div className="mt-4 text-white">
-                  <h3 className="text-cta-bluegreen font-medium mb-2">
+                <div className="mt-3 sm:mt-4 text-white">
+                  <h3 className="text-cta-bluegreen font-medium mb-2 text-sm sm:text-base">
                     Appliances:
                   </h3>
-                  <div className="mb-5">
+                  <div className="mb-4 sm:mb-5">
                     {calculation.appliances.map((appliance, appIndex) => (
                       <div
                         key={appIndex}
-                        className="mb-4 bg-[#383c3d] p-4 rounded-lg"
-                      >
+                        className="mb-3 sm:mb-4 bg-[#383c3d] p-3 sm:p-4 rounded-lg">
                         <div className="flex justify-between items-center">
-                          <div className="font-medium">
+                          <div className="font-medium text-sm sm:text-base">
                             <span className="text-cta-bluegreen">
                               {appliance.name}
                             </span>{" "}
@@ -266,19 +261,25 @@ const History = () => {
                             {appliance.quantity > 1 ? "s" : ""})
                           </div>
                         </div>
-                        <div className="mt-4 pl-4 border-l-2 border-cta-bluegreen">
-                          <div className="mb-2">
+                        <div className="mt-3 sm:mt-4 pl-3 sm:pl-4 border-l-2 border-cta-bluegreen">
+                          <div className="mb-2 text-xs sm:text-sm">
                             <span className="text-gray-400">
                               Specifications:
                             </span>{" "}
-                            {appliance.watt}W | &nbsp;{appliance.hours}h/day |
-                            &nbsp;
-                            {appliance.days?.length} day
-                            {appliance.days?.length > 1 ? "s" : ""}/week |
-                            &nbsp;
-                            {appliance.weeks}/Month
+                            <div className="flex flex-wrap gap-x-2">
+                              <span>{appliance.watt}W</span>
+                              <span>|</span>
+                              <span>{appliance.hours}h/day</span>
+                              <span>|</span>
+                              <span>
+                                {appliance.days?.length} day
+                                {appliance.days?.length > 1 ? "s" : ""}/week
+                              </span>
+                              <span>|</span>
+                              <span>{appliance.weeks}/Month</span>
+                            </div>
                           </div>
-                          <ul className="list-disc pl-8 text-white/70">
+                          <ul className="list-disc pl-5 sm:pl-8 text-white/70 text-xs sm:text-sm space-y-1">
                             <li>
                               Total cost per Hour:{" "}
                               <b> ₱{appliance.costPerHour?.toFixed(2)}</b>
@@ -308,36 +309,44 @@ const History = () => {
                     ))}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-6">
-                    <div className="bg-[#586669] p-6 rounded-lg text-center">
-                      <p className="text-white">Total cost per hour</p>
-                      <p className="text-xl font-bold text-gray-300">
+                  <div className="grid grid-cols-2 gap-2 sm:grid-cols-2 sm:gap-5 mt-4 sm:mt-6">
+                    <div className="bg-[#586669] p-3 sm:p-6 rounded-lg text-center">
+                      <p className="text-white text-xs sm:text-base">
+                        Total cost per hour
+                      </p>
+                      <p className="text-base sm:text-xl font-bold text-gray-300">
                         ₱{calculation.totalCostPerHour?.toFixed(2)}
                       </p>
                     </div>
-                    <div className="bg-[#586669] p-6 rounded-lg text-center">
-                      <p className="text-white">Total cost per day</p>
-                      <p className="text-xl font-bold text-gray-300">
+                    <div className="bg-[#586669] p-3 sm:p-6 rounded-lg text-center">
+                      <p className="text-white text-xs sm:text-base">
+                        Total cost per day
+                      </p>
+                      <p className="text-base sm:text-xl font-bold text-gray-300">
                         ₱{calculation.totalCostPerDay?.toFixed(2)}
                       </p>
                     </div>
-                    <div className="bg-[#586669] p-6 rounded-lg text-center">
-                      <p className="text-white">Total cost per week</p>
-                      <p className="text-xl font-bold text-gray-300">
+                    <div className="bg-[#586669] p-3 sm:p-6 rounded-lg text-center">
+                      <p className="text-white text-xs sm:text-base">
+                        Total cost per week
+                      </p>
+                      <p className="text-base sm:text-xl font-bold text-gray-300">
                         ₱{calculation.totalCostPerWeek?.toFixed(2)}
                       </p>
                     </div>
-                    <div className="bg-[#586669] p-6 rounded-lg text-center">
-                      <p className="text-white">Total cost per month</p>
-                      <p className="text-xl font-bold text-gray-300">
+                    <div className="bg-[#586669] p-3 sm:p-6 rounded-lg text-center">
+                      <p className="text-white text-xs sm:text-base">
+                        Total cost per month
+                      </p>
+                      <p className="text-base sm:text-xl font-bold text-gray-300">
                         ₱{calculation.totalCost?.toFixed(2)}
                       </p>
                     </div>
                   </div>
 
                   {calculation.monthlyBill && (
-                    <div className="mt-4 bg-gray-700 p-4 rounded-lg">
-                      <p className="text-white/80">
+                    <div className="mt-3 sm:mt-4 bg-gray-700 p-3 sm:p-4 rounded-lg">
+                      <p className="text-white/80 text-sm sm:text-base">
                         Monthly Bill:{" "}
                         <span className="font-bold">
                           ₱{calculation.monthlyBill?.toFixed(2)}
@@ -367,18 +376,22 @@ const History = () => {
           content: {
             backgroundColor: "#13171C",
           },
-        }}
-      >
+        }}>
         <div className="text-white p-2">
-          <p className="mb-4">
+          <p className="mb-4 text-sm sm:text-base">
             Are you sure you want to delete "
             <span className="text-cta-bluegreen">
               {calculationToDelete?.name || "this calculation"}"
             </span>
             ?
           </p>
-          <div className="flex justify-end space-x-4">
-            <Button variant="outline" onClick={closeDeleteModal} color="gray">
+          <div className="flex justify-end space-x-3 sm:space-x-4">
+            <Button
+              variant="outline"
+              onClick={closeDeleteModal}
+              color="gray"
+              size="xs"
+              className="text-xs sm:text-sm">
               Cancel
             </Button>
             <Button
@@ -386,7 +399,8 @@ const History = () => {
               color="red"
               onClick={confirmDelete}
               disabled={deleting}
-            >
+              size="xs"
+              className="text-xs sm:text-sm">
               Delete
             </Button>
           </div>
