@@ -20,7 +20,12 @@ import RecommendationPage from "./pages/RecommendationPage";
 
 function App() {
   const location = useLocation();
-  const hideFooterPaths = ["/profile"];
+  const hideFooterPaths = [
+    "/profile",
+    "/login-form",
+    "/signup-form",
+    "/forgot-password-form",
+  ];
   const shouldShowFooter = !hideFooterPaths.includes(location.pathname);
 
   return (
@@ -48,14 +53,6 @@ function App() {
           path="/forgot-password-form"
           element={<ForgotPassword />}
         />
-
-        {/* Dashboard route will not be used anymore since it's jut a place holder */}
-        {/* Private route for user dashboard 
-        <Route
-          path="/dashboard"
-          element={<PrivateRoute element={<UserDashboard />} />}
-        />
-        */}
 
         {/* Private route for user dashboard */}
         <Route
