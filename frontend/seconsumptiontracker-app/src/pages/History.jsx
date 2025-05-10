@@ -181,7 +181,7 @@ const History = () => {
   }
 
   return (
-    <div className="mt-6 px-3 sm:px-0 sm:mt-10">
+    <div className="bg-[#212121] text-slate-200 p-4 sm:p-6 rounded-lg shadow mt-6 sm:mt-10 mx-2 sm:mx-0">
       {/* Secondary header with responsive text sizes */}
       <div className="w-full">
         <h1 className="text-left text-cta-bluegreen text-2xl sm:text-3xl font-semibold mb-2 sm:mb-3">
@@ -199,7 +199,8 @@ const History = () => {
             </p>
             <button
               onClick={() => navigate("/consumption-calculator")}
-              className="bg-cta-bluegreen text-black px-3 py-2 rounded mt-3 sm:mt-4 hover:bg-cta-bluegreen/70 transition text-sm sm:text-base w-full sm:w-auto">
+              className="bg-cta-bluegreen text-black px-3 py-2 rounded mt-3 sm:mt-4 hover:bg-cta-bluegreen/70 transition text-sm sm:text-base w-full sm:w-auto"
+            >
               Go to Calculator
             </button>
           </div>
@@ -207,14 +208,15 @@ const History = () => {
           calculations.map((calculation, index) => (
             <div
               key={calculation.id}
-              className="mb-3 bg-[#212121] p-3 sm:px-5 rounded-lg shadow">
+              className="mb-3 bg-[#383c3d] p-3 sm:px-5 rounded-lg shadow"
+            >
               <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
                 <div className="mb-2 sm:mb-0">
                   <h2 className="text-base sm:text-lg font-semibold text-white">
                     {getCalculationDisplayName(
                       calculation,
                       index,
-                      calculations.length,
+                      calculations.length
                     )}
                   </h2>
                   <p className="text-white/60 text-xs sm:text-sm">
@@ -224,7 +226,8 @@ const History = () => {
                 <div className="flex justify-end">
                   <button
                     onClick={() => toggleCalculation(index)}
-                    className="text-cta-bluegreen px-2 sm:px-3 py-1 rounded transition cursor-pointer">
+                    className="text-cta-bluegreen px-2 sm:px-3 py-1 rounded transition cursor-pointer"
+                  >
                     {expandedCalculation === index ? (
                       <FaChevronUp size={18} />
                     ) : (
@@ -236,7 +239,8 @@ const History = () => {
                       handleDeleteConfirmation(calculation.id, calculation)
                     }
                     disabled={deleting}
-                    className="text-red-500 px-2 sm:px-3 py-1 rounded transition cursor-pointer disabled:bg-red-300 disabled:cursor-not-allowed">
+                    className="text-red-500 px-2 sm:px-3 py-1 rounded transition cursor-pointer disabled:bg-red-300 disabled:cursor-not-allowed"
+                  >
                     <FaTrash size={18} />
                   </button>
                 </div>
@@ -251,7 +255,8 @@ const History = () => {
                     {calculation.appliances.map((appliance, appIndex) => (
                       <div
                         key={appIndex}
-                        className="mb-3 sm:mb-4 bg-[#383c3d] p-3 sm:p-4 rounded-lg">
+                        className="mb-3 sm:mb-4 bg-[#383c3d] p-3 sm:p-4 rounded-lg"
+                      >
                         <div className="flex justify-between items-center">
                           <div className="font-medium text-sm sm:text-base">
                             <span className="text-cta-bluegreen">
@@ -376,7 +381,8 @@ const History = () => {
           content: {
             backgroundColor: "#13171C",
           },
-        }}>
+        }}
+      >
         <div className="text-white p-2">
           <p className="mb-4 text-sm sm:text-base">
             Are you sure you want to delete "
@@ -391,7 +397,8 @@ const History = () => {
               onClick={closeDeleteModal}
               color="gray"
               size="xs"
-              className="text-xs sm:text-sm">
+              className="text-xs sm:text-sm"
+            >
               Cancel
             </Button>
             <Button
@@ -400,7 +407,8 @@ const History = () => {
               onClick={confirmDelete}
               disabled={deleting}
               size="xs"
-              className="text-xs sm:text-sm">
+              className="text-xs sm:text-sm"
+            >
               Delete
             </Button>
           </div>
