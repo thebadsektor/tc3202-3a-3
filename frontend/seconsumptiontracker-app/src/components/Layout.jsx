@@ -24,7 +24,9 @@ const Layout = () => {
   return (
     <div className="flex">
       <Sidebar activeItem={activeItem} setActiveItem={setActiveItem} />
-      <div className="ml-16 md:ml-64 flex-1 p-6 pt-20">{renderContent()}</div>
+      <div className="ml-16 md:ml-64 flex-1 pl-6 pr-2 md:pr-6  pt-20">
+        {renderContent()}
+      </div>
     </div>
   );
 };

@@ -39,7 +39,7 @@ const Dashboard = () => {
         console.error("Error fetching user data:", error);
         setError("Failed to load user data");
         setLoading(false);
-      },
+      }
     );
 
     return () => unsubscribe();
@@ -154,7 +154,7 @@ const Dashboard = () => {
                       <p className="font-medium text-base md:text-lg">
                         ₱
                         {parseFloat(
-                          latestPrediction.estimatedBill.average,
+                          latestPrediction.estimatedBill.average
                         ).toFixed(2)}
                       </p>
                     </div>
@@ -174,7 +174,7 @@ const Dashboard = () => {
                         <span className="font-medium text-green-400 ml-2 text-sm md:text-base">
                           ₱
                           {parseFloat(
-                            latestPrediction.estimatedBill.min,
+                            latestPrediction.estimatedBill.min
                           ).toFixed(2)}
                         </span>
                       </div>
@@ -185,7 +185,7 @@ const Dashboard = () => {
                         <span className="font-medium text-blue-400 ml-2 text-sm md:text-base">
                           ₱
                           {parseFloat(
-                            latestPrediction.estimatedBill.average,
+                            latestPrediction.estimatedBill.average
                           ).toFixed(2)}
                         </span>
                       </div>
@@ -196,7 +196,7 @@ const Dashboard = () => {
                         <span className="font-medium text-red-400 ml-2 text-sm md:text-base">
                           ₱
                           {parseFloat(
-                            latestPrediction.estimatedBill.max,
+                            latestPrediction.estimatedBill.max
                           ).toFixed(2)}
                         </span>
                       </div>

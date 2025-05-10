@@ -212,7 +212,7 @@ function BillCalcuOutput() {
 
   return (
     <>
-      <div className="h-auto mt-12 sm:mt-[15vh] flex items-center justify-center flex-col pb-12 sm:pb-20">
+      <div className="h-auto mt-12 sm:mt-[15vh] flex items-center justify-center flex-col pb-12 sm:pb-20 pt-20 md:pt-0">
         <div className="max-w-3xl w-full px-4 sm:p-5">
           <div className="w-full">
             <h1 className="text-left text-cta-bluegreen text-2xl sm:text-3xl font-semibold mb-2 sm:mb-3">
@@ -227,7 +227,8 @@ function BillCalcuOutput() {
                   {appliances.map((appliance, index) => (
                     <div
                       key={index}
-                      className="mb-3 sm:mb-4 bg-[#212121] p-3 sm:p-4 rounded-lg">
+                      className="mb-3 sm:mb-4 bg-[#212121] p-3 sm:p-4 rounded-lg"
+                    >
                       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
                         <div className="font-medium mb-2 sm:mb-0">
                           <span className="text-white break-words">
@@ -238,7 +239,8 @@ function BillCalcuOutput() {
                         </div>
                         <button
                           onClick={() => toggleAppliance(index)}
-                          className="bg-cta-bluegreen text-black px-3 py-1 rounded hover:bg-cta-bluegreen/70 transition cursor-pointer text-sm sm:text-base w-full sm:w-auto mt-1 sm:mt-0">
+                          className="bg-cta-bluegreen text-black px-3 py-1 rounded hover:bg-cta-bluegreen/70 transition cursor-pointer text-sm sm:text-base w-full sm:w-auto mt-1 sm:mt-0"
+                        >
                           {expandedAppliance === index
                             ? "Hide Details"
                             : "View Details"}
@@ -347,12 +349,14 @@ function BillCalcuOutput() {
                 isSaved
                   ? "bg-gray-400 cursor-not-allowed"
                   : "bg-[#39e75f] hover:bg-[#39e75f]/80 text-black cursor-pointer "
-              }`}>
+              }`}
+            >
               {isSaved ? "Saved" : "Save Result"}
             </button>
             <button
               onClick={() => navigate("/consumption-calculator")}
-              className="w-full sm:w-auto text-white py-2 sm:py-3 px-4 mt-2 sm:mt-5 leading-tight cursor-pointer font-semibold bg-transparent border-1 hover:bg-gray-800 rounded transition">
+              className="w-full sm:w-auto text-white py-2 sm:py-3 px-4 mt-2 sm:mt-5 leading-tight cursor-pointer font-semibold bg-transparent border-1 hover:bg-gray-800 rounded transition"
+            >
               Compute Another
             </button>
           </div>
@@ -372,7 +376,8 @@ function BillCalcuOutput() {
               <div className="mb-4">
                 <label
                   htmlFor="calculationName"
-                  className="block text-sm font-medium text-gray-300 mb-2">
+                  className="block text-sm font-medium text-gray-300 mb-2"
+                >
                   Calculation Name
                 </label>
                 <input
@@ -388,12 +393,14 @@ function BillCalcuOutput() {
               <div className="flex justify-end space-x-3 sm:space-x-4">
                 <button
                   onClick={() => setSaveModal(false)}
-                  className="px-3 sm:px-4 py-1 text-sm font-medium text-white bg-transparent border border-gray-500 rounded-md hover:bg-gray-700 focus:outline-none">
+                  className="px-3 sm:px-4 py-1 text-sm font-medium text-white bg-transparent border border-gray-500 rounded-md hover:bg-gray-700 focus:outline-none"
+                >
                   Cancel
                 </button>
                 <button
                   onClick={handleSaveResult}
-                  className="px-3 sm:px-4 py-1 text-sm font-medium text-black bg-cta-bluegreen rounded-md hover:bg-cta-bluegreen/70 focus:outline-none">
+                  className="px-3 sm:px-4 py-1 text-sm font-medium text-black bg-cta-bluegreen rounded-md hover:bg-cta-bluegreen/70 focus:outline-none"
+                >
                   Save
                 </button>
               </div>
