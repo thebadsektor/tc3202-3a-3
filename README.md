@@ -81,18 +81,51 @@ Step-by-step instructions for setting up the project locally.
    ```
 
 ## Usage Instructions
-Provide detailed instructions on how to use the project after setup:
-- How to access the application.
-- Example commands or API calls (if applicable).
-- Databases: [e.g., MySQL, MongoDB, etc.]
-- Screenshots or GIFs showcasing key functionalities (optional).
 
-![UI Placeholder](https://via.placeholder.com/1200x700.png?text=UI+Placeholder)
+![image](https://github.com/user-attachments/assets/8db1a0c3-0082-47d5-8535-532e844aac9d)
+This shows the landing page of wattify, the first thing that the user will see.
 
+![image](https://github.com/user-attachments/assets/18c082c2-4cb3-4941-b9f6-4d9201fda3a4)
+This shows the sign-up page of the Wattify. First, user may either create an account by filling up the required form which is their email and password or continue to Wattify using their google accounts. By choosing to fill up the form for registration, note that it will require the user to verify their email to continue with the app.
+
+![image](https://github.com/user-attachments/assets/ec75918f-93ec-43df-907f-fcf4f306806c)
+This shows the login page of Wattify. Once the user is done creating and verifying the account user may now proceed to login page and login using the verified account. Once again user may also use user’s google account to continue to the app.
+
+![image](https://github.com/user-attachments/assets/0ec51f67-a59a-490f-8c32-e58886bee8d3)
+This shows the dashboard of Wattify. After successfully logging in, user will be redirected to the dashboard where user can see the historical electricity rates over the past few years, user can choose to view this either monthly or yearly trends (yearly shows the average rate along with min and max rate in that year. In dashboard, user can also view their predictions so they can monitor them over time.
+
+![image](https://github.com/user-attachments/assets/d29b4217-fb0a-4f8d-b431-ea871fed8aff)
+![image](https://github.com/user-attachments/assets/7a4985f9-96e9-4fb4-905a-5d403420914a)
+These photos show the appliance tab under profile. In this tab, user can manually set up the appliance sets by adding multiple appliance/gadgets into one set. This feature works like a folder, so everything is well organized when user decided to use them. Later in this page the user will be able to see the importance of making appliance sets.
+
+![image](https://github.com/user-attachments/assets/1d71494b-0188-4fe1-9e43-49173edc3c6b)
+This shows adding multiple appliances into appliance set named “Kitchen Appliances”. After successfully creating a set, click the eye icon next to it to add appliances, user can list as many as user wants. The “x” icon indicates that the appliances is missing some details, by clicking the edit icon next to it, it will open a modal requesting for wattage and usage of the selected appliance.
+
+![image](https://github.com/user-attachments/assets/c32b784d-2245-4b43-ac98-b6250d5220c8)
+This shows how to edit each appliance’s usage and wattage. This modal requires the user to fill up, user should input the number of hours, days, and weeks that the appliance is being used. For wattage, user can either manually type the wattage or ask the WattBot to analyze the wattage of user’s appliance, this is in case the user doesn’t know the wattage of the appliance.
 Another Screenshot
 
+![image](https://github.com/user-attachments/assets/509bbd88-aef1-4be1-9f84-c3d21506155f)
+This shows the Energy Consumption Calculator, User can either manually input each appliance or click the import button to import the appliance sets that the user created in profile. User will choose either residential or for small business since rate may vary. After importing the desired set to be computed, hit the calculate button and output will be shown to the user.
 
-![UI Placeholder](https://via.placeholder.com/1200x700.png?text=UI+Placeholder)
+![image](https://github.com/user-attachments/assets/5ce19032-d32a-4394-a4ba-f235f17f9016)
+This shows the calculation output after clicking the calculate button, the system will show each appliance’s details about the cost per hour, day, and per week, user will also be able to see the total cost of all appliances. After analyzing the output, user can save the result by clicking the Save Result button.
+
+![image](https://github.com/user-attachments/assets/cffe3814-d343-40b0-b127-ef00319e41a3)
+![image](https://github.com/user-attachments/assets/4c402703-9462-4601-9065-4b723bb21735)
+![image](https://github.com/user-attachments/assets/4f8a201f-718d-46f1-8a51-5fd328483538)
+These figures show the Bill prediction feature page; user will click the import button to access the appliance sets created in profile. User can choose a month to predict the rate, note that only 3 months ahead can only be predicted by the system, this is due to avoid giving low accuracy on prediction for longer months ahead. After importing, the appliances will be shown below and user can start the prediction by clicking the calculate button.
+
+![image](https://github.com/user-attachments/assets/766606b5-85d0-4648-8894-77100bdd8302)
+This shows the output from the prediction for May 2025, the output includes the user’s monthly kWh consumption and the predicted electricity rate for the month of May, the system will also provide the predicted bill for May. User can also compare the current predicted bill to the past calculations where user can see if the prediction is higher or lower than the past calculations. After analyzing and comparing, user can choose to save the prediction outcome and use them to compare for future predictions.
+
+![image](https://github.com/user-attachments/assets/0a50a277-55e9-4b18-bcfc-8cbd6406f4c6)
+![image](https://github.com/user-attachments/assets/db82dd9f-5515-470c-9149-291c0585243f)
+![image](https://github.com/user-attachments/assets/0255dcef-f600-4824-a747-b696ff5daa76)
+These photos show the Energy Saving Recommendation page, in this page user will click the import button to open a modal then user can select from the saved calculations, after selecting and importing, the selected calculation will be shown below. Once the user fully reviews the calculations, user can now start to hit the get recommendation button. The system will analyze each appliance’s wattage and usage to give an actionable solution on how to save energy.
+
+![image](https://github.com/user-attachments/assets/ee78220b-acd1-4b28-b9a8-d57e989bc25e)
+This shows the recommendation provided by our system based on the usage and wattage of each user’s appliance.
 
 ## Project Structure
 ```bash
