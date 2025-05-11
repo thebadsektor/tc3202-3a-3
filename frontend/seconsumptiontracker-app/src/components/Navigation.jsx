@@ -287,13 +287,12 @@ function Navigation() {
 
             {/* Features with Dropdown */}
             <li className="relative group">
-              <Link
-                to="#"
+              <div
                 className="flex items-center gap-2 py-3 px-6 text-base hover:rounded-lg hover:bg-gray-700 transition-all duration-200"
               >
                 Features
                 <IoIosArrowDropdown />
-              </Link>
+              </div>
 
               {/* Dropdown Menu */}
               <ul className="absolute right-0 w-max mt-2 p-3 z-15 text-gray-200 bg-[#212121] shadow-lg rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 divide-y divide-gray-400 translate-y-2 group-hover:translate-y-0">
@@ -441,25 +440,6 @@ function Navigation() {
               </div>
             )}
           </div>
-
-          {/* Add Profile & Logout buttons to mobile menu when logged in */}
-          {localStorage.getItem("idToken") && (
-            <div className="flex flex-col gap-4 w-full">
-              <Link
-                to="/profile"
-                className="text-2xl hover:underline transition duration-500"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Profile
-              </Link>
-              <button
-                className="text-2xl text-red-500 hover:underline transition duration-500 text-left"
-                onClick={() => handleLogout()}
-              >
-                Logout
-              </button>
-            </div>
-          )}
 
           {/* Only show login button if not logged in and in mobile view */}
           {!localStorage.getItem("idToken") && (
