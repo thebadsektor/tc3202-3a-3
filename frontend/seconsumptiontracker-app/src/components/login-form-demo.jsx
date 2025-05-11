@@ -64,7 +64,7 @@ export default function LoginFormDemo() {
         localStorage.setItem("authExpiration", expirationTime);
 
         // save the last page visited
-        localStorage.setItem("lastVisitedPage", "/dashboard");
+        localStorage.setItem("lastVisitedPage", "/profile");
 
         // Check if user exists in Firebase Realtime Database
         const userRef = ref(db, "users/" + user.uid);
@@ -155,7 +155,7 @@ export default function LoginFormDemo() {
         localStorage.setItem("authExpiration", expirationTime);
 
         // save the last page visited
-        localStorage.setItem("lastVisitedPage", "/dashboard");
+        localStorage.setItem("lastVisitedPage", "/profile");
 
         setRedirecting(true);
         setTimeout(() => navigate("/profile"), 2000);
@@ -227,7 +227,8 @@ export default function LoginFormDemo() {
           <button
             className="cursor-pointer group/btn mt-5 relative block h-10 w-full rounded-md bg-[#0e1a1c] font-medium text-white shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:bg-zinc-800 dark:from-zinc-900 dark:to-zinc-900 dark:shadow-[0px_1px_0px_0px_#27272a_inset,0px_-1px_0px_0px_#27272a_inset]"
             type="submit"
-            disabled={loading}>
+            disabled={loading}
+          >
             {loading ? (
               <span className="flex items-center justify-center">
                 <span className="h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
@@ -260,7 +261,8 @@ export default function LoginFormDemo() {
             <button
               type="button"
               onClick={handleGoogleLogin}
-              className="cursor-pointer group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-[#0e1a1c] px-4 font-medium text-black dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_#262626]">
+              className="cursor-pointer group/btn shadow-input relative flex h-10 w-full items-center justify-start space-x-2 rounded-md bg-[#0e1a1c] px-4 font-medium text-black dark:bg-zinc-900 dark:shadow-[0px_0px_1px_1px_#262626]"
+            >
               <FcGoogle className="text-2xl text-gray-400" />
               <span className="text-sm text-white dark:text-neutral-300">
                 Continue with Google

@@ -77,7 +77,7 @@ const AuthRedirect = () => {
 
     // Redirect to dashboard only if the token is valid
     if (idToken && expirationTime && Date.now() < parseInt(expirationTime)) {
-      navigate("/dashboard");
+      navigate("/profile");
     }
   }, [navigate]);
 
