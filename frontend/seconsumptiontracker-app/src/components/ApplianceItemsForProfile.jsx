@@ -35,7 +35,7 @@ const ApplianceItems = ({
 
   const [applianceData, setApplianceData] = useState({});
   const [selectedAppliance, setSelectedAppliance] = useState(null);
-  const daysOfWeek = ["SU", "M", "T", "W", "TH", "F", "S"];
+  const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const [selectedDays, setSelectedDays] = useState([]);
   const [weeks, setWeeks] = useState("1 Week");
   const [isLoading, setIsLoading] = useState(false);
@@ -477,7 +477,8 @@ const ApplianceItems = ({
         <div className="flex items-center mb-4">
           <button
             onClick={onBack}
-            className="mr-2 sm:mr-4 text-white hover:text-blue-400">
+            className="mr-2 sm:mr-4 text-white hover:text-blue-400"
+          >
             <FaArrowLeft size={18} />
           </button>
           <h2 className="text-xl sm:text-2xl md:text-3xl font-bold flex-1 truncate">
@@ -524,7 +525,7 @@ const ApplianceItems = ({
                       handleEditUsage(appliance);
                     } else {
                       alert(
-                        "Please enter an appliance name before editing usage.",
+                        "Please enter an appliance name before editing usage."
                       );
                     }
                   }}
@@ -551,7 +552,8 @@ const ApplianceItems = ({
         <div className="flex flex-wrap gap-2 mt-3">
           <button
             onClick={addApplianceItem}
-            className="flex items-center justify-center py-1 sm:py-2 px-2 sm:px-3 text-sm sm:text-base bg-cta-bluegreen !font-semibold text-black hover:bg-cta-bluegreen/80 cursor-pointer rounded transition">
+            className="flex items-center justify-center py-1 sm:py-2 px-2 sm:px-3 text-sm sm:text-base bg-cta-bluegreen !font-semibold text-black hover:bg-cta-bluegreen/80 cursor-pointer rounded transition"
+          >
             <FaPlus className="mr-1 sm:mr-2" size={14} /> Add Appliance
           </button>
         </div>
@@ -564,20 +566,23 @@ const ApplianceItems = ({
           <div className="flex flex-wrap gap-2 sm:gap-3 mt-2 sm:mt-3">
             <button
               onClick={gadgetsModalHandlers.open}
-              className="flex items-center justify-center bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black !font-semibold border-gray-500 px-2 py-1 sm:py-2 text-sm sm:text-base cursor-pointer rounded transition">
+              className="flex items-center justify-center bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black !font-semibold border-gray-500 px-2 py-1 sm:py-2 text-sm sm:text-base cursor-pointer rounded transition"
+            >
               <FaMobile className="mr-1 sm:mr-2 text-black" size={14} />
               Gadgets
             </button>
 
             <button
               onClick={lightingsModalHandlers.open}
-              className="flex items-center justify-center bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black !font-semibold border-gray-500 px-2 py-1 sm:py-2 text-sm sm:text-base cursor-pointer rounded transition">
+              className="flex items-center justify-center bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black !font-semibold border-gray-500 px-2 py-1 sm:py-2 text-sm sm:text-base cursor-pointer rounded transition"
+            >
               <FaLightbulb className="mr-1 sm:mr-2" size={14} /> Lightings
             </button>
           </div>
           <button
             onClick={handleSaveAll}
-            className="bg-[#39e75f] hover:bg-[#39e75f]/80 text-black py-2 px-4 mt-6 sm:mt-10 rounded w-full flex items-center justify-center !font-semibold text-sm sm:text-base cursor-pointer">
+            className="bg-[#39e75f] hover:bg-[#39e75f]/80 text-black py-2 px-4 mt-6 sm:mt-10 rounded w-full flex items-center justify-center !font-semibold text-sm sm:text-base cursor-pointer"
+          >
             Save Set
           </button>
         </div>
@@ -588,11 +593,12 @@ const ApplianceItems = ({
         opened={opened}
         onClose={close}
         styles={{
-          header: { backgroundColor: "#13171C", padding: "16px" },
-          content: { backgroundColor: "#13171C" },
+          header: { backgroundColor: "#212121", padding: "16px" },
+          content: { backgroundColor: "#212121" },
         }}
         size="md"
-        fullScreen={window.innerWidth < 640}>
+        fullScreen={window.innerWidth < 640}
+      >
         <div className="text-white p-1 sm:p-2">
           <h1 className="text-xl sm:text-2xl font-semibold">
             Usage for{" "}
@@ -625,6 +631,23 @@ const ApplianceItems = ({
                   },
                 }));
               }}
+              styles={{
+                input: {
+                  backgroundColor: "#383c3d",
+                  borderColor: "#383c3d",
+                  color: "#FFFFFF",
+                  fontSize: "14px",
+                  "&:focus": {
+                    borderColor: "#fff",
+                  },
+                },
+                description: {
+                  fontSize: "12px",
+                },
+                label: {
+                  fontSize: "14px",
+                },
+              }}
             />
             <NumberInput
               label="Wattage"
@@ -648,6 +671,23 @@ const ApplianceItems = ({
                   },
                 }));
               }}
+              styles={{
+                input: {
+                  backgroundColor: "#383c3d",
+                  borderColor: "#383c3d",
+                  color: "#FFFFFF",
+                  fontSize: "14px",
+                  "&:focus": {
+                    borderColor: "#fff",
+                  },
+                },
+                description: {
+                  fontSize: "12px",
+                },
+                label: {
+                  fontSize: "14px",
+                },
+              }}
             />
           </div>
 
@@ -663,7 +703,8 @@ const ApplianceItems = ({
             <button
               onClick={getWattage}
               className="bg-cta-bluegreen text-black px-3 py-1 rounded cursor-pointer text-sm sm:text-base flex items-center justify-center"
-              disabled={isLoading}>
+              disabled={isLoading}
+            >
               {isLoading ? (
                 <>
                   <span className="h-4 w-4 sm:h-5 sm:w-5 border-2 border-black border-t-transparent rounded-full animate-spin mr-2"></span>
@@ -698,6 +739,23 @@ const ApplianceItems = ({
                 },
               }));
             }}
+            styles={{
+              input: {
+                backgroundColor: "#383c3d",
+                borderColor: "#383c3d",
+                color: "#FFFFFF",
+                fontSize: "14px",
+                "&:focus": {
+                  borderColor: "#fff",
+                },
+              },
+              description: {
+                fontSize: "12px",
+              },
+              label: {
+                fontSize: "14px",
+              },
+            }}
           />
 
           <p className="mb-2 mt-4 text-sm sm:text-base">
@@ -706,7 +764,18 @@ const ApplianceItems = ({
           <Chip.Group multiple value={selectedDays} onChange={setSelectedDays}>
             <div className="flex gap-1 sm:gap-2 flex-wrap mb-3">
               {daysOfWeek.map((day) => (
-                <Chip key={day} value={day} size="sm" radius="xl">
+                <Chip
+                  key={day}
+                  value={day}
+                  size="md"
+                  radius="xl"
+                  styles={{
+                    label: {
+                      fontSize: "12px",
+                      padding: "12 8px",
+                    },
+                  }}
+                >
                   {day}
                 </Chip>
               ))}
@@ -736,11 +805,29 @@ const ApplianceItems = ({
             }}
             data={["1 Week", "2 Weeks", "3 Weeks", "4 Weeks"]}
             className="w-full"
+            styles={{
+              input: {
+                backgroundColor: "#383c3d",
+                borderColor: "#383c3d",
+                color: "#FFFFFF",
+                fontSize: "14px",
+                "&:focus": {
+                  borderColor: "#fff",
+                },
+              },
+              description: {
+                fontSize: "12px",
+              },
+              label: {
+                fontSize: "14px",
+              },
+            }}
           />
 
           <button
             className="w-full py-2 bg-green-500 hover:bg-green-600 rounded transition mt-5 sm:mt-6 cursor-pointer text-sm sm:text-base"
-            onClick={handleSaveUsage}>
+            onClick={handleSaveUsage}
+          >
             Save
           </button>
         </div>
@@ -759,7 +846,8 @@ const ApplianceItems = ({
           content: { backgroundColor: "#13171C" },
         }}
         size="md"
-        fullScreen={window.innerWidth < 640}>
+        fullScreen={window.innerWidth < 640}
+      >
         <div className="text-white p-2 sm:p-4">
           <p className="mb-3 sm:mb-4 text-sm sm:text-base">
             Select the gadgets you want to add to your appliance list:
@@ -784,7 +872,8 @@ const ApplianceItems = ({
               variant="outline"
               onClick={gadgetsModalHandlers.close}
               color="gray"
-              size="sm">
+              size="sm"
+            >
               Cancel
             </Button>
             <Button
@@ -792,7 +881,8 @@ const ApplianceItems = ({
               color="blue"
               onClick={addSelectedGadgets}
               disabled={selectedGadgets.length === 0}
-              size="sm">
+              size="sm"
+            >
               Add Selected Gadgets
             </Button>
           </div>
@@ -812,7 +902,8 @@ const ApplianceItems = ({
           content: { backgroundColor: "#13171C" },
         }}
         size="md"
-        fullScreen={window.innerWidth < 640}>
+        fullScreen={window.innerWidth < 640}
+      >
         <div className="text-white p-2 sm:p-4">
           <p className="mb-3 sm:mb-4 text-sm sm:text-base">
             Select the lighting options you want to add to your appliance list:
@@ -837,7 +928,8 @@ const ApplianceItems = ({
               variant="outline"
               onClick={lightingsModalHandlers.close}
               color="gray"
-              size="sm">
+              size="sm"
+            >
               Cancel
             </Button>
             <Button
@@ -845,7 +937,8 @@ const ApplianceItems = ({
               color="yellow"
               onClick={addSelectedLightings}
               disabled={selectedLightings.length === 0}
-              size="sm">
+              size="sm"
+            >
               Add Selected Lighting
             </Button>
           </div>
@@ -867,7 +960,8 @@ const ApplianceItems = ({
             backgroundColor: "#13171C",
           },
         }}
-        size="sm">
+        size="sm"
+      >
         <div className="text-white p-2">
           <p className="mb-3 sm:mb-4 text-sm sm:text-base">
             Are you sure you want to delete "
@@ -881,14 +975,16 @@ const ApplianceItems = ({
               variant="outline"
               onClick={closeDeleteModal}
               color="gray"
-              size="sm">
+              size="sm"
+            >
               Cancel
             </Button>
             <Button
               variant="filled"
               color="red"
               onClick={confirmDelete}
-              size="sm">
+              size="sm"
+            >
               Delete
             </Button>
           </div>

@@ -18,12 +18,15 @@ import { HoverEffect } from "../components/ui/card-hover-effect";
 import "../App.css";
 import LinkPreview from "../components/ui/link-preview";
 import ClickSpark from "../components/ui/click-spark";
-import loginImage from "../assets/home-images/login.png";
+import loginImage from "../assets/home-images/loginss.png";
 import calculatorImage from "../assets/home-images/calculator.png";
 import predictionImage from "../assets/home-images/prediction.png";
 import featuresImage from "../assets/home-images/features1.png";
+import dashboardImage from "../assets/home-images/dashboard.png";
+import historyImage from "../assets/home-images/history.png";
 import usageImage from "../assets/home-images/usage.png";
 import outputImage from "../assets/home-images/output.png";
+import recommendationImage from "../assets/home-images/recommendation.png";
 import ratesImage from "../assets/home-images/meralco-rates.jpg";
 import ratesImage2 from "../assets/home-images/meralco-rates2.jpg";
 import ratesImage3 from "../assets/home-images/meralco-rates3.jpg";
@@ -41,12 +44,12 @@ function HeroPage() {
     {
       title: "Jan 2024",
       thumbnail: ratesImage2,
-      link: "#",
+      link: "https://company.meralco.com.ph/news-and-advisories/january-2024-rates-updates#:~:text=MANILA%2C%20PHILIPPINES%2C%2010th%20JANUARY%202024,kWh%20this%20month%20from%20P11.",
     },
     {
-      title: "Februate rates",
+      title: "February rates",
       thumbnail: ratesImage5,
-      link: "/consumption-calculator",
+      link: "https://company.meralco.com.ph/news-and-advisories/higher-rates-february-2025",
     },
     {
       title: "Rates from 2011 to 2018",
@@ -59,15 +62,14 @@ function HeroPage() {
       link: "#",
     },
     {
-      title: "Solar Panels",
-      thumbnail:
-        "https://cdn.prod.website-files.com/63e230081c53f7989f5e0f64/64a3ba12c9f71e0de0487fb8_crm-saas-webflow-template.jpg",
-      link: "#",
+      title: "Higher rates for Feb 2025",
+      thumbnail: ratesImage4,
+      link: "https://company.meralco.com.ph/news-and-advisories/higher-rates-february-2025",
     },
     {
       title: "March 2025",
       thumbnail: ratesImage6,
-      link: "",
+      link: "https://company.meralco.com.ph/news-and-advisories/higher-rates-march-2025#:~:text=MANILA%2C%20PHILIPPINES%2C%2011%20March%202025,0262%20per%20kWh%20in%20February.",
     },
     {
       title: "Feb 2025 increase rates",
@@ -77,7 +79,7 @@ function HeroPage() {
     {
       title: "Power rate increase",
       thumbnail: ratesImage4,
-      link: "",
+      link: "https://company.meralco.com.ph/news-and-advisories/november-2024-rates-updates",
     },
     {
       title: "Rates from 2011 to 2018",
@@ -173,7 +175,7 @@ function HeroPage() {
                   {
                     title: "1",
                     content: (
-                      <div className="text-white rounded-lg p-6 shadow-2xl">
+                      <div className="text-white rounded-lg p-6 shadow-2xl bg-[#383c3d]">
                         <h4 className="text-2xl font-bold mb-3 dark:text-white">
                           Create Your Account
                         </h4>
@@ -208,7 +210,7 @@ function HeroPage() {
                   {
                     title: "2",
                     content: (
-                      <div className="text-white rounded-lg p-6 shadow-2xl">
+                      <div className="text-white rounded-lg p-6 shadow-2xl bg-[#383c3d]">
                         <h4 className="text-2xl font-bold mb-2 dark:text-white">
                           Choose Your Features
                         </h4>
@@ -241,8 +243,8 @@ function HeroPage() {
                           </li>
                           <li>
                             <LinkPreview
-                              url=""
-                              imageSrc="https://web.poecdn.com/public/news/2024-10-01/FanArtComp/Winners/xKzo.jpeg"
+                              url="/energy-recommendation"
+                              imageSrc={recommendationImage}
                               width={250}
                               height={120}
                             >
@@ -273,7 +275,7 @@ function HeroPage() {
                   {
                     title: "3",
                     content: (
-                      <div className="text-white  rounded-lg p-6 shadow-2xl">
+                      <div className="text-white  rounded-lg p-6 shadow-2xl bg-[#383c3d]">
                         <h4 className="text-2xl font-bold mb-2 dark:text-white">
                           Get Insights & Optimize
                         </h4>
@@ -288,7 +290,7 @@ function HeroPage() {
                         <div className="grid grid-cols-2 gap-5 mt-6">
                           <div className="aspect-square overflow-hidden rounded-lg">
                             <img
-                              src={usageImage}
+                              src={recommendationImage}
                               alt="Account feature 1"
                               className="w-full h-full object-cover"
                             />
@@ -307,7 +309,7 @@ function HeroPage() {
                   {
                     title: "4",
                     content: (
-                      <div className="text-white rounded-lg p-6 shadow-2xl">
+                      <div className="text-white rounded-lg p-6 shadow-2xl bg-[#383c3d]">
                         <h4 className="text-2xl font-bold mb-2 dark:text-white">
                           Track Progress & Adjust
                         </h4>
@@ -322,14 +324,14 @@ function HeroPage() {
                         <div className="grid grid-cols-2 gap-5 mt-6">
                           <div className="aspect-square overflow-hidden rounded-lg">
                             <img
-                              src={outputImage}
+                              src={dashboardImage}
                               alt="Account feature 1"
                               className="w-full h-full object-cover"
                             />
                           </div>
                           <div className="aspect-square overflow-hidden rounded-lg">
                             <img
-                              src={outputImage}
+                              src={historyImage}
                               alt="Account feature 2"
                               className="w-full h-full object-cover"
                             />

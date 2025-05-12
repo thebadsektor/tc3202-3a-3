@@ -327,10 +327,18 @@ const Appliance = () => {
                 key={index}
                 className="bg-[#383c3d] rounded-lg mb-3 py-3 px-6"
               >
-                <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center ">
                   <div className="flex-1">
-                    <h2 className="text-white font-medium text-lg">{set}</h2>
-                    <p className="text-gray-400 text-sm">
+                    <h2
+                      className="text-white font-medium text-lg cursor-pointer"
+                      onClick={() => handleViewItems(index)}
+                    >
+                      {set}
+                    </h2>
+                    <p
+                      className="text-gray-400 text-sm cursor-pointer"
+                      onClick={() => handleViewItems(index)}
+                    >
                       {appliancesData[set] && appliancesData[set].length}{" "}
                       appliance
                       {appliancesData[set] && appliancesData[set].length !== 1

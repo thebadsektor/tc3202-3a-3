@@ -28,7 +28,7 @@ export default function DynamicTextFields() {
   const [weeks, setWeeks] = useState("1 Week");
   const [error, setError] = useState(false);
   const [selectedField, setSelectedField] = useState(null);
-  const daysOfWeek = ["SU", "M", "T", "W", "TH", "F", "S"];
+  const daysOfWeek = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const [selectedDays, setSelectedDays] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [dataLoading, setDataLoading] = useState(true);
@@ -632,7 +632,8 @@ export default function DynamicTextFields() {
                     ? "border-cta-bluegreen bg-cta-bluegreen text-black"
                     : "border-blue-200 text-white hover:bg-cta-bluegreen/10"
                 } font-medium transition-colors`}
-                onClick={() => handleTypeSelection("residential")}>
+                onClick={() => handleTypeSelection("residential")}
+              >
                 Residential
               </button>
 
@@ -642,7 +643,8 @@ export default function DynamicTextFields() {
                     ? "border-cta-bluegreen bg-cta-bluegreen text-black"
                     : "border-gray-200 text-white hover:bg-cta-bluegreen/10"
                 } font-medium transition-colors`}
-                onClick={() => handleTypeSelection("business")}>
+                onClick={() => handleTypeSelection("business")}
+              >
                 Small Business
               </button>
             </div>
@@ -665,8 +667,8 @@ export default function DynamicTextFields() {
                       prev.map((f) =>
                         f.id === field.id
                           ? { ...f, text: newText, error: "" }
-                          : f,
-                      ),
+                          : f
+                      )
                     );
                   }}
                   className="flex-1 p-1.5 sm:p-2 text-sm sm:text-base bg-[#383c3d] border border-gray-600 rounded focus:outline-none"
@@ -738,13 +740,15 @@ export default function DynamicTextFields() {
           <div className="flex flex-col sm:flex-row justify-between gap-2">
             <button
               onClick={addField}
-              className="flex items-center justify-center py-1.5 sm:py-2 px-4 sm:px-5 mt-2 bg-cta-bluegreen hover:bg-cta-bluegreen/80 cursor-pointer text-black rounded transition text-sm sm:text-base">
+              className="flex items-center justify-center py-1.5 sm:py-2 px-4 sm:px-5 mt-2 bg-cta-bluegreen hover:bg-cta-bluegreen/80 cursor-pointer text-black rounded transition text-sm sm:text-base"
+            >
               <FaPlus className="mr-2" /> Add Appliance
             </button>
 
             <button
               onClick={openImportModal}
-              className="mt-2 py-1.5 sm:py-2 px-4 sm:px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition text-sm sm:text-base">
+              className="mt-2 py-1.5 sm:py-2 px-4 sm:px-5 bg-cta-bluegreen hover:bg-cta-bluegreen/80 text-black cursor-pointer rounded transition text-sm sm:text-base"
+            >
               Import
             </button>
           </div>
@@ -755,7 +759,8 @@ export default function DynamicTextFields() {
               fields.some((field) => !field.completed)
                 ? "bg-[#008631] cursor-not-allowed"
                 : "bg-[#39e75f] hover:bg-[#39e75f]/80 cursor-pointer"
-            }`}>
+            }`}
+          >
             Calculate
           </button>
         </div>
@@ -768,7 +773,7 @@ export default function DynamicTextFields() {
           header: { backgroundColor: "#212121", padding: "16px" },
           content: { backgroundColor: "#212121" },
         }}
-        size="xs">
+      >
         <div className="text-white p-1 sm:p-2">
           <h1 className="text-xl sm:text-2xl font-semibold break-words">
             Usage for{" "}
@@ -872,7 +877,8 @@ export default function DynamicTextFields() {
             <button
               onClick={getWattage}
               className="bg-cta-bluegreen text-black px-3 py-1 rounded cursor-pointer !text-sm sm:!text-base flex items-center justify-center"
-              disabled={isLoading}>
+              disabled={isLoading}
+            >
               {isLoading ? (
                 <>
                   <span className="h-4 w-4 sm:h-5 sm:w-5 border-2 border-black border-t-transparent rounded-full animate-spin mr-2"></span>
@@ -940,9 +946,10 @@ export default function DynamicTextFields() {
                   styles={{
                     label: {
                       fontSize: "12px",
-                      padding: "0 8px",
+                      padding: "12 8px",
                     },
-                  }}>
+                  }}
+                >
                   {day}
                 </Chip>
               ))}
@@ -984,8 +991,9 @@ export default function DynamicTextFields() {
             }}
           />
           <button
-            className="w-full py-1.5 sm:py-2 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded transition mt-8 sm:mt-15 cursor-pointer text-sm sm:text-base"
-            onClick={handleSave}>
+            className="w-full py-1.5 sm:py-2 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded transition mt-8 sm:mt-10 cursor-pointer text-sm sm:text-base"
+            onClick={handleSave}
+          >
             Save
           </button>
         </div>
@@ -1003,7 +1011,8 @@ export default function DynamicTextFields() {
           },
           content: { backgroundColor: "#212121" },
         }}
-        size="xs">
+        size="xs"
+      >
         <div className="text-white p-1 sm:p-2">
           <h1 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">
             Select Appliance Set to Import
@@ -1037,7 +1046,8 @@ export default function DynamicTextFields() {
 
           <button
             className="w-full py-1.5 sm:py-2 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded transition mt-2 sm:mt-4 cursor-pointer text-sm sm:text-base"
-            onClick={importApplianceSet}>
+            onClick={importApplianceSet}
+          >
             Import
           </button>
         </div>
@@ -1056,7 +1066,8 @@ export default function DynamicTextFields() {
           content: { backgroundColor: "#13171C" },
         }}
         centered
-        size="xs">
+        size="xs"
+      >
         <div className="text-white p-2">
           <p className="mb-3 sm:mb-4 pr-2 text-sm sm:text-base">
             Are you sure you want to delete "
@@ -1069,13 +1080,15 @@ export default function DynamicTextFields() {
               variant="outline"
               onClick={() => setDeleteModal(false)}
               color="gray"
-              className="text-white border-gray-500 hover:bg-gray-700 text-xs sm:text-sm py-1 h-auto">
+              className="text-white border-gray-500 hover:bg-gray-700 text-xs sm:text-sm py-1 h-auto"
+            >
               Cancel
             </Button>
             <Button
               color="red"
               onClick={confirmDelete}
-              className="bg-red-500 hover:bg-red-600 text-xs sm:text-sm py-1 h-auto">
+              className="bg-red-500 hover:bg-red-600 text-xs sm:text-sm py-1 h-auto"
+            >
               Delete
             </Button>
           </div>
