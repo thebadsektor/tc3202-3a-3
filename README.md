@@ -325,7 +325,7 @@ This shows the recommendation provided by our system based on the usage and watt
 - **Week 14 (April 26)**: Continuation of development and paper Chapter I completion
 - **Week 15 (May 3)**: Continuation of development and paper Chapter II completion
 - **Week 16 (May 11)**: Finalisation of project, final tests, and completion of paper Chapter III
-
+- **Week 17 (May 13)**: Final Defense
 ## Changelog
 
 ### [Version 1.0.0] - 2025-04-12
