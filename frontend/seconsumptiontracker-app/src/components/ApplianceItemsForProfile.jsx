@@ -581,7 +581,7 @@ const ApplianceItems = ({
           </div>
           <button
             onClick={handleSaveAll}
-            className="bg-[#39e75f] hover:bg-[#39e75f]/80 text-black py-2 px-4 mt-6 sm:mt-10 rounded w-full flex items-center justify-center !font-semibold text-sm sm:text-base cursor-pointer"
+            className="bg-[#39e75f] hover:bg-[#39e75f]/80 text-black py-2 px-4 mt-6 sm:mt-10 rounded w-full flex items-center justify-center text-sm sm:text-base cursor-pointer"
           >
             Save Set
           </button>
@@ -825,7 +825,7 @@ const ApplianceItems = ({
           />
 
           <button
-            className="w-full py-2 bg-green-500 hover:bg-green-600 rounded transition mt-5 sm:mt-6 cursor-pointer text-sm sm:text-base"
+            className="w-full py-2 bg-[#39e75f] hover:bg-[#39e75f]/80 text-black rounded transition mt-5 sm:mt-6 cursor-pointer text-sm sm:text-base"
             onClick={handleSaveUsage}
           >
             Save
