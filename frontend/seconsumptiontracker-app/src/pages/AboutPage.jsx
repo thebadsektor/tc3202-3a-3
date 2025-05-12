@@ -7,6 +7,11 @@ import {
   Wind,
   LineChart,
 } from "lucide-react";
+import iner from "../assets/about-images/iner.jpeg";
+import rouin from "../assets/about-images/rouin.jpg";
+import bianca from "../assets/about-images/bianca.jpg";
+import jomar from "../assets/about-images/jomar.png";
+import dashboard from "../assets/home-images/dashboard.png";
 
 const AboutPage = () => {
   return (
@@ -41,7 +46,7 @@ const AboutPage = () => {
           <div className="order-1 md:order-2">
             <div className="rounded-xl shadow-lg transform transition-all duration-300 hover:shadow-xl hover:scale-105">
               <img
-                src="https://images.ctfassets.net/fevtq3bap7tj/4Z3xdca3bymwimUoa408Ck/8c3bf8a8d2335a9613131d03c650131b/Energy_Dashboard_2x.jpg.png"
+                src={dashboard  }
                 alt="Energy management dashboard"
                 className="w-full h-full object-cover rounded-lg"
               />
@@ -216,7 +221,9 @@ const AboutPage = () => {
                       />
                     </svg>
                   </div>
-                  <span className="text-gray-600">kahit san</span>
+                  <span className="text-gray-600">
+                    Laguna University - Bubukal Sports Complex
+                  </span>
                 </div>
                 <div className="flex items-center">
                   <div className="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-4">
@@ -229,7 +236,7 @@ const AboutPage = () => {
                       <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                     </svg>
                   </div>
-                  <span className="text-gray-600">(123) 456-7890</span>
+                  <span className="text-gray-600">(09)68-687-2148</span>
                 </div>
               </div>
             </div>
@@ -238,7 +245,7 @@ const AboutPage = () => {
                 <div className="bg-white rounded-xl shadow-md p-4 text-center transform transition duration-300 hover:scale-105">
                   <div className="w-24 h-24 rounded-full bg-blue-200 mx-auto mb-4 overflow-hidden">
                     <img
-                      src="https://i.ibb.co/XX5GcgJ/91ff0839465f.jpg"
+                      src={rouin}
                       alt="Team member"
                       className="w-full h-full object-cover"
                     />
@@ -249,7 +256,7 @@ const AboutPage = () => {
                 <div className="bg-white rounded-xl shadow-md p-4 text-center transform transition duration-300 hover:scale-105">
                   <div className="w-24 h-24 rounded-full bg-green-200 mx-auto mb-4 overflow-hidden">
                     <img
-                      src="https://scontent.fmnl7-1.fna.fbcdn.net/v/t39.30808-6/455192045_1166450214639759_6679097367727026065_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=6ee11a&_nc_eui2=AeG3xIup5qOjkLfeqUFp0s0jjeqxuoCeUGCN6rG6gJ5QYPt1QIMHp4gkh0budfLXVESTkataoWfM8y9EAwC60jpx&_nc_ohc=iUh9BzhKNZIQ7kNvwEOmGSi&_nc_oc=AdkqCACSIPdY0_X52XJOWRjZAVgXh0s4dyOdS0O5bFo1kglVWF2MCOfvGckbnjVhnjE&_nc_zt=23&_nc_ht=scontent.fmnl7-1.fna&_nc_gid=5muasDHG9iopJM3GxRMZAQ&oh=00_AfG2LEzWWMzBnYUYtLnjXn6POym843uUbNdFvaMwDI3FOA&oe=6800D503"
+                      src={jomar}
                       alt="Team member"
                       className="w-full h-full object-cover"
                     />
@@ -260,7 +267,7 @@ const AboutPage = () => {
                 <div className="bg-white rounded-xl shadow-md p-4 text-center transform transition duration-300 hover:scale-105">
                   <div className="w-24 h-24 rounded-full bg-yellow-200 mx-auto mb-4 overflow-hidden">
                     <img
-                      src="https://lh3.googleusercontent.com/a/ACg8ocJZBBZV_AlBIJgpn9PTTNV3vZquqVzAjUmwGlvzbWDnxcxBzajL=s288-c-no"
+                      src={bianca}
                       alt="Team member"
                       className="w-full h-full object-cover"
                     />
@@ -271,7 +278,7 @@ const AboutPage = () => {
                 <div className="bg-white rounded-xl shadow-md p-4 text-center transform transition duration-300 hover:scale-105">
                   <div className="w-24 h-24 rounded-full bg-purple-200 mx-auto mb-4 overflow-hidden">
                     <img
-                      src="https://lh3.googleusercontent.com/a/ACg8ocJfeKXR8YDuzkHu39Vr5Y5GAsj6LN_kcxzFWh0_o_Ay-0M8DiFC=s288-c-no"
+                      src={iner}
                       alt="Team member"
                       className="w-full h-full object-cover"
                     />
