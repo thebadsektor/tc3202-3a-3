@@ -111,7 +111,7 @@ const Footer = () => {
                 seconsumptiontracker@gmail.com
               </a>
               <a
-                href="https://github.com/energyiq"
+                href="https://github.com/thebadsektor/tc3202-3a-3"
                 className="flex items-center hover:text-white transition duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
@@ -232,7 +232,7 @@ const Footer = () => {
                 <MailIcon className="h-6 w-6" />
               </a>
               <a
-                href="https://github.com/energyiq"
+                href="https://github.com/thebadsektor/tc3202-3a-3"
                 className="text-gray-300 hover:text-white transition duration-200"
                 target="_blank"
                 rel="noopener noreferrer"

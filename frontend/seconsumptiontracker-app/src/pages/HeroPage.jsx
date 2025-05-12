@@ -136,7 +136,7 @@ function HeroPage() {
       title: "Energy Consumption Optimizer",
       description:
         "Receive personalized recommendations to reduce your energy footprint and lower monthly bills. Smart suggestions adapt to your lifestyle while maximizing efficiency and minimizing waste.",
-      link: "#",
+      link: "/energy-recommendation",
     },
   ];
 
